@@ -1,0 +1,4 @@
+fpdf2==2.8.2
+streamlit==1.42.2
+streamlit-extras==0.5.5
+streamlit-pdf-viewer==0.0.21
