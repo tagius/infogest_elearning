@@ -1,0 +1,66 @@
+[
+  {
+    "": "KCl",
+    "Molecular Weight (g/mol)": 74.55,
+    "Concentration stock (mol/L)": 0.5,
+    "Desired Vol. (mL) (editable)": 250,
+    "Powder mass (g)": 9.32,
+    "last location": "D31. Schrank 1, 3"
+  },
+  {
+    "": "KH2PO4",
+    "Molecular Weight (g/mol)": 136.09,
+    "Concentration stock (mol/L)": 0.5,
+    "Desired Vol. (mL) (editable)": 100,
+    "Powder mass (g)": 6.8,
+    "last location": "D31, Schrank 1, 5"
+  },
+  {
+    "": "NaCl",
+    "Molecular Weight (g/mol)": 58.44,
+    "Concentration stock (mol/L)": 2,
+    "Desired Vol. (mL) (editable)": 500,
+    "Powder mass (g)": 58.44,
+    "last location": "D31, Schrank 3b,3"
+  },
+  {
+    "": "MgCl2(H2O)6",
+    "Molecular Weight (g/mol)": 203.3,
+    "Concentration stock (mol/L)": 0.15,
+    "Desired Vol. (mL) (editable)": 25,
+    "Powder mass (g)": 0.76,
+    "last location": "D31, schrank 3b, 3"
+  },
+  {
+    "": "(NH4)2CO3",
+    "Molecular Weight (g/mol)": 96.09,
+    "Concentration stock (mol/L)": 0.5,
+    "Desired Vol. (mL) (editable)": 10,
+    "Powder mass (g)": 0.48,
+    "last location": "D31, Schrank 3b, 1"
+  },
+  {
+    "": "CaCl2(H2O)2",
+    "Molecular Weight (g/mol)": 147.01,
+    "Concentration stock (mol/L)": 0.3,
+    "Desired Vol. (mL) (editable)": 10,
+    "Powder mass (g)": 0.44,
+    "last location": "D31, Schrank 3a, 1"
+  },
+  {
+    "": "NaOH",
+    "Molecular Weight (g/mol)": 40,
+    "Concentration stock (mol/L)": 1,
+    "Desired Vol. (mL) (editable)": 10,
+    "Powder mass (g)": 0.4,
+    "last location": "D28"
+  },
+  {
+    "": "HCl",
+    "Molecular Weight (g/mol)": 36.46,
+    "Concentration stock (mol/L)": 6,
+    "Desired Vol. (mL) (editable)": 10,
+    "Powder mass (g)": 2.19,
+    "last location": "D28"
+  }
+]

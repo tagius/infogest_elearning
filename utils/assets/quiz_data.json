@@ -1,0 +1,194 @@
+[
+  {
+    "type": "multiple-choice",
+    "question": "Which sequence correctly represents the phases of the INFOGEST static in vitro digestion protocol?",
+    "options": [
+      "Oral phase → Gastric phase → Intestinal phase",
+      "Gastric phase → Intestinal phase → Oral phase",
+      "Intestinal phase → Gastric phase → Oral phase",
+      "Oral phase → Intestinal phase → Gastric phase"
+    ],
+    "answer": "Oral phase → Gastric phase → Intestinal phase",
+    "explanation": "The INFOGEST protocol exposes food to three successive phases in order: oral, gastric, and intestinal."
+  },
+  {
+    "type": "numeric",
+    "question": "If you begin an INFOGEST digestion with a 6 g food sample, how many grams of simulated salivary fluid (SSF) should you add during the oral phase?",
+    "answer": 6,
+    "tolerance": 0.1,
+    "explanation": "In the oral phase, the food is diluted 1:1 by weight with simulated saliva. Thus, a 6 g sample requires about 6 g of SSF."
+  },
+  {
+    "type": "multiple-choice",
+    "question": "During the gastric phase of the INFOGEST protocol, to what pH is the gastric mixture adjusted?",
+    "options": [
+      "pH 7.0",
+      "pH 3.0",
+      "pH 5.0",
+      "pH 1.5"
+    ],
+    "answer": "pH 3.0",
+    "explanation": "In the gastric phase of the INFOGEST method, the chyme is acidified to pH 3.0."
+  },
+  {
+    "type": "multiple-choice",
+    "question": "Approximately how long is the food exposed to salivary enzymes during the oral phase in the INFOGEST protocol?",
+    "options": [
+      "About 2 minutes",
+      "About 30 minutes",
+      "About 2 hours",
+      "No fixed time (immediate transition)"
+    ],
+    "answer": "About 2 minutes",
+    "explanation": "The oral phase includes a brief exposure to salivary amylase, limited to roughly 2 minutes at pH 7."
+  },
+  {
+    "type": "multiple-choice",
+    "question": "Which reagent is used to lower the pH of the gastric phase to 3.0 in the INFOGEST digestion protocol?",
+    "options": [
+        "Sodium hydroxide (NaOH)",
+        "Hydrochloric acid (HCl)",
+        "Sodium bicarbonate (NaHCO₃)",
+        "No reagent is needed; the pH is already 3.0"
+    ],
+    "answer": "Hydrochloric acid (HCl)",
+    "explanation": "The protocol calls for adding HCl to acidify the gastric mixture to pH 3.0."
+  },
+  {
+    "type": "multiple-choice",
+    "question": "Which chemical is added to raise the pH to 7.0 during the intestinal phase of INFOGEST digestion?",
+    "options": [
+        "Hydrochloric acid (HCl)",
+        "Potassium chloride (KCl)",
+        "Sodium hydroxide (NaOH)",
+        "No pH adjustment is performed"
+    ],
+    "answer": "Sodium hydroxide (NaOH)",
+    "explanation": "After the gastric phase, NaOH is added to the intestinal phase mixture to adjust the pH to 7.0."
+  },
+  {
+    "type": "multiple-choice",
+    "question": "How long is the gastric phase typically incubated (with mixing) in the INFOGEST protocol?",
+    "options": [
+        "About 30 minutes at 37 °C",
+        "10 minutes at 37 °C",
+        "Overnight (12–16 hours) at 37 °C",
+        "Around 2 hours at 37 °C"
+    ],
+    "answer": "Around 2 hours at 37 °C",
+    "explanation": "In the INFOGEST method, the gastric phase is carried out for approximately 2 hours with continuous mixing at 37 °C."
+  },
+  {
+    "type": "numeric",
+    "question": "If the volume of the oral bolus (food + SSF) after the oral phase is 12 mL, what volume of simulated gastric fluid (SGF) should be added for the gastric phase according to INFOGEST?",
+    "answer": 12,
+    "tolerance": 0.5,
+    "explanation": "The INFOGEST protocol uses a 1:1 volume ratio when moving from oral to gastric phase. Thus, an oral bolus of 12 mL should be mixed with 12 mL of SGF."
+  },
+  {
+    "type": "multiple-choice",
+    "question": "What is the final concentration of bile salts in the intestinal phase as specified by the INFOGEST protocol?",
+    "options": [
+      "0.6 mM",
+      "10 mM",
+      "5 mM",
+      "100 mM"
+    ],
+    "answer": "10 mM",
+    "explanation": "The INFOGEST protocol specifies that bile is added to reach a final concentration of 10 mM in the intestinal phase."
+  },
+  {
+    "type": "numeric",
+    "question": "You have 400 mL of simulated intestinal fluid (SIF) prepared at 1.25× concentration. To what total volume should it be diluted to obtain a 1× working concentration for use in the INFOGEST protocol?",
+    "answer": 500,
+    "tolerance": 5,
+    "explanation": "For a 1.25× stock, add one-quarter of its volume in water to reach 1×. So 400 mL of 1.25× stock would be brought to ~500 mL at 1×."
+  },
+  {
+    "type": "numeric",
+    "question": "In the gastric phase, how many milliliters of a 0.3 M CaCl₂ solution are needed to achieve a final Ca²⁺ concentration of 0.15 mM in a 20 mL digestion mixture?",
+    "answer": 0.01,
+    "tolerance": 0.002,
+    "explanation": "In 20 mL (0.02 L), 0.15×10⁻³ mol/L × 0.02 L = 3.0×10⁻⁶ mol. Using 0.3 M CaCl₂, 3.0×10⁻⁶ / 0.3 = 1.0×10⁻⁵ L = 0.01 mL = 10 µL."
+  },
+  {
+    "type": "text",
+    "question": "Why does the INFOGEST protocol include an oral phase even for liquid foods?",
+    "answer": [
+        "standardized dilution",
+        "uniform bolus",
+        "standard dilution",
+        "consistency",
+        "standardization"
+    ],
+    "explanation": "All foods, even liquids, are mixed 1:1 with simulated saliva, creating a uniform bolus for consistency (standardized dilution)."
+  },
+  {
+    "type": "text",
+    "question": "Describe the key action during the oral phase of the INFOGEST protocol by writing in order the right instruction number (ex. 123): **1. mix food with SSF | 2.incubate 2 minutes | 3. Add CaCl2(H2O)2**",
+    "answer": [
+        "132",
+        "1 3 2",
+        "1,3,2"
+    ],
+    "explanation": "Food is combined 1:1 with simulated saliva, then incubated ~2 minutes at 37 °C to form the bolus."
+  },
+  {
+    "type": "text",
+    "question": "Summarize the main action in the gastric phase of the INFOGEST protocol by writing in order the right instruction number (ex. 123): **1. add SGF 1:1 | 2. acidify to pH 3 | 3. 2 hour incubation | 4. Add CaCl2(H2O)2 solution | 5. Add RGE**",
+    "answer": [
+      "12453",
+      "1,2,4,5,3",
+      "1 2 4 5 3"
+    ],
+    "explanation": "The oral bolus is mixed with SGF (1:1), acidified to pH 3, and incubated ~2 hours at 37 °C."
+  },
+  {
+    "type": "text",
+    "question": "Summarize the main steps in the intestinal phase of INFOGEST digestion by writing in order the right instruction number (ex. 123): **1. increase to pH 7 | 2. add SIF 1:1 | 3. add bile & pancreatin**",
+    "answer": [
+      "213",
+      "2,1,3",
+      "2 1 3"
+    ],
+    "explanation": "The gastric chyme is combined (1:1) with SIF, pH raised to 7, bile added to 10 mM, then pancreatin for a 2-hour incubation."
+  },
+  {
+    "type": "text",
+    "question": "What kind of system is the INFOGEST method described as?",
+    "answer": [
+        "static",
+        "static digestion",
+        "static system",
+        "static model"
+    ],
+    "explanation": "The INFOGEST protocol maintains constant conditions per phase, making it a **static** digestion method."
+  },
+  {
+    "type": "numeric",
+    "question": "You titrated 5 g of a certain food with 0.4 mL of 5 M HCl to reach pH 3 in the gastric phase. If you use 10 g of this same food, how many mL of 5 M HCl would you expect to need (assuming similar buffering)?",
+    "answer": 0.8,
+    "tolerance": 0.1,
+    "explanation": "Doubling the food typically doubles the required acid, so 0.8 mL of 5 M HCl is anticipated."
+  },
+  {
+    "type": "text",
+    "question": "After adding bile to the intestinal phase, how long should you mix it before adding enzymes?",
+    "answer": [
+      "30 minutes",
+      "half hour"
+    ],
+    "explanation": "Bile dissolves over ~30 minutes at 37 °C, forming micelles before enzyme addition."
+  },
+  {
+    "type": "text",
+    "question": "How to determine the acid volume needed for pH 3 in the gastric phase?",
+    "answer": [
+        "titration",
+        "trial",
+        "measure in the first sample",
+        "trial acid addition"
+    ],
+    "explanation": "They do a small-scale acid titration to find the volume needed to reach pH 3 (trial measure in the first sample), then use that volume in the full protocol."
+  }
+]

@@ -1,0 +1,38 @@
+[
+  {
+    "Electrolyte stock solution": "KCl",
+    "SSF (for 1.25×)": 0,
+    "SGF (for 1.25×)": 0,
+    "SIF (for 1.25×)": 0
+  },
+  {
+    "Electrolyte stock solution": "KH2PO4",
+    "SSF (for 1.25×)": 0,
+    "SGF (for 1.25×)": 0,
+    "SIF (for 1.25×)": 0
+  },
+  {
+    "Electrolyte stock solution": "NaCl",
+    "SSF (for 1.25×)": 0,
+    "SGF (for 1.25×)": 0,
+    "SIF (for 1.25×)": 0
+  },
+  {
+    "Electrolyte stock solution": "MgCl2(H2O)6",
+    "SSF (for 1.25×)": 0,
+    "SGF (for 1.25×)": 0,
+    "SIF (for 1.25×)": 0
+  },
+  {
+    "Electrolyte stock solution": "(NH4)2CO3",
+    "SSF (for 1.25×)": 0,
+    "SGF (for 1.25×)": 0,
+    "SIF (for 1.25×)": 0
+  },
+  {
+    "Electrolyte stock solution": "HCl/NaOH",
+    "SSF (for 1.25×)": "until pH 7",
+    "SGF (for 1.25×)": "until pH 3",
+    "SIF (for 1.25×)": "until pH 7"
+  }
+]

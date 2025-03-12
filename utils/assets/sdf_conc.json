@@ -1,0 +1,51 @@
+[
+  {
+    "": "KCl",
+    "Stock conc. (M)": 0.5,
+    "SSF Working conc. (mM)": 15.1,
+    "SGF Working conc. (mM)": 6.9,
+    "SIF Working conc. (mM)": 6.8
+  },
+  {
+    "": "KH2PO4",
+    "Stock conc. (M)": 0.5,
+    "SSF Working conc. (mM)": 3.7,
+    "SGF Working conc. (mM)": 0.9,
+    "SIF Working conc. (mM)": 0.8
+  },
+  {
+    "": "NaCl",
+    "Stock conc. (M)": 2,
+    "SSF Working conc. (mM)": 13.6,
+    "SGF Working conc. (mM)": 72.2,
+    "SIF Working conc. (mM)": 123.4
+  },
+  {
+    "": "MgCl2(H2O)6",
+    "Stock conc. (M)": 0.15,
+    "SSF Working conc. (mM)": 0.15,
+    "SGF Working conc. (mM)": 0.12,
+    "SIF Working conc. (mM)": 0.33
+  },
+  {
+    "": "(NH4)2CO3",
+    "Stock conc. (M)": 0.5,
+    "SSF Working conc. (mM)": 0.06,
+    "SGF Working conc. (mM)": 0.5,
+    "SIF Working conc. (mM)": 0
+  },
+  {
+    "": "CaCl2(H2O)2",
+    "Stock conc. (M)": "0.3",
+    "SSF Working conc. (mM)": "1.5",
+    "SGF Working conc. (mM)": "0.15",
+    "SIF Working conc. (mM)": "0.6"
+  },
+  {
+    "": "HCl/NaOH",
+    "Stock conc. (M)": "",
+    "SSF Working conc. (mM)": "until pH 7",
+    "SGF Working conc. (mM)": "until pH 3",
+    "SIF Working conc. (mM)": "until pH 7"
+  }
+]
