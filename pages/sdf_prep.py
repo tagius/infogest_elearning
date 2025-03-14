@@ -28,65 +28,19 @@ def update_table(cdf, vdf):
 
     volume = st.session_state.volume_slider  # get the updated slider value
 
-    vdf["SSF (for 1.25×)"] = cdf.apply(
+    vdf["SSF (ml) (for 1.25×)"] = cdf.apply(
         lambda row: compute_volume(row["SSF Working conc. (mM)"], row["Stock conc. (M)"], volume),
         axis=1,
     )
-    vdf["SGF (for 1.25×)"] = cdf.apply(
+    vdf["SGF (ml) (for 1.25×)"] = cdf.apply(
         lambda row: compute_volume(row["SGF Working conc. (mM)"], row["Stock conc. (M)"], volume),
         axis=1,
     )
-    vdf["SIF (for 1.25×)"] = cdf.apply(
+    vdf["SIF (ml) (for 1.25×)"] = cdf.apply(
         lambda row: compute_volume(row["SIF Working conc. (mM)"], row["Stock conc. (M)"], volume),
         axis=1,
     )
     return vdf
-
-def update_cacl2_table(cdf, vdf):
-    # Get the updated reaction tube volume from the number input (in mL)
-    tube_volume = st.session_state.cacl2_volume_slider
-
-    # Update the first row ("Reaction tube volume (mL)") in the CaCl2 DataFrame for each solution.
-    # We assume the columns in vdf are: "SSF", "SGF", "SIF".
-    vdf.loc["Reaction tube volume (mL)"] = [tube_volume, tube_volume*2, tube_volume*4]
-
-    # Extract the row corresponding to CaCl2(H2O)2 from conc_df.
-    # It is assumed that the reagent name is stored in the column "".
-    try:
-        cacl2_row = cdf[cdf[""] == "CaCl2(H2O)2"].iloc[0]
-    except IndexError:
-        st.error("CaCl2(H2O)2 entry not found in the concentration data.")
-        return vdf
-
-    # Extract the working concentration factors for each fluid.
-    # These values represent the µL per mL factor.
-    try:
-        ssf_factor = float(cacl2_row["SSF Working conc. (mM)"])
-    except (ValueError, TypeError):
-        ssf_factor = cacl2_row["SSF Working conc. (mM)"]
-    try:
-        sgf_factor = float(cacl2_row["SGF Working conc. (mM)"])
-    except (ValueError, TypeError):
-        sgf_factor = cacl2_row["SGF Working conc. (mM)"]
-    try:
-        sif_factor = float(cacl2_row["SIF Working conc. (mM)"])
-    except (ValueError, TypeError):
-        sif_factor = cacl2_row["SIF Working conc. (mM)"]
-    try:
-        stock_conc = float(cacl2_row["Stock conc. (M)"])
-    except (ValueError, TypeError):
-        stock_conc = cacl2_row["Stock conc. (M)"]
-
-    # Calculate the CaCl2(H2O)2 addition (in µL) for each fluid.
-    ssf_add = round((tube_volume * ssf_factor)/stock_conc, 3)
-    sgf_add = round((tube_volume * sgf_factor)/stock_conc, 3)
-    sif_add = round((tube_volume * sif_factor)/stock_conc, 3)
-
-    # Update the second row ("CaCl2(H2O)2 to add (µL)") in the DataFrame.
-    vdf.loc["CaCl2(H2O)2 to add (µL)"] = [ssf_add, sgf_add, sif_add]
-
-    return vdf
-
 
 
 st.title(":material/experiment: Preparation of Simulated Digestive Fluids")
@@ -180,37 +134,11 @@ It can also be added directly into the reaction tube.
 
 **The volumes to add depends of the reaction volume**. 
 To calculate the amount of salts added during in-vitro digestion, 
-write the volume of digestive fluid added during each phase and the volume you need to add will be calculated below.
-
-**Table 4:** Volumes of CaCl₂ to add to the reaction tube.
-*Select the volume you want to prepare (Default is 3.2 mL):*
+fill the ***Template for the harmonized in vitro digestion method from Infogest 2.0*** add the volume of CaCl2 to add will be calculated automatically.
 """)
-## add tab le here
-cacl2_data = {
-    "SSF": [3.2, 20],
-    "SGF": [6.4, 4],
-    "SIF": [12.8, 32],
-}
-index = ["Reaction tube volume (mL)", "CaCl2(H2O)2 to add (µL)"]
-cacl2_df = pd.DataFrame(cacl2_data, index=index)
-
-col4, col5, col6 = st.columns(3)
-with col4:
-    cacl2_volume = st.number_input(
-        "Volume in the reaction tube (mL):",
-        min_value=0.001,
-        value=3.200,
-        step=0.001,
-        format="%0.3f",
-        key="cacl2_volume_slider",  # add a key so you can access the value
-        on_change=update_cacl2_table,
-        args=(conc_df, cacl2_df)  # swap the order here
-    )
-## add table here of SDF calculation
-cacl2_df = update_cacl2_table(conc_df, cacl2_df)
-
-st.dataframe(cacl2_df)
-
+st.page_link("pages/dashboard.py", label="Access the Template for Infogest 2.0 -> Go to the Dashboard", icon=":material/dashboard:",
+             help="Redirect you to the dashboard page. This is a support for the setup of an in vitro digestion (IVD) of food according to the harmonized Infogest method."
+             )
 st.markdown("""
 **Notes**  
 - Values in the final columns refer to the final (working) concentrations in the **1×** solution.  

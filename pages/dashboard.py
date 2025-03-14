@@ -19,7 +19,7 @@ html_content = html_content.replace(
     f"<head><style>{css_content}</style>"
 )
 
-st.title("📋 Template for the harmonized *in vitro* digestion method from COST Infogest")
+st.title("📋 Template for the harmonized *in vitro* digestion method from Infogest 2.0")
 
 # Embed the HTML content in your Streamlit app
 components.html(html_content, height=3300, scrolling=True)
