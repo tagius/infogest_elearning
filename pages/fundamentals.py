@@ -81,5 +81,5 @@ st.write(
     ---
     """
 )
-if st.button(":material/sort: Continue here -> First steps"):
+if st.button(":material/sort: Continue here -> First steps", type="primary"):
     st.switch_page("pages/first_steps.py")

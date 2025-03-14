@@ -115,7 +115,7 @@ if st.button("Submit Quiz"):
         result_placeholder.write(f"You have attempted the quiz **{st.session_state.attempt_counter} time(s)**.")
 
         # Define a passing grade threshold (e.g., 80%)
-        passing_grade = 1
+        passing_grade = 80
 
         # Check if the user passed
         if grade >= passing_grade:

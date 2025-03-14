@@ -2,7 +2,7 @@ import streamlit as st
 from streamlit_pdf_viewer import pdf_viewer
 
 st.set_page_config(
-    layout="centered"
+    layout="wide"
 )
 
 st.title("⚙️INFOGEST Protocol Steps")
@@ -39,7 +39,7 @@ with tab1:
             st.write("**Make sure to read through the entire document before proceeding to the next steps.**")
 
     st.markdown("---")
-    pdf_viewer("utils/assets/s41596-018-0119-1.pdf", height=900, render_text=True)
+    pdf_viewer("utils/assets/s41596-018-0119-1.pdf", width="100%", render_text=True)
 
 with tab2:
     # Step 2: Video Demonstration of INFOGEST Protocol
@@ -70,5 +70,5 @@ with tab2:
     
     ---
     """)
-    if st.button(":material/experiment: Continue here -> Preparation of the Stock Solutions"):
+    if st.button(":material/experiment: Continue here -> Preparation of the Stock Solutions", type="primary"):
         st.switch_page("pages/solution_prep.py")

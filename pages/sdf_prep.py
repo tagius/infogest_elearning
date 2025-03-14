@@ -99,9 +99,9 @@ vol_df = pd.DataFrame(vol_data)
 
 col1, col2, col3 = st.columns(3)
 with col1:
-    volume = st.slider(
+    volume = st.number_input(
         "Volume to prepare (mL):",
-        100, 10000, 1000,
+        min_value=50, value=1000,
         step=50,
         key="volume_slider",  # add a key so you can access the value
         on_change=update_table,
@@ -136,7 +136,7 @@ It can also be added directly into the reaction tube.
 To calculate the amount of salts added during in-vitro digestion, 
 fill the ***Template for the harmonized in vitro digestion method from Infogest 2.0*** add the volume of CaCl2 to add will be calculated automatically.
 """)
-st.page_link("pages/dashboard.py", label="Access the Template for Infogest 2.0 -> Go to the Dashboard", icon=":material/dashboard:",
+st.page_link("pages/dashboard.py", label=":red-background[**Access the Template for Infogest 2.0 -> Go to the Dashboard**]", icon=":material/dashboard:",
              help="Redirect you to the dashboard page. This is a support for the setup of an in vitro digestion (IVD) of food according to the harmonized Infogest method."
              )
 st.markdown("""
@@ -148,5 +148,5 @@ st.markdown("""
 
 ---
 """)
-if st.button(":material/rocket_launch: Continue here -> Quick Start Protocol"):
+if st.button(":material/rocket_launch: Continue here -> Quick Start Protocol", type="primary"):
     st.switch_page("pages/quick_start.py")

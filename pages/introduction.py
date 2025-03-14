@@ -42,5 +42,5 @@ st.write(
     """
 )
 st.write("---")
-if st.button(":material/123: Continue here -> Fundamentals"):
+if st.button(":material/123: Continue here -> Fundamentals", type="primary"):
     st.switch_page("pages/fundamentals.py")

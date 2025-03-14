@@ -164,5 +164,5 @@ To properly adjust the pH during the experiment, acids and bases must be prepare
 
 --- 
 """)
-if st.button(":material/experiment: Continue here -> Preparation of Simulated Digestive Fluids"):
+if st.button(":material/experiment: Continue here -> Preparation of Simulated Digestive Fluids", type="primary"):
     st.switch_page("pages/sdf_prep.py")

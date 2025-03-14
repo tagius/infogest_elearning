@@ -1,48 +1,46 @@
 import streamlit as st
-from streamlit_extras.grid import grid
+import base64
 
 # Set wide layout for the app
-st.set_page_config(layout="wide", page_title="Dashboard Test - Oral Phase")
+st.set_page_config(layout="centered", page_title="Files to download")
 
 st.title("📥 File to download")
 
-# Main grid to download the different files
-grid = grid(2, vertical_align="bottom")
-
 # Display the protocol file uploaded
+link = "https://polybox.ethz.ch/index.php/s/DInobqGaX03EkBH"
+pwd = "sfp2025"
 
-with grid.container(border=True):
+with st.container(border=True):
     st.write("""
-                #### Download the latest SFP Standard protocol
+                #### Download the latest files
                 
                 *Last update: 2025.03.15*
                 
-                You can also download the full protocol document here:
+                You can download the latest documents from the ETHZ Polybox:
                 """)
+    with st.expander("Show password", expanded=False, icon=":material/lock:"):
+        st.write(pwd)
 
-    with open("utils/assets/s41596-018-0119-1.pdf", "rb") as file:
-        st.download_button(
-            label="📄 Download Standard Protocol (PDF)",
-            data=file,
-            file_name="s41596-018-0119-1.pdf",
-            mime="application/pdf",
-        )
+    # Display a clickable markdown link with a styled button appearance
+    with open("utils/assets/polybox.png", "rb") as image_file:
+        img_base64 = base64.b64encode(image_file.read()).decode('utf-8')
 
-with grid.container(border=True):
+    html_content = f'''
+    <a href="{link}" target="_blank" style="text-decoration: none;">
+        <div style="background-color: #ff4b4b; border-radius: 10px; overflow: hidden; text-align: center;">
+            <img src="data:image/png;base64,{img_base64}" alt="Go to Polybox" style="width: 95%; border-radius: 10px; display: block; margin: 10px auto 0;">
+            <div style="padding: 10px;">
+                <span style="color: #ffffff; font-weight: bold;">Go to Polybox</span>
+            </div>
+        </div>
+        </br>
+    </a>
+    '''
+
+    st.markdown(html_content, unsafe_allow_html=True)
+
     st.write("""
-                #### Download the latest excel calculation template
-
-                *Last update: 2025.03.15*
-
-                This file is an excel file based on the dashboard app to calculate volumes and enzyme quantity for each phases.
-                You can also download the excel file here:
-                """)
-
-    with open("utils/assets/s41596-018-0119-1.pdf", "rb") as file:
-        st.download_button(
-            label="📄 Download calculation Template (Excel)",
-            data=file,
-            file_name="s41596-018-0119-1.pdf",
-            mime="application/pdf",
-        )
-
+    
+    :orange-background[*File are updated regularly, please check last update date.*]
+    
+    """)
