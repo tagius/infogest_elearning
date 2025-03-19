@@ -5,8 +5,6 @@ from fpdf import FPDF
 from datetime import datetime
 import math
 
-from shapely.measurement import length
-
 st.set_page_config(
     layout="centered"
 )
