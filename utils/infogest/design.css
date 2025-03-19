@@ -358,7 +358,7 @@ input[type=checkbox]:checked + .slider:before {
 @media (prefers-color-scheme: dark) {
     body, input, textarea, select {
         color: white;
-        background-color: #121212;
+        background-color: #0f1116;
     }
     input, textarea, select {
         border: 1px solid white;
