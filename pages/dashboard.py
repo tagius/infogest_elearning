@@ -35,7 +35,7 @@ def get_audio_file_as_base64(filepath):
 
 
 # Path to the MP3 file
-mp3_path = "utils/assets/sencha.mp3"
+mp3_path = "utils/assets/Sencha.mp3"
 mp3_b64 = get_audio_file_as_base64(mp3_path)
 
 # Prepare the alarm audio HTML element using the MP3 file
