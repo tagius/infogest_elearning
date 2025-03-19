@@ -41,6 +41,6 @@ with st.container(border=True):
 
     st.write("""
     
-    :orange-background[*File are updated regularly, please check last update date.*]
+    :orange-background[*Files are updated regularly, please check last update date.*]
     
     """)

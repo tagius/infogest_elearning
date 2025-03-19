@@ -5,6 +5,8 @@ from fpdf import FPDF
 from datetime import datetime
 import math
 
+from shapely.measurement import length
+
 st.set_page_config(
     layout="centered"
 )
@@ -60,12 +62,25 @@ with main_placeholder:
             st.session_state.user_answers[idx] = st.number_input("Enter your answer:", key=f"q{idx}")
         elif item.get("type") == "text":
             st.session_state.user_answers[idx] = st.text_input("Enter your answer:", key=f"q{idx}")
+        elif item.get("type") == "multiple-select":
+            st.session_state.user_answers[idx] = st.multiselect("Select answers:", item["options"], key=f"q{idx}")
+
         else:
             st.session_state.user_answers[idx] = st.radio("Select one:", item["options"], key=f"q{idx}")
 
         # Create a placeholder to later display the feedback below the question
         placeholder = st.empty()
         feedback_placeholders.append(placeholder)
+
+        if item.get("type") == "multiple-select":
+            if len(item["options"]) == len(item["answer"]):
+                if not (len(st.session_state.user_answers[idx]) == len(item["answer"])):
+                    feedback_placeholders[idx].error("All the options must be selected.")
+
+            else:
+                if (len(st.session_state.user_answers[idx]) < 1):
+                    feedback_placeholders[idx].error("At least 1 option must be selected.")
+
 
 # Button to submit the quiz
 if st.button("Submit Quiz"):
@@ -91,19 +106,11 @@ if st.button("Submit Quiz"):
                     feedback_placeholders[idx].info(f"**Explanation:** {item['explanation']}")
             else:
                 correct_answer = item["answer"]
-                # If the answer is provided as a list of valid answers, check using exact equality.
-                if isinstance(correct_answer, list):
-                    if any(user_answer.strip().lower() == valid.strip().lower() for valid in correct_answer):
-                        score += 1
-                        feedback_placeholders[idx].success("Correct answer")
-                    else:
-                        feedback_placeholders[idx].info(f"**Explanation:** {item['explanation']}")
+                if user_answer == correct_answer:
+                    score += 1
+                    feedback_placeholders[idx].success("Correct answer")
                 else:
-                    if user_answer.strip().lower() == str(correct_answer).strip().lower():
-                        score += 1
-                        feedback_placeholders[idx].success("Correct answer")
-                    else:
-                        feedback_placeholders[idx].info(f"**Explanation:** {item['explanation']}")
+                    feedback_placeholders[idx].info(f"**Explanation:** {item['explanation']}")
 
         # Calculate grade as a percentage
         total_questions = len(quiz_data)

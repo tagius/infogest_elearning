@@ -11,13 +11,14 @@ def main():
     quiz = st.Page("pages/quiz.py", title="Quiz", icon=":material/quiz:")
     dashboard = st.Page("pages/dashboard.py", title="Dashboard", icon=":material/dashboard:")
     files = st.Page("pages/files.py", title="Files to download", icon=":material/draft:")
+    changelog = st.Page("pages/changelog.py", title="Changelog", icon=":material/logo_dev:")
 
     pg = st.navigation(
         {
             "Get Started": [introduction, fundamentals],
             "INFOGEST Protocol": [first_steps, solution_prep, sdf_prep, quick_start],
             "Evaluation": [quiz],
-            "Tools": [dashboard, files],
+            "Tools": [dashboard, files, changelog],
         }
     )
 

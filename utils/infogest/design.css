@@ -1,5 +1,5 @@
 body {
-	MARGIN: 0 0 0 0; FONT-FAMILY: arial,sans-serif; FONT-SIZE: 1em; HEIGHT: 100%
+	MARGIN: 0 0 0 0; FONT-FAMILY: arial,sans-serif; FONT-SIZE: 1em; HEIGHT: 100%; color: black;
 }
 H1 {
 	MARGIN: 0.2em 0 0.2em 0; FONT-SIZE: 2em; FONT-WEIGHT: bold
@@ -71,16 +71,16 @@ td.off{
 	DISPLAY: none;
 }
 table.border {
-	BORDER: 1px dashed #666666;
+	BORDER: 1px dashed #666666; border-radius: 5px;
 }
 input.right {
-	TEXT-ALIGN: right; BACKGROUND-COLOR: #FAFAFA;
+	TEXT-ALIGN: right; BACKGROUND-COLOR: #FAFAFA; border-radius: 5px;
 }
 input.essential {
-	TEXT-ALIGN: right; BACKGROUND-COLOR: lightyellow;
+	TEXT-ALIGN: right; BACKGROUND-COLOR: lightyellow; border-radius: 5px;
 }
 input:disabled {
-	BACKGROUND-COLOR: transparent; COLOR: black; BORDER: 0;
+	BACKGROUND-COLOR: transparent; COLOR: black; BORDER: 0; border-radius: 5px;
 }
 input[type=number]{
 	-moz-appearance: textfield;
@@ -96,7 +96,382 @@ input[type=number]::-webkit-inner-spin-button{
 }
 button {
 	FONT-SIZE: 1.1em;
+    border-radius: 5px;
+    background: #555;
+    color: #fff;
+    cursor: pointer;
+    margin-bottom: 8px;
 }
 button.off{
 	DISPLAY: none;
+}
+/* Modern input styling */
+input, textarea, select {
+    border: 1px solid #ccc;       /* Light, subtle border */
+    border-radius: 4px;           /* Rounded corners */
+    padding: 0.2em;               /* Internal spacing */
+    width: 100%;                  /* Full width */
+    box-sizing: border-box;       /* Include padding/border in width */
+    transition: border-color 0.3s, box-shadow 0.3s;  /* Smooth effects */
+	cursor: pointer;
+}
+
+input:focus, textarea:focus, select:focus {
+    border-color: #66afe9;        /* Change border on focus */
+    outline: none;                /* Remove default outline */
+    box-shadow: 0 0 8px rgba(102, 175, 233, 0.6); /* Subtle glow effect */
+}
+
+#pepsinToggle, #lipaseToggle {
+	 margin-bottom: 15px;
+}
+
+/* The switch - the box around the slider */
+.switch {
+  position: relative;
+  display: inline-block;
+  width: 30px;
+  height: 15px;
+	vertical-align: middle;
+}
+
+/* Hide default HTML checkbox */
+.switch input {
+  opacity: 0;
+  width: 0;
+  height: 0;
+}
+
+/* The slider */
+.slider {
+  position: absolute;
+  cursor: pointer;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: #ccc;
+  -webkit-transition: .4s;
+  transition: .4s;
+}
+
+.slider:before {
+  position: absolute;
+  content: "";
+  height: 13px;
+  width: 13px;
+  left: 2px;
+  bottom: 1px;
+  background-color: white;
+  -webkit-transition: .4s;
+  transition: .4s;
+}
+
+input[type=checkbox]:checked + .slider {
+  background-color: #2196F3;
+}
+
+input[type=checkbox]:focus + .slider {
+  box-shadow: 0 0 1px #2196F3;
+}
+
+input[type=checkbox]:checked + .slider:before {
+  -webkit-transform: translateX(13px);
+  -ms-transform: translateX(13px);
+  transform: translateX(13px);
+}
+
+/* Rounded sliders */
+.slider.round {
+  border-radius: 13px;
+}
+
+.slider.round:before {
+  border-radius: 50%;
+}
+
+/*Modern button design*/
+/* Base Button Styles */
+.squishy {
+  position: relative;
+  font-size: 1rem;
+  padding: 0.35rem 1rem;
+  font-weight: 600;
+  border: none;
+  cursor: pointer;
+  transition: all 250ms;
+  display: inline-flex;
+  align-items: top;
+  gap: 0.5rem;
+}
+
+.squishy i {
+  width: 1rem;
+  height: 1rem;
+}
+
+/* Classic Squishy */
+.squishy-classic {
+  background-color: #f0f0f0;
+  color: #242424;
+  border-radius: 0.5rem;
+  box-shadow:
+    inset 0 1px 0 0 #f4f4f4,
+    0 1px 0 0 #efefef,
+    0 2px 0 0 #ececec,
+    0 4px 0 0 #e0e0e0,
+    0 5px 0 0 #dedede,
+    0 6px 0 0 #dcdcdc,
+    0 7px 0 0 #cacaca,
+    0 6px 10px 0 #cecece;
+}
+
+.squishy-classic:hover {
+  transform: translateY(4px);
+  box-shadow:
+    inset 0 1px 0 0 #f4f4f4,
+    0 1px 0 0 #efefef,
+    0 1px 0 0 #ececec,
+    0 2px 0 0 #e0e0e0,
+    0 2px 0 0 #dedede,
+    0 3px 0 0 #dcdcdc,
+    0 4px 0 0 #cacaca,
+    0 4px 6px 0 #cecece;
+}
+
+/* Classic Red Squishy */
+.squishy-red {
+  background-color: #f05050;
+  color: #242424;
+  border-radius: 0.5rem;
+  box-shadow:
+    inset 0 1px 0 0 #f45050,
+    0 1px 0 0 #ef5050,
+    0 2px 0 0 #ec5050,
+    0 4px 0 0 #e05050,
+    0 5px 0 0 #de5050,
+    0 6px 0 0 #dc5050,
+    0 7px 0 0 #ca5050,
+    0 6px 7px 0 #ce5850;
+}
+
+.squishy-red:hover {
+  transform: translateY(4px);
+  box-shadow:
+    inset 0 1px 0 0 #f45050,
+    0 1px 0 0 #ef5050,
+    0 1px 0 0 #ec5050,
+    0 2px 0 0 #e05050,
+    0 2px 0 0 #de5050,
+    0 3px 0 0 #dc5050,
+    0 4px 0 0 #ca5050,
+    0 4px 6px 0 #ce5050;
+}
+
+/* Tech Squishy */
+.squishy-tech {
+  background-color: rgb(5 150 105);
+  color: white;
+  border-radius: 0.5rem;
+  box-shadow:
+    inset 0 1px 0 0 rgba(255,255,255,0.3),
+    0 2px 0 0 #059669,
+    0 4px 0 0 #047857,
+    0 6px 0 0 #065f46,
+    0 8px 0 0 #064e3b,
+    0 8px 12px 0 rgba(5,150,105,0.5);
+  overflow: hidden;
+}
+
+/* Adjust icon size in squishy-tech button */
+.squishy-tech i,
+.squishy-tech svg {
+    width: 1rem;
+    height: 1rem;
+    display: inline-block;
+}
+
+/* Override padding for a more compact button */
+.squishy-tech {
+    padding: 0.3rem 1rem;
+}
+
+.squishy-tech::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(to right, transparent, rgba(255, 255, 255, 0.44), transparent);
+  transform: translateX(-100%);
+  animation: shimmer 2s infinite;
+}
+
+.squishy-tech:hover {
+  transform: translateY(4px);
+  box-shadow:
+    inset 0 1px 0 0 rgba(255,255,255,0.3),
+    0 1px 0 0 #059669,
+    0 2px 0 0 #047857,
+    0 3px 0 0 #065f46,
+    0 4px 0 0 #064e3b,
+    0 4px 8px 0 rgba(5,150,105,0.5);
+}
+
+.squishy-tech:hover i {
+  animation: bounce 1s infinite;
+}
+
+/* Animations */
+@keyframes bounce {
+  0%, 100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-25%);
+  }
+}
+
+@keyframes pulse {
+  0%, 100% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.1);
+  }
+}
+
+@keyframes spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@keyframes shimmer {
+  100% {
+    transform: translateX(100%);
+  }
+}
+
+/* Dark mode styles */
+@media (prefers-color-scheme: dark) {
+    body, input, textarea, select {
+        color: white;
+        background-color: #121212;
+    }
+    input, textarea, select {
+        border: 1px solid white;
+    }
+    input:focus, textarea:focus, select:focus {
+        border-color: #ffffff;        /* Change border on focus */
+        outline: none;                /* Remove default outline */
+        box-shadow: 0 0 8px rgb(246, 246, 246); /* Subtle glow effect */
+    }
+    table.border {
+        BORDER: 1px dashed #ededed; border-radius: 5px;
+    }
+    input:enabled {
+        background-color: #4e4e4e;
+    }
+    input.right {
+        TEXT-ALIGN: right; border-radius: 5px;
+    }
+    input.essential {
+        TEXT-ALIGN: right; BACKGROUND-COLOR: rgba(255, 220, 97, 0.5); border-radius: 5px;
+    }
+    input:disabled {
+        color: white;
+    }
+    tr.color1{
+        BACKGROUND-COLOR: #9e6e35;
+    }
+    tr.color2{
+        BACKGROUND-COLOR: #91912c;
+    }
+    tr.color3{
+        BACKGROUND-COLOR: #5b932d;
+    }
+    tr.color4{
+        BACKGROUND-COLOR: #2b9360;
+    }
+    tr.color5{
+        BACKGROUND-COLOR: #298c8c;
+    }
+    tr.color6{
+        BACKGROUND-COLOR: #703da1;
+    }
+    tr.color7{
+        BACKGROUND-COLOR: #ac38ac;
+    }
+    tr.color8{
+        BACKGROUND-COLOR: #ae4040;
+    }
+    tr.color9{
+        BACKGROUND-COLOR: #395ba8;
+    }
+    tr.color10{
+        BACKGROUND-COLOR: #26984c;
+    }
+    tr.color11{
+        BACKGROUND-COLOR: #1d80a1;
+    }
+    tr.color12{
+        BACKGROUND-COLOR: #9e7428;
+    }
+    .slider {
+      background-color: #7a7a7a;
+    }
+    .squishy-classic {
+      background-color: #808080;
+      color: #f3f3f3;
+      border-radius: 0.5rem;
+      box-shadow:
+        inset 0 1px 0 0 #6e6e6e,
+        0 1px 0 0 #696969,
+        0 2px 0 0 #676767,
+        0 4px 0 0 #636363,
+        0 5px 0 0 #606060,
+        0 6px 0 0 #5e5e5e,
+        0 7px 0 0 #595959,
+        0 6px 10px 0 #565656;
+    }
+    .squishy-classic:hover {
+      transform: translateY(4px);
+      box-shadow:
+        inset 0 1px 0 0 #505050,
+        0 1px 0 0 #494949,
+        0 1px 0 0 #434343,
+        0 2px 0 0 #474747,
+        0 2px 0 0 #474747,
+        0 3px 0 0 #3c3c3c,
+        0 4px 0 0 #353535,
+        0 4px 6px 0 #2b2b2b;
+    }
+    .squishy-red {
+        color: white;
+    }
+    .squishy-tech {
+      background-color: rgb(23, 241, 156);
+      color: white;
+      border-radius: 0.5rem;
+      box-shadow:
+        inset 0 1px 0 0 rgba(255,255,255,0.3),
+        0 2px 0 0 #1aca8e,
+        0 4px 0 0 #1baa82,
+        0 6px 0 0 #1b9f79,
+        0 8px 0 0 #178c6e,
+        0 8px 12px 0 rgba(209, 255, 239, 0.5);
+      overflow: hidden;
+    }
+    .squishy-tech:hover {
+      transform: translateY(4px);
+      box-shadow:
+        inset 0 1px 0 0 rgba(255,255,255,0.3),
+        0 1px 0 0 #059669,
+        0 2px 0 0 #047857,
+        0 3px 0 0 #065f46,
+        0 4px 0 0 #064e3b,
+        0 4px 8px 0 rgba(5,150,105,0.5);
+    }
 }

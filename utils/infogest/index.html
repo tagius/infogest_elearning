@@ -2,17 +2,14 @@
 <html lang="en"><head>
 <title>Infogest harmonized IVD</title>
 <link rel="stylesheet" type="text/css" href="design.css">
-<link rel="icon" type="image/vnd.microsoft.icon" href="favicon.ico">
-<link rel="icon" type="image/png" sizes="16x16" href="favicon16.png">
-<link rel="icon" type="image/png" sizes="32x32" href="favicon32.png">
-<link rel="icon" type="image/png" sizes="96x96" href="favicon96.png">
 <meta http-equiv="Content-Type" content="text/html; charset=windows-1252">
 <meta name="author" content="Reto Portmann, Agroscope, Bern, Switzerland">
 
+<script src="https://unpkg.com/lucide@latest"></script>
 <script type="text/javascript">
 
 //all input fields
-var persele = ["amount", "food1", "sampling1", "product1", "lot1", "measured1", "effective1", "Meffective1", "acid2", "sampling2", "product2", "lot2", "measuredl2", "measuredlp2", "effectivel2", "Meffectivel2", "productp2", "lotp2", "measuredp2", "effectivep2", "Meffectivep2", "base3", "sampling3", "product3a", "lot3a", "measured3a", "effective3a", "Meffective3a", "product3b", "lot3b", "measured3b", "effective3b", "Meffective3b", "base4", "sampling4", "product4a", "lot4a", "measured4a", "effective4a", "Meffective4a", "product4b", "lot4b", "measured4b", "effective4b", "Meffective4b", "product4c", "lot4c", "measured4c", "effective4c", "Meffective4c", "product4d", "lot4d", "effective4d", "Meffective4d", "product4e", "lot4e", "measured4e", "effective4e", "Meffective4e", "product4f", "lot4f", "measured4f", "effective4f", "Meffective4f"];
+var persele = ["amount", "food1", "sampling1", "product1", "lot1", "measured1", "effective1", "Meffective1", "acid2", "sampling2", "product2", "lot2", "measuredl2", "measuredlp2", "effectivel2", "Meffectivel2", "productp2", "lotp2",  "productla2", "lotla2", "measuredp2", "effectivep2", "Meffectivep2", "measuredla2", "effectivela2", "Meffectivela2", "base3", "sampling3", "product3a", "lot3a", "measured3a", "effective3a", "Meffective3a", "product3b", "lot3b", "measured3b", "effective3b", "Meffective3b", "base4", "sampling4", "product4a", "lot4a", "measured4a", "effective4a", "Meffective4a", "product4b", "lot4b", "measured4b", "effective4b", "Meffective4b", "product4c", "lot4c", "measured4c", "effective4c", "Meffective4c", "product4d", "lot4d", "effective4d", "Meffective4d", "product4e", "lot4e", "measured4e", "effective4e", "Meffective4e", "product4f", "lot4f", "measured4f", "effective4f", "Meffective4f"];
 
 // TA edit - addition of a algae and food mode 20250313
 var mode = "food";
@@ -20,19 +17,23 @@ var mode = "food";
 function toggleMode() {
     if (mode === "food") {
         mode = "algae";
-        document.getElementById("toggleMode").innerHTML = "Switch to Food mode";
+        document.getElementById("toggleMode").innerHTML = "<i data-lucide='ham'></i> Switch to Food mode";
         document.getElementById("foodLabel").innerHTML = "Quantity of algae";
         document.getElementById("food1").value = 0.125;
         document.getElementById("algaeWaterRow").style.display = "table-row";
         updateAlgaeWater();
     } else {
         mode = "food";
-        document.getElementById("toggleMode").innerHTML = "Switch to Algae mode";
+        document.getElementById("toggleMode").innerHTML = "<i data-lucide='egg-fried'></i> Switch to Algae mode";
         document.getElementById("foodLabel").innerHTML = "Quantity of food";
         document.getElementById("food1").value = 5;
         document.getElementById("algaeWaterRow").style.display = "none";
     }
+    // Store the current mode
+    localStorage.setItem("mode", mode);
     calculateoral();
+    // Reinitialize Lucide icons after updating innerHTML
+    lucide.createIcons();
 }
 // Helper function to convert ml values below 1 to ul and update display
 function convertAndDisplay(id, value) {
@@ -61,6 +62,55 @@ function updateAlgaeWater() {
     document.getElementById("algaeWater").value = Math.round(water * 1000) / 1000;
 }
 
+function toggleAmylaseLabel() {
+  var checkbox = document.getElementById("toggleAmylaseWater");
+  var label = document.getElementById("labelAmylase");
+  var extraRows = document.getElementById("amylaseExtraRows");
+
+  if (checkbox.checked) {
+    label.textContent = "Water";
+    if (extraRows) {
+      extraRows.style.display = "none";
+    }
+  } else {
+    label.textContent = "Salivary amylase solution";
+    if (extraRows) {
+      extraRows.style.display = "";
+    }
+  }
+}
+
+function toggleNoAdditionalEnzymeLabel() {
+	calculategastric();
+	var pepsin = document.getElementById("pepsinToggle");
+	var lipase = document.getElementById("lipaseToggle");
+	var enzymes = document.getElementById("ExtraEnzymes");
+	var checkbox = document.getElementById("toggleNoAdditionalEnzyme");
+
+	if (checkbox.checked) {
+		if (pepsin) {
+			pepsin.style.display = "none";
+		}
+		if (lipase) {
+			lipase.style.display = "none";
+		}
+		if (enzymes) {
+			enzymes.style.display = "none";
+		}
+	} else {
+		if (pepsin) {
+			pepsin.style.display = "";
+		}
+		if (lipase) {
+			lipase.style.display = "";
+		}
+		if (enzymes) {
+			enzymes.style.display = "";
+		}
+	}
+
+}
+
 function togglePepsin() {
     var content = document.getElementById("pepsinSolutionContent");
     var toggleBtn = document.getElementById("pepsinToggle");
@@ -73,29 +123,80 @@ function togglePepsin() {
     }
 }
 
+function toggleLipase() {
+    var content = document.getElementById("lipaseSolutionContent");
+    var toggleBtn = document.getElementById("lipaseToggle");
+    if (content.style.display === "none") {
+         content.style.display = "block";
+         toggleBtn.innerHTML = "Lipase solution (click to collapse)";
+    } else {
+         content.style.display = "none";
+         toggleBtn.innerHTML = "Lipase solution (click to expand)";
+    }
+}
+
 //set all fields to either original or values from local storage
 function setini() {
-	if(localStorage.getItem("food1") === null){
-		localStorage.setItem("indi", 1);
-		setstore();
-	}else{
-		for(i=0; i<persele.length; i++){
-			document.getElementById(persele[i]).value=localStorage.getItem(persele[i]);
-		}
-		//set intial intestinal with or without pancreatin
-		if (localStorage.getItem("indi")) {
-			document.getElementById("individual").className = "off";
-			document.getElementById("intestinal").className = "";
-			document.getElementById("bindividual").innerHTML = "Intestinal step with individual enzymes";
-		} else {
-			document.getElementById("individual").className = "";
-			document.getElementById("intestinal").className = "off";
-			document.getElementById("bindividual").innerHTML = "Intestinal step with pancreatin";
-		}
-	}
+    if (localStorage.getItem("food1") === null) {
+        localStorage.setItem("indi", 1);
+        setstore();
+    } else {
+        // Restore all inputs (including checkboxes) as before
+        var elements = document.querySelectorAll('input, select, textarea');
+        for (var i = 0; i < elements.length; i++) {
+            var el = elements[i];
+            if (el.id) {
+                var stored = localStorage.getItem(el.id);
+                if (stored !== null) {
+                    if (el.type === "checkbox") {
+                        el.checked = (stored === "true");
+                    } else {
+                        el.value = stored;
+                    }
+                }
+            }
+        }
+        // Set initial intestinal phase configuration based on the "indi" flag
+        if (localStorage.getItem("indi")) {
+            document.getElementById("individual").className = "off";
+            document.getElementById("intestinal").className = "";
+            document.getElementById("bindividual").innerHTML = "Intestinal step with individual enzymes";
+        } else {
+            document.getElementById("individual").className = "";
+            document.getElementById("intestinal").className = "off";
+            document.getElementById("bindividual").innerHTML = "Intestinal step with pancreatin";
+        }
 
-	localStorage.setItem("help", "");
-	sampleamount();
+        // Restore the mode if it was saved
+        var storedMode = localStorage.getItem("mode");
+        if (storedMode) {
+            mode = storedMode;
+            if (mode === "algae") {
+                document.getElementById("toggleMode").innerHTML = "<i data-lucide='ham'></i> Switch to Food mode";
+                document.getElementById("foodLabel").innerHTML = "Quantity of algae";
+                document.getElementById("algaeWaterRow").style.display = "table-row";
+                // Optionally, update the value and recalc water if needed:
+                // document.getElementById("food1").value = 0.125;
+                updateAlgaeWater();
+
+            } else {
+                document.getElementById("toggleMode").innerHTML = "<i data-lucide='ham'></i> Switch to Algae mode";
+                document.getElementById("foodLabel").innerHTML = "Quantity of food";
+                document.getElementById("algaeWaterRow").style.display = "none";
+                // Optionally, update the value if needed:
+                // document.getElementById("food1").value = 5;
+            }
+        }
+        if (document.getElementById("toggleNoAdditionalEnzyme").checked) {
+            toggleNoAdditionalEnzymeLabel();
+        }
+        if (document.getElementById("toggleAmylaseWater").checked) {
+            toggleAmylaseLabel();
+        }
+    }
+    localStorage.setItem("help", "");
+    sampleamount();
+	lucide.createIcons();
 }
 
 //switch between intestinal phase with pancreatin and with individual enzymes
@@ -132,9 +233,19 @@ function reset() {
 
 //fill local storage with actual values
 function setstore() {
-	for(i=0;i<persele.length;i++){
-		localStorage.setItem(persele[i], document.getElementById(persele[i]).value);
-	}
+    // Select all input, select, and textarea elements with an id.
+    var elements = document.querySelectorAll('input, select, textarea');
+    for (var i = 0; i < elements.length; i++) {
+        var el = elements[i];
+        if (el.id) {
+            if (el.type === "checkbox") {
+                // Save the checked state (as a string "true" or "false")
+                localStorage.setItem(el.id, el.checked);
+            } else {
+                localStorage.setItem(el.id, el.value);
+            }
+        }
+    }
 }
 
 //correct input for non float characters
@@ -186,7 +297,7 @@ function sampleamount(){
 		}
 	}
 	//correct sample amount
-	var elem = ["Mamount1", "Mamount2", "Mamount3", "Mamount4", "Mamount5", "Mamount6", "Mamount7", "Mamount8", "Mamount9", "Mamount10", "Mamount11", "Mamount12", "Mamount13", "Mamount14", "Mamount15"]
+	var elem = ["Mamount1", "Mamount2", "Mamount3", "Mamount4", "Mamount5", "Mamount6", "Mamount7", "Mamount8", "Mamount9", "Mamount10", "Mamount11", "Mamount12", "Mamount13", "Mamount14", "Mamount15", "Mamount16"]
 	for(i=0;i<elem.length;i++){
 		document.getElementById(elem[i]).innerHTML = sampleamount;
 	}
@@ -290,6 +401,8 @@ function calculategastric() {
 	var enzyme = Math.round((oral2 / 20)* 1000) / 1000;
 	convertAndDisplay("pepsin2", enzyme);
 	convertAndDisplay("Mpepsin2", enzyme);
+	convertAndDisplay("lipase2", enzyme);
+	convertAndDisplay("Mlipase2", enzyme);
 	var gmm = document.getElementById("gmm").value = parseFloat(oral2 - (2 * enzyme));
 	convertAndDisplay("gmm", gmm);
 	if(document.getElementById("effectivel2").value == 0){
@@ -333,10 +446,22 @@ function calculategastric() {
 	var calcMethodElement = document.getElementById("calcMethodRGE");
 	var calcMethod = calcMethodElement ? calcMethodElement.value : "lipase";
 	var minimall2;
+	//var enzyme;
 	if (calcMethod === "pepsin") {
 		minimall2 = parseFloat((total2 * document.getElementById("finalpu2").value) / document.getElementById("measuredlp2").value);
+		document.getElementById("finalpu").value = document.getElementById("finalpu2").value;
+		//enzyme = 0;
+		document.getElementById("pepsin2").value = 0;
+		document.getElementById("Mpepsin2").value = 0;
+		convertAndDisplay("lipase2", enzyme);
+		convertAndDisplay("Mlipase2", enzyme);
 	} else {
 		minimall2 = parseFloat((total2 * document.getElementById("finallu2").value) / document.getElementById("measuredl2").value);
+		//enzyme = Math.round((oral2 / 20) * 1000) / 1000;
+		document.getElementById("lipase2").value = 0;
+		document.getElementById("Mlipase2").value = 0;
+		convertAndDisplay("pepsin2", enzyme);
+		convertAndDisplay("Mpepsin2", enzyme);
 	}
 	document.getElementById("minimall2").value = Math.round(100 * minimall2) / 100;
 	var Mminimall2 = sampleamount * minimall2;
@@ -349,6 +474,33 @@ function calculategastric() {
 	convertAndDisplay("Mdissolvel2", Mdissolvel2);
 	var effectivel2 = document.getElementById("effectivel2").value;
 	var Meffectivel2 = document.getElementById("Meffectivel2").value;
+
+	// Override enzyme volumes if "Use only RGE" is checked
+	if(document.getElementById("toggleNoAdditionalEnzyme").checked) {
+		// Set both enzyme solution volumes to 0.
+		document.getElementById("pepsin2").value = 0;
+		document.getElementById("Mpepsin2").value = 0;
+		document.getElementById("lipase2").value = 0;
+		document.getElementById("Mlipase2").value = 0;
+
+		// Double the Rabbit gastric extract solution volume.
+		// We use the current calculated value (which was set by convertAndDisplay or assignment)
+		var currentRGE = parseFloat(document.getElementById("rabbit2").getAttribute("data-raw")) || 0;
+		var currentMRGE = parseFloat(document.getElementById("Mrabbit2").getAttribute("data-raw")) || 0;
+		var currentDissolvel2 = parseFloat(document.getElementById("dissolvel2").getAttribute("data-raw")) || 0;
+		var currentMdissolvel2 = parseFloat(document.getElementById("Mdissolvel2").getAttribute("data-raw")) || 0;
+		convertAndDisplay("rabbit2", currentRGE * 2);
+		convertAndDisplay("Mrabbit2",  currentMRGE * 2);
+		convertAndDisplay("dissolvel2", currentDissolvel2 * 2);
+		convertAndDisplay("Mdissolvel2", currentMdissolvel2 * 2);
+
+		// (Optional) If you want to adjust the water volume (h2o2) accordingly, recalc it here.
+		// For example, if your normal h2o2 was computed as:
+		//   h2o2 = oral2 - sgf2 - (cacl2/1000) - acid2 - (2 * enzyme)  [when effective weighed enzyme is nonzero]
+		// You might decide to subtract an extra amount.
+		// var h2o2_new = oral2 - sgf2 - (cacl2/1000) - document.getElementById("acid2").value - (2 * (currentRGE));
+		// convertAndDisplay("h2o2", h2o2_new);
+	}
 
 	//pepsin solution composition
 	if(effectivel2 == 0){
@@ -365,12 +517,36 @@ function calculategastric() {
 		var Mminimalp2 = (sampleamount * (total2 * document.getElementById("finalpu2").value) - (document.getElementById("measuredlp2").value * Mminimall2)) / document.getElementById("measuredp2").value;
 		document.getElementById("Mminimalp2").value = Math.round(100 * Mminimalp2) / 100 ;
 	}
-	var dissolvep2 = parseFloat((document.getElementById("effectivep2").value * document.getElementById("pepsin2").value)) / document.getElementById("minimalp2").value;
-	document.getElementById("dissolvep2").value = Math.round(1000 * dissolvep2) / 1000;
-	var Mdissolvep2 = parseFloat((sampleamount * document.getElementById("Meffectivep2").value * document.getElementById("Mpepsin2").value) / document.getElementById("Mminimalp2").value);
-	document.getElementById("Mdissolvep2").value = Math.round(1000 * Mdissolvep2) / 1000;
+	var dissolvep2 = parseFloat((document.getElementById("effectivep2").value * parseFloat(document.getElementById("pepsin2").getAttribute("data-raw")))) / document.getElementById("minimalp2").value;
+	//document.getElementById("dissolvep2").value = Math.round(1000 * dissolvep2) / 1000;
+	convertAndDisplay("dissolvep2", dissolvep2);
+	var Mdissolvep2 = parseFloat((sampleamount * document.getElementById("Meffectivep2").value * parseFloat(document.getElementById("Mpepsin2").getAttribute("data-raw"))) / document.getElementById("Mminimalp2").value);
+	//document.getElementById("Mdissolvep2").value = Math.round(1000 * Mdissolvep2) / 1000;
+	convertAndDisplay("Mdissolvep2", Mdissolvep2);
 	var effectivep2 = document.getElementById("effectivep2").value;
 	var Meffectivep2 = document.getElementById("Meffectivep2").value;
+
+	//lipase solution composition
+	if(effectivel2 == 0){
+		var minimalla2 = (total2 * document.getElementById("finallu2").value) / document.getElementById("measuredla2").value;
+		document.getElementById("minimalla2").value = Math.round(100 * minimalla2) / 100 ;
+	}else{
+		var minimalla2 = ((total2 * document.getElementById("finallu2").value) - (document.getElementById("measuredl2").value * minimall2)) / document.getElementById("measuredla2").value;
+		document.getElementById("minimalla2").value = Math.round(100 * minimalla2) / 100 ;
+	}
+	if(Meffectivel2 == 0){
+		var Mminimalla2 = (sampleamount * total2 * document.getElementById("finallu2").value) / document.getElementById("measuredla2").value;
+		document.getElementById("Mminimalla2").value = Math.round(100 * Mminimalla2) / 100 ;
+	}else{
+		var Mminimalla2 = (sampleamount * (total2 * document.getElementById("finallu2").value) - (document.getElementById("measuredl2").value * Mminimall2)) / document.getElementById("measuredla2").value;
+		document.getElementById("Mminimalla2").value = Math.round(100 * Mminimalla2) / 100 ;
+	}
+	var dissolvela2 = parseFloat((document.getElementById("effectivela2").value * parseFloat(document.getElementById("lipase2").getAttribute("data-raw")))) / document.getElementById("minimalla2").value;
+	convertAndDisplay("dissolvela2", dissolvela2);
+	var Mdissolvela2 = parseFloat((sampleamount * document.getElementById("Meffectivela2").value * parseFloat(document.getElementById("Mlipase2").getAttribute("data-raw"))) / document.getElementById("Mminimalla2").value);
+	convertAndDisplay("Mdissolvela2", Mdissolvela2);
+	var effectivela2 = document.getElementById("effectivela2").value;
+	var Meffectivela2 = document.getElementById("Meffectivela2").value;
 
 	//warning for gastric phase
 	var warning = "";
@@ -423,12 +599,40 @@ function calculategastric() {
 			if(Mminimalp2 > Meffectivep2){
 				warning += "&#9888; Not enough weighed pepsin (stock solution)<br>";
 			}
+			if(Mminimalp2 < 0){
+				warning += "&#9888; Too much pepsin activity or too low lipase activity (in RGE)<br>";
+			}
 			if(Meffectivep2/Mdissolvep2	> 50){
 				warning += "&#9888; Dissolution of pepsin (stock solution) may be critical...try having more active enzyme<br>";
 			}
 		}
 	}
 	document.getElementById("warningp2").innerHTML = warning;
+
+	//warning for lipase solution
+	var warning = "";
+	if(document.getElementById("measuredla2").value<1){
+		warning += "&#9888; Provide measured activity of the pepsin powder<br>";
+	}else{
+		if(minimalla2 > effectivela2){
+			warning += "&#9888; Not enough weighed pepsin (per sample)<br>";
+		}
+		if(effectivela2/dissolvela2 > 50){
+			warning += "&#9888; Dissolution of pepsin (per sample) may be critical...try having more active enzyme<br>";
+		}
+		if(sampleamount > 2){
+			if(Mminimalla2 > Meffectivela2){
+				warning += "&#9888; Not enough weighed pepsin (stock solution)<br>";
+			}
+			if(Mminimalla2 < 0){
+				warning += "&#9888; Too much lipase activity or too low pepsin activity (in RGE)<br>";
+			}
+			if(Meffectivela2/Mdissolvela2	> 50){
+				warning += "&#9888; Dissolution of pepsin (stock solution) may be critical...try having more active enzyme<br>";
+			}
+		}
+	}
+	document.getElementById("warningla2").innerHTML = warning;
 
 	setstore();
 	calculateintestinal();
@@ -583,7 +787,7 @@ function calculateindividual() {
 	document.getElementById("total4").value = document.getElementById("Mtotal4").value = Math.round(total4 * 1000) / 1000;
 	var sampling4 = document.getElementById("Msampling4").value = document.getElementById("sampling4").value;
 	var final4 = document.getElementById("final4").value = document.getElementById("Mfinal4").value = Math.round((total4 - sampling4) * 1000) / 1000;
-	
+
 	//intestinal mastermix composition
 	document.getElementById("Msif4").value = Math.round(sif4 * sampleamount * 1000 ) / 1000;
 	document.getElementById("Mtrypsin4").value = Math.round(trypsin4 * sampleamount * 1000 ) / 1000;
@@ -596,7 +800,7 @@ function calculateindividual() {
 	document.getElementById("Mbase4").value = Math.round(document.getElementById("base4").value * sampleamount * 1000 ) / 1000;
 	document.getElementById("Mh2o4").value = Math.round(h2o4 * sampleamount * 1000 ) / 1000;
 	document.getElementById("Mvolume4").value = Math.round(inm * sampleamount * 1000 ) / 1000;
-	
+
 	//trypsin solution composition
 	var minimal4a = parseFloat((total4 * document.getElementById("finalu4a").value) / document.getElementById("measured4a").value);
 	document.getElementById("minimal4a").value = Math.round(100 * minimal4a) / 100 ;
@@ -608,7 +812,7 @@ function calculateindividual() {
 	document.getElementById("Mdissolve4a").value = Math.round(1000 * Mdissolve4a) / 1000;
 	var effective4a = document.getElementById("effective4a").value;
 	var Meffective4a = document.getElementById("Meffective4a").value;
-	
+
 	//chymotrypsin solution composition
 	var minimal4b = parseFloat((total4 * document.getElementById("finalu4b").value) / document.getElementById("measured4b").value);
 	document.getElementById("minimal4b").value = Math.round(100 * minimal4b) / 100 ;
@@ -620,7 +824,7 @@ function calculateindividual() {
 	document.getElementById("Mdissolve4b").value = Math.round(1000 * Mdissolve4b) / 1000;
 	var effective4b = document.getElementById("effective4b").value;
 	var Meffective4b = document.getElementById("Meffective4b").value;
-	
+
 	//lipase solution composition
 	var minimal4c = parseFloat((total4 * document.getElementById("finalu4c").value) / document.getElementById("measured4c").value);
 	document.getElementById("minimal4c").value = Math.round(100 * minimal4c) / 100 ;
@@ -632,7 +836,7 @@ function calculateindividual() {
 	document.getElementById("Mdissolve4c").value = Math.round(1000 * Mdissolve4c) / 1000;
 	var effective4c = document.getElementById("effective4c").value;
 	var Meffective4c = document.getElementById("Meffective4c").value;
-	
+
 	//colipase solution composition
 	var minimal4d = parseFloat((total4 * document.getElementById("finalu4c").value * .4) / document.getElementById("finalu4d").value);
 	document.getElementById("minimal4d").value = Math.round(100 * minimal4d) / 100 ;
@@ -644,7 +848,7 @@ function calculateindividual() {
 	document.getElementById("Mdissolve4d").value = Math.round(1000 * Mdissolve4d) / 1000;
 	var effective4d = document.getElementById("effective4d").value;
 	var Meffective4d = document.getElementById("Meffective4d").value;
-	
+
 	//amylase solution composition
 	var minimal4e = parseFloat((total4 * document.getElementById("finalu4e").value) / document.getElementById("measured4e").value);
 	document.getElementById("minimal4e").value = Math.round(100 * minimal4e) / 100 ;
@@ -656,7 +860,7 @@ function calculateindividual() {
 	document.getElementById("Mdissolve4e").value = Math.round(1000 * Mdissolve4e) / 1000;
 	var effective4e = document.getElementById("effective4e").value;
 	var Meffective4e = document.getElementById("Meffective4e").value;
-	
+
 	//bile solution composition
 	var minimal4f = parseFloat((total4 * document.getElementById("finalu4f").value) / document.getElementById("measured4f").value);
 	document.getElementById("minimal4f").value = Math.round(100 * minimal4f) / 100 ;
@@ -668,7 +872,7 @@ function calculateindividual() {
 	document.getElementById("Mdissolve4f").value = Math.round(1000 * Mdissolve4f) / 1000;
 	var effective4f = document.getElementById("effective4f").value;
 	var Meffective4f = document.getElementById("Meffective4f").value;
-	
+
 	//warning for intestinal individual phase
 	var warning = "";
 	if(final4 <= 0){
@@ -678,7 +882,7 @@ function calculateindividual() {
 		warning += "&#9888; Use more concentrated acid/base...the added amount is too high<br>";
 	}
 	document.getElementById("warning4x").innerHTML = warning;
-	
+
 	//warning for trypsin solution
 	var warning = "";
 	if(document.getElementById("measured4a").value<1){
@@ -700,7 +904,7 @@ function calculateindividual() {
 		}
 	}
 	document.getElementById("warning4a").innerHTML = warning;
-	
+
 	//warning for chymotrypsin solution
 	var warning = "";
 	if(document.getElementById("measured4b").value<1){
@@ -722,7 +926,7 @@ function calculateindividual() {
 		}
 	}
 	document.getElementById("warning4b").innerHTML = warning;
-	
+
 	//warning for lipase solution
 	var warning = "";
 	if(document.getElementById("measured4c").value<1){
@@ -744,10 +948,10 @@ function calculateindividual() {
 		}
 	}
 	document.getElementById("warning4c").innerHTML = warning;
-	
+
 	//warning for colipase solution
 	var warning = "";
-	
+
 	if(minimal4d > effective4d){
 		warning += "&#9888; Not enough weighed colipase (per sample)<br>";
 	}
@@ -763,7 +967,7 @@ function calculateindividual() {
 		}
 	}
 	document.getElementById("warning4d").innerHTML = warning;
-	
+
 	//warning for amylase solution
 	var warning = "";
 	if(document.getElementById("measured4e").value<1){
@@ -785,7 +989,7 @@ function calculateindividual() {
 		}
 	}
 	document.getElementById("warning4e").innerHTML = warning;
-	
+
 	//warning for bile solution
 	var warning = "";
 	if(document.getElementById("measured4f").value<1){
@@ -807,30 +1011,29 @@ function calculateindividual() {
 		}
 	}
 	document.getElementById("warning4f").innerHTML = warning;
-	
+
 	setstore();
 }
-
 </script>
 <!-- in case of problems contact reto.portmann@agroscope.admin.ch -->
 </head>
-<body onload="setini();sampleamount()">
+<body onload="setini();sampleamount();lucide.createIcons();">
 <div class="maincontent">
 	<!--<h1>Template for the harmonized <i>in vitro</i> digestion method from COST Infogest</h1><br>-->
 	<table width="100%">
-		
-		<tr><td colspan="2"><button type="button" id="toggleMode" onclick="toggleMode()">Switch to Algae mode</button> &nbsp; <button type="button" id="bindividual" onclick="individual()">Intestinal step with individual enzymes</button> &nbsp; <button type="button" onclick="reset()">Reset all</button> &nbsp; <button type="button" onclick="help()">Help</button> &nbsp; <button type="button" onclick="window.print()">Print</button></td></tr>
+
+		<tr><td colspan="2"><button type="button" class="squishy squishy-tech" id="toggleMode" onclick="toggleMode()"><i data-lucide="egg-fried"></i>Switch to Algae mode</button> &nbsp; <button type="button" class="squishy squishy-classic" id="bindividual" onclick="individual()">Intestinal step with individual enzymes</button> &nbsp; <button type="button" class="squishy squishy-red" onclick="reset()">Reset all</button> &nbsp; <button type="button" class="squishy squishy-classic" onclick="help()">Help</button> &nbsp; <button type="button" class="squishy squishy-classic" onclick="window.print()">Print</button></td></tr>
 		<tr id="help" class="off"><td colspan="2">This is a support for the setup of an <i>in vitro</i> digestion (IVD) of food according to the harmonized Infogest method.<br>
 		The light yellow input fields need to be changed according to your needs and measured enzyme activities. "Food" can be liquid, solid or dissolved food. The enzyme activities should be measured as described in the harmonized IVD method.<br>
 		Press the "Intestinal step..." button to switch between intestinal phase with pancreatin or individual enzymes.<br>
 		Input is stored in the browser cache until you clear your browser memory. Press "Reset all" to go back to the presettings.<br>
 		Print as pdf to have a printout for your records.</td></tr>
 		<tr><td colspan="2">&nbsp;</td></tr>
-		<tr><td colspan="2">Number of samples (individual digests): <input type="number" id="amount" class="essential" value="7" onchange="check(this.id);sampleamount()"> (needs to be multiplied by 2 when gastric endpoint is analyzed)</td></tr>
+		<tr><td colspan="2">Number of samples (individual digests): <input type="number" id="amount" class="essential" value="7" style="width: 70px" onchange="check(this.id);sampleamount()"> (needs to be multiplied by 2 when gastric endpoint is analyzed)</td></tr>
 		<tr><td colspan="2">&nbsp;</td></tr>
-		
+
 <!-- start oral digestion phase -->
-	
+
 		<tr><td width="50%">
 		<h2>Digestion phase receipes</h2>
 		</td>
@@ -838,34 +1041,34 @@ function calculateindividual() {
 		<h2>Solutions recipes</h2>
 		</td></tr>
 		<tr><td colspan="2"><hr></td></tr>
-		
+
 		<tr><td>
-		
+
 <!-- start oral digestion phase composition -->
 			<table class="border">
 				<tr><td colspan="5"><h3>Oral phase composition</h3></td></tr>
 				<tr><td></td><td colspan="2"><h4>Individual addition</h4></td><td id="multi1" colspan="2"><h4>Using Oral mastermix</h4></td></tr>
 				<tr><td><span id="foodLabel">Quantity of food</span></td><td><input type="number" id="food1" class="essential" value="5" onchange="check(this.id); if(mode==='algae') updateAlgaeWater(); calculateoral();"></td><td>g</td><td id="multi2"><input disabled type="number" id="Mfood1" class="right" value="5"></td><td id="multi3">g</td></tr>
 				<tr id="algaeWaterRow" style="display:none"><td>Quantity of water to add</td><td><input type="number" id="algaeWater" class="essential" value="0" readonly></td><td>mL</td><td></td><td></td></tr>
-				<tr><td>Simulated salivary fluid (SSF)</td><td><input disabled type="number" id="ssf1" class="right" value="4"></td><td>ml</td></tr>
-				<tr class="color1"><td>Salivary amylase solution</td><td><input disabled type="number" id="amylase1" class="right" value="0.5"></td><td>ml</td></tr>
+				<tr><td >Simulated salivary fluid (SSF)</td><td><input disabled type="number" id="ssf1" class="right" value="4"></td><td>ml</td></tr>
+				<tr class="color1"><td id="labelAmylase">Salivary amylase solution</td><td><input disabled type="number" id="amylase1" class="right" value="0.5"></td><td>ml</td></tr>
 				<tr><td>0.3 M CaCl<sub>2</sub></td><td><input disabled type="number" id="cacl1" class="right" value="25"></td><td>&micro;l</td></tr>
 				<tr><td>Water</td><td><input disabled type="number" id="h2o1" class="right" value="0.475"></td><td>ml</td></tr>
 				<tr id="multis1" class="color9"><td>Oral mastermix</td><td colspan="2">&nbsp;</td><td><input disabled type="number" id="omm" class="right" value="5"></td><td>ml</td></tr>
 				<tr><td colspan="3"><hr></td><td colspan="2"><hr></td></tr>
 				<tr><td>Total digest volume</td><td><input disabled type="number" id="total1" class="right" value="10"></td><td>ml</td><td id="multi4"><input disabled type="number" id="Mtotal1" class="right" value="10"></td><td id="multi5">ml</td></tr>
 				<tr><td colspan="3"><hr></td><td colspan="2"><hr></td></tr>
-				<tr><td>Sampling volume (if any)</td><td><input type="number" id="sampling1" class="right" value="0" onchange="check(this.id);calculateoral()"></td><td>ml</td><td id="multi6"><input disabled type="number" id="Msampling1" class="right" value="0""></td><td id="multi7">ml</td></tr>
-				<tr><td>Final volume</td><td><input disabled type="number" id="final1" class="right" value="10"></td><td>ml</td><td id="multi8"><input disabled type="number" id="Mfinal1" class="right" value="10"></td><td id="multi9">ml</td></</tr>
+				<tr><td>Sampling volume (if any)</td><td><input type="number" id="sampling1" class="right" value="0" onchange="check(this.id);calculateoral()"></td><td>ml</td><td id="multi6"><input disabled type="number" id="Msampling1" class="right" value="0"></td><td id="multi7">ml</td></tr>
+				<tr><td>Final volume</td><td><input disabled type="number" id="final1" class="right" value="10"></td><td>ml</td><td id="multi8"><input disabled type="number" id="Mfinal1" class="right" value="10"></td><td id="multi9">ml</td></tr>
 				<tr><td colspan="3"><hr></td><td colspan="2"><hr></td></tr>
 				<tr><td>Digestion duration</td><td><input disabled type="number" class="right" value="2"></td><td>min</td><td id="multi10"><input disabled type="number" class="right" value="2"></td><td id="multi11">min</td></tr>
 				<tr><td colspan="5"><font id="warning1z" class="warningon"></font></td></tr>
 			</table>
-			
+
 <!--  end oral digestion phase composition -->
 
 			</td><td>
-			
+
 <!--  start oral mastermix recipe -->
 			<table id="multit1" class="border">
 				<tr><td colspan="5"><h3>Oral mastermix</h3></td></tr>
@@ -880,42 +1083,42 @@ function calculateindividual() {
 			</table>
 
 <!--  end oral mastermix receipe -->
-			
+
 			<br>
-			
+
 <!--  start oral digestion enzyme solution recipes -->
 			<table class="border">
 				<tr><td colspan="5"><h3>Salivary amylase solution</h3></td></tr>
-				<tr><td>Product</td><td><input type="text" id="product1" class="essential" value="Sigma Amylase A1031" onchange="setstore()"></td><td></td><td colspan="2"><span style="font-size: small; font-style: italic">Salivary amylase can be replaced by milliQ water</span></td></tr>
-				<tr><td>Lot number</td><td><input type="text" id="lot1" class="essential" value="" onchange="setstore()"></td></tr>
+				<tr><td>Product</td><td><input type="text" id="product1" class="essential" value="Sigma Amylase A1031" onchange="setstore()"></td><td></td><td colspan="2"><span style="font-size: small; font-style: italic">*Salivary amylase can be replaced by milliQ water</span></td></tr>
+				<tr><td>Lot number</td><td><input type="text" id="lot1" class="essential" value="408939" onchange="setstore()"></td><td></td><td colspan="3"><label for="toggleAmylaseWater" class="switch"><input type="checkbox" id="toggleAmylaseWater" onchange="toggleAmylaseLabel(); setstore();"><span class="slider round"></span></label><span style="font-size: small; font-style: italic; padding-left: 10px">Replace with water</span></td></tr>
 				<tr><td>&nbsp;</td></tr>
-				<tr><td>Final units</td><td><input disabled type="number" id="finalu1" class="right" value="75"></td><td>U/ml</td></tr>
+				<tbody id="amylaseExtraRows"><tr><td>Final units</td><td><input disabled type="number" id="finalu1" class="right" value="75"></td><td>U/ml</td></tr>
 				<tr><td>Measured activity</td><td><input type="number" id="measured1" class="essential" value="1000" onchange="check(this.id);calculateoral()"></td><td>U/mg</td></tr>
 				<tr><td>&nbsp;</td></tr>
 				<tr><td></td><td colspan="2"><h4>Per sample</h4></td><td id="multi12" colspan="2"><h4>Stock solution for <text id="Mamount2">9</text>+1 samples</h4></td></tr>
 				<tr><td>Minimal weight out</td><td><input disabled type="number" id="minimal1" class="right" value="0.75"></td><td>mg</td><td id="multi13"><input disabled type="number" id="Mminimal1" class="right" value="7.5"></td><td id="multi14">mg</td></tr>
-				<tr class="color1"><td>Effective weighed</td><td><input type="number" id="effective1" class="essential" value="1" onchange="check(this.id);calculateoral()"></td><td>mg</td><td id="multi15"><input type="number" id="Meffective1" class="essential" value="10" onchange="check(this.id);calculateoral()"></td><td id="multi16">mg</td></tr>
+				<tr class="color1"><td>Effective weighed</td><td><input type="number" id="effective1" class="essential" value="0" onchange="check(this.id);calculateoral()"></td><td>mg</td><td id="multi15"><input type="number" id="Meffective1" class="essential" value="10" onchange="check(this.id);calculateoral()"></td><td id="multi16">mg</td></tr>
 				<tr class="color1"><td>Dissolve in water</td><td><input disabled type="number" id="dissolve1" class="right" value="0.667"></td><td>ml</td><td id="multi17"><input disabled type="number" id="Mdissolve1" class="right" value="6.667"></td><td id="multi18">ml</td></tr>
-				<tr><td colspan="5"><font id="warning1" class="warningon"></font></td></tr>
+				<tr><td colspan="5"><font id="warning1" class="warningon"></font></td></tr></tbody>
 			</table>
-			
+
 <!--  end oral digestion enzyme solution recipes -->
 
 		</td></tr>
-	
+
 <!--  end oral digestion phase -->
 
 
 
 <!-- start gastric digestion phase -->
 		<tr><td colspan="2"><br><hr></td></tr>
-		
+
 		<tr><td>
-		
+
 <!--  start gastric digestion phase composition -->
 			<table class="border">
 				<tr><td colspan="5"><h3>Gastric phase composition</h3></td></tr>
-				<tr><td></td><td colspan="2"><h4>Individual addition</h4></td><td id="multi19" colspan="2"><h4>Using Oral mastermix</h4></td></tr>
+				<tr><td></td><td colspan="2"><h4>Individual addition</h4></td><td id="multi19" colspan="2"><h4>Using Gastric mastermix</h4></td></tr>
 				<tr><td>Volume of oral phase</td><td><input disabled type="number" id="oral2" class="right" value="10"></td><td>ml</td><td id="multi20"><input disabled type="number" id="Moral2" class="right" value="10"></td><td id="multi21">ml</td></tr>
 				<tr><td>Simulated gastric fluid (SGF)</td><td><input disabled type="number" id="sgf2" class="right" value="8"></td><td>ml</td></tr>
 				<tr><td>0.3 M CaCl<sub>2</sub></td><td><input disabled type="number" id="cacl2" class="right" value="5"></td><td>&micro;l</td></tr>
@@ -923,7 +1126,8 @@ function calculateindividual() {
 				<tr><td>Water</td><td><input disabled type="number" id="h2o2" class="right" value="1.395"></td><td>ml</td></tr>
 				<tr id="multis2" class="color10"><td>Gastric mastermix</td><td colspan="2"></td><td><input disabled type="number" id="gmm" class="right" value="0.5"></td><td>ml</td></tr>
 				<tr class="color11"><td>Rabbit gastric extract solution</td><td><input disabled type="number" id="rabbit2" class="right" value="0.5"></td><td>ml</td><td id="multi35"><input disabled type="number" id="Mrabbit2" class="right" value="0.5"></td><td id="multi36">ml</td></tr>
-				<tr class="color2"><td>Pepsin solution</td><td><input disabled type="number" id="pepsin2" class="right" value="0.5"></td><td>ml</td><td id="multi22"><input disabled type="number" id="Mpepsin2" class="right" value="0.5"></td><td id="multi23">ml</td></tr>
+				<tbody id="ExtraEnzymes"><tr class="color2"><td>Pepsin solution</td><td><input disabled type="number" id="pepsin2" class="right" value="0.5"></td><td>ml</td><td id="multi22"><input disabled type="number" id="Mpepsin2" class="right" value="0.5"></td><td id="multi23">ml</td></tr>
+				<tr class="color6"><td>Lipase solution</td><td><input disabled type="number" id="lipase2" class="right" value="0.5"></td><td>ml</td><td><input disabled type="number" id="Mlipase2" class="right" value="0.5"></td><td>ml</td></tr></tbody>
 				<tr><td colspan="3"><hr></td><td  id="multi24" colspan="2"><hr></td></tr>
 				<tr><td>Total volume</td><td><input disabled type="number" id="total2" class="right" value="0.5"></td><td>ml</td><td id="multi25"><input disabled type="number" id="Mtotal2" class="right" value="0.5"></td><td id="multi26">ml</td></tr>
 				<tr><td colspan="3"><hr></td><td id="multi27" colspan="2"><hr></td></tr>
@@ -932,12 +1136,12 @@ function calculateindividual() {
 				<tr><td colspan="3"><hr></td><td id="multi32" colspan="2"><hr></td></tr>
 				<tr><td>Digestion duration</td><td><input disabled type="number" class="right" value="120"></td><td>min</td><td id="multi33"><input disabled type="number" class="right" value="120"></td><td id="multi34">min</td></tr>
 				<tr><td colspan="5"><font id="warning2z" class="warningon"></font></td></tr>
-				
+
 			</table>
 <!--  end gastric digestion phase composition -->
-			
+
 			</td><td>
-			
+
 <!--  start gastric digestion enzyme solution recipes -->
 			<table id="multit2" class="border">
 				<tr><td colspan="5"><h3>Gastric mastermix</h3></td></tr>
@@ -950,32 +1154,33 @@ function calculateindividual() {
 				<tr class="color10"><td>Total volume</td><td><input disabled type="number" id="Mvolume2" class="right" value="95"></td><td>ml</td></tr>
 				</td></tr>
 			</table>
-			
+
 			<br>
-			
+
 			<table class="border">
 				<tr><td colspan="5"><h3>Rabbit gastric extract solution</h3></td></tr>
 				<tr><td>Product</td><td><input type="text" id="product2" class="essential" value="Lipolytech RGE15-1G" onchange="setstore()"></td><td colspan="3"><select id="calcMethodRGE" onchange="calculategastric()"><option value="pepsin">Based on Pepsin activity</option><option value="lipase">Based on Lipase activity</option></select></td></tr>
-				<tr><td>Lot number</td><td><input type="text" id="lot2" class="essential" value="Lot #4601" onchange="setstore()"></td><td></td></tr>
+				<tr><td>Lot number</td><td><input type="text" id="lot2" class="essential" value="Lot #4601" onchange="setstore()"></td><td></td><td colspan="3"><label for="toggleNoAdditionalEnzyme" class="switch"><input type="checkbox" id="toggleNoAdditionalEnzyme" onchange="toggleNoAdditionalEnzymeLabel(); setstore();"><span class="slider round"></span></label><span style="font-size: small; font-style: italic; padding-left: 10px">Use only RGE (no additional enzyme)</span></td></tr>
 				<tr><td colspan="3">&nbsp;</td></tr>
 				<tr><td>Final Lipase units</td><td><input disabled type="number" id="finallu2" class="right" value="60"></td><td>U/ml</td></tr>
 				<tr><td>Measured Lipase activity</td><td><input type="number" id="measuredl2" class="essential" value="17" onchange="check(this.id);calculategastric()"></td><td>U/mg</td></tr>
 				<tr><td colspan="3">&nbsp;</td></tr>
+				<tr><td>Final Pepsin units</td><td><input disabled type="number" id="finalpu" class="right" value="2000"></td><td>U/ml</td></tr>
 				<tr><td>Measured Pepsin activity</td><td><input type="number" id="measuredlp2" class="essential" value="850" onchange="check(this.id);calculategastric()"></td><td>U/mg</td></tr>
 				<tr><td colspan="3">&nbsp;</td></tr>
 				<tr><td></td><td colspan="2"><h4>Per sample</h4></td><td id="multi44" colspan="2"><h4>Stock solution for <text id="Mamount4">9</text>+1 samples</h4></td></tr>
 				<tr><td>Minimal weight out</td><td><input disabled type="number" id="minimall2" class="right" value="6"></td><td>mg</td><td id="multi45"><input disabled type="number" id="Mminimall2" class="right" value="60"></td><td id="multi46">mg</td></tr>
-				<tr class="color11"><td>Effective weighed</td><td><input type="number" id="effectivel2" class="essential" value="6" onchange="check(this.id);calculategastric()"></td><td>mg</td><td id="multi47"><input type="number" id="Meffectivel2" class="essential" value="60" onchange="check(this.id);calculategastric()"></td><td id="multi48">mg</td></tr>
+				<tr class="color11"><td>Effective weighed</td><td><input type="number" id="effectivel2" class="essential" value="0" onchange="check(this.id);calculategastric()"></td><td>mg</td><td id="multi47"><input type="number" id="Meffectivel2" class="essential" value="60" onchange="check(this.id);calculategastric()"></td><td id="multi48">mg</td></tr>
 				<tr class="color11"><td>Dissolve in water</td><td><input disabled type="number" id="dissolvel2" class="right" value="0.5"></td><td>ml</td><td id="multi49"><input disabled type="number" id="Mdissolvel2" class="right" value="5"></td><td id="multi50">ml</td></tr>
 				<tr><td colspan="5"><font id="warningrge2" class="warningon"></font></td></tr>
-				<tr><td colspan="5"><span style="font-style: italic">We ignore lipase, as it is already inside RGE and we cannot change the amount. For calculation, we focus on pepsin to decide how much RGE we use.</span></td></tr><tr>
-				
+				<tr><td colspan="5"><span style="font-style: italic">We ignore lipase, as it is already inside RGE and we cannot change the amount.<br>For calculation, we focus on pepsin to decide how much RGE we use.</span></td></tr>
+
 			</table>
 
 			<br>
-			
+
 			<div class="collapsible-section">
-			  <div id="pepsinToggle" onclick="togglePepsin()" style="cursor:pointer; background-color:#f0f0f0; padding:5px; border:1px solid #ccc;">
+			  <div id="pepsinToggle" class="squishy squishy-classic" onclick="togglePepsin()">
 				Pepsin solution (click to expand)
 			  </div>
 			  <div id="pepsinSolutionContent" style="display:none;">
@@ -989,12 +1194,36 @@ function calculateindividual() {
 				  <tr><td colspan="3">&nbsp;</td></tr>
 				  <tr><td></td><td colspan="2"><h4>Per sample</h4></td><td id="multi37" colspan="2"><h4>Stock solution for <text id="Mamount5">9</text>+1 samples</h4></td></tr>
 				  <tr><td>Minimal weight out</td><td><input disabled type="number" id="minimalp2" class="right" value="16"></td><td>mg</td><td id="multi38"><input disabled type="number" id="Mminimalp2" class="right" value="160"></td><td id="multi39">mg</td></tr>
-				  <tr class="color2"><td>Effective weighed</td><td><input type="number" id="effectivep2" class="essential" value="16" onchange="check(this.id);calculategastric()"></td><td>mg</td><td id="multi40"><input type="number" id="Meffectivep2" class="essential" value="160" onchange="check(this.id);calculategastric()"></td><td id="multi41">mg</td></tr>
+				  <tr class="color2"><td>Effective weighed</td><td><input type="number" id="effectivep2" class="essential" value="0" onchange="check(this.id);calculategastric()"></td><td>mg</td><td id="multi40"><input type="number" id="Meffectivep2" class="essential" value="160" onchange="check(this.id);calculategastric()"></td><td id="multi41">mg</td></tr>
 				  <tr class="color2"><td>Dissolve in water</td><td><input disabled type="number" id="dissolvep2" class="right" value="0.5"></td><td>ml</td><td id="multi42"><input disabled type="number" id="Mdissolvep2" class="right" value="5"></td><td id="multi43">ml</td></tr>
 				  <tr><td colspan="5"><font id="warningp2" class="warningon"></font></td></tr>
 				</table>
 			  </div>
+				<br>
 			</div>
+
+			<div class="collapsible-section">
+					  <div id="lipaseToggle" class="squishy squishy-classic" onclick="toggleLipase()">
+						Lipase solution (click to expand)
+					  </div>
+					  <div id="lipaseSolutionContent" style="display:none;">
+						<table class="border">
+						  <tr><td colspan="5"><h3>Lipase solution</h3></td></tr>
+						  <tr><td>Product</td><td><input type="text" id="productla2" class="essential" value="Sigma Lipase L3126" onchange="setstore()"></td><td></td></tr>
+						  <tr><td>Lot number</td><td><input type="text" id="lotla2" class="essential" value="418303" onchange="setstore()"></td><td></td></tr>
+						  <tr><td colspan="3">&nbsp;</td></tr>
+						  <tr><td>Final units</td><td><input disabled type="number" id="finallau2" class="right" value="60"></td><td>U/ml</td></tr>
+						  <tr><td>Measured activity</td><td><input type="number" id="measuredla2" class="essential" value="125" onchange="check(this.id);calculategastric()"></td><td>U/mg</td></tr>
+						  <tr><td colspan="3">&nbsp;</td></tr>
+						  <tr><td></td><td colspan="2"><h4>Per sample</h4></td><td colspan="2"><h4>Stock solution for <text id="Mamount16">9</text>+1 samples</h4></td></tr>
+						  <tr><td>Minimal weight out</td><td><input disabled type="number" id="minimalla2" class="right" value="6"></td><td>mg</td><td><input disabled type="number" id="Mminimalla2" class="right" value="60"></td><td>mg</td></tr>
+						  <tr class="color6"><td>Effective weighed</td><td><input type="number" id="effectivela2" class="essential" value="0" onchange="check(this.id);calculategastric()"></td><td>mg</td><td><input type="number" id="Meffectivela2" class="essential" value="60" onchange="check(this.id);calculategastric()"></td><td>mg</td></tr>
+						  <tr class="color6"><td>Dissolve in water</td><td><input disabled type="number" id="dissolvela2" class="right" value="0.5"></td><td>ml</td><td><input disabled type="number" id="Mdissolvela2" class="right" value="5"></td><td>ml</td></tr>
+						  <tr><td colspan="5"><font id="warningla2" class="warningon"></font></td></tr>
+						</table>
+					  </div>
+						<br>
+					</div>
 			
 <!--  end gastric digestion enzyme solution recipes -->
 
@@ -1264,6 +1493,6 @@ function calculateindividual() {
 	<br>
 
 </div>
-<div class="copyright">COST Infogest 2017. <span style="font-style: italic">2025.03.13 TA edit (ETHZ, SFP)</span> </div>
+<div class="copyright">COST Infogest 2017. <span style="font-style: italic">2025.03.19 TA edit (ETHZ, SFP). v.2.0</span> </div>
 
 </body></html>
