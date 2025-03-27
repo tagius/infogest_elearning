@@ -16,9 +16,6 @@ st.markdown("""
 - Improvement of the quiz questions:
     - Question 20 is now valid even if answer order is random.
     
-- Fix of the Volume to prepare (mL) and CaCl2(H2O)2 in **Preparation Simulated Digestion Fluids** page.
-- Addition of an editable table in the Preparation Instructions of **Preparation Stock Solutions** page.
- 
 ---
 - **v.2.0** Update of the dashboard:
     - Add support for light and dark mode
