@@ -86,7 +86,7 @@
   },
   {
     "type": "numeric",
-    "question": "If the Total digested volume after the oral phase is 14 mL, what volume of simulated gastric fluid (SGF) should be added for the gastric mastermix according to INFOGEST?",
+    "question": "If the Total digested volume after the oral phase is 14 mL, what volume of simulated gastric fluid (SGF) should be added to the gastric mastermix according to INFOGEST?",
     "answer": 11.2,
     "tolerance": 0.1,
     "explanation": "The INFOGEST protocol uses a 1:1 volume ratio when moving from oral to gastric phase. Thus, volume of simulated gastric fluid (SGF) should be 11.2ml + 7uL 0.3 M CaCl2 + 1.393 water + 1.4ml RGE extract solution."

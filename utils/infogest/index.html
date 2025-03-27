@@ -21,6 +21,13 @@ function toggleMode() {
         document.getElementById("foodLabel").innerHTML = "Quantity of algae";
         document.getElementById("food1").value = 0.125;
         document.getElementById("algaeWaterRow").style.display = "table-row";
+		document.getElementById("ssfTable").style.display = "none";
+		document.getElementById("omrTable").style.display = "none";
+		document.getElementById("SAsRow").style.display = "none";
+		document.getElementById("UOmLabel").style.display = "none";
+		document.getElementById("Mfood1").style.display = "none";
+		document.getElementById("multis1").style.display = "none";
+		document.getElementById("multi3").style.display = "none";
         updateAlgaeWater();
     } else {
         mode = "food";
@@ -28,6 +35,13 @@ function toggleMode() {
         document.getElementById("foodLabel").innerHTML = "Quantity of food";
         document.getElementById("food1").value = 5;
         document.getElementById("algaeWaterRow").style.display = "none";
+		document.getElementById("ssfTable").style.display = "";
+		document.getElementById("omrTable").style.display = "";
+		document.getElementById("SAsRow").style.display = "table-row";
+		document.getElementById("UOmLabel").style.display = "";
+		document.getElementById("Mfood1").style.display = "";
+		document.getElementById("multis1").style.display = "table-row";
+		document.getElementById("multi3").style.display = "";
     }
     // Store the current mode
     localStorage.setItem("mode", mode);
@@ -175,6 +189,13 @@ function setini() {
                 document.getElementById("toggleMode").innerHTML = "<i data-lucide='ham'></i> Switch to Food mode";
                 document.getElementById("foodLabel").innerHTML = "Quantity of algae";
                 document.getElementById("algaeWaterRow").style.display = "table-row";
+				document.getElementById("ssfTable").style.display = "none";
+				document.getElementById("omrTable").style.display = "none";
+				document.getElementById("SAsRow").style.display = "none";
+				document.getElementById("UOmLabel").style.display = "none";
+				document.getElementById("Mfood1").style.display = "none";
+				document.getElementById("multis1").style.display = "none";
+				document.getElementById("multi3").style.display = "none";
                 // Optionally, update the value and recalc water if needed:
                 // document.getElementById("food1").value = 0.125;
                 updateAlgaeWater();
@@ -183,6 +204,13 @@ function setini() {
                 document.getElementById("toggleMode").innerHTML = "<i data-lucide='ham'></i> Switch to Algae mode";
                 document.getElementById("foodLabel").innerHTML = "Quantity of food";
                 document.getElementById("algaeWaterRow").style.display = "none";
+				document.getElementById("ssfTable").style.display = "";
+				document.getElementById("omrTable").style.display = "";
+				document.getElementById("SAsRow").style.display = "table-row";
+				document.getElementById("UOmLabel").style.display = "";
+				document.getElementById("Mfood1").style.display = "";
+				document.getElementById("multis1").style.display = "table-row";
+				document.getElementById("multi3").style.display = "";
                 // Optionally, update the value if needed:
                 // document.getElementById("food1").value = 5;
             }
@@ -321,7 +349,11 @@ function calculateoral() {
 	convertAndDisplay("amylase1", amylase1);
 	var cacl1 = food1 * 5;
 	document.getElementById("cacl1").value = Math.round(cacl1 * 10) / 10;
-	var h2o1 = food1 - ssf1 - amylase1 - (cacl1 / 1000);
+	if (mode === "algae") {
+		var h2o1 = food1 - ssf1 - (cacl1 / 1000);
+	} else {
+		var h2o1 = food1 - ssf1 - amylase1 - (cacl1 / 1000);
+	}
 	convertAndDisplay("h2o1", h2o1);
 	document.getElementById("Mfood1").value = document.getElementById("omm").value =  food1;
 	convertAndDisplay("omm", food1);
@@ -1047,11 +1079,11 @@ function calculateindividual() {
 <!-- start oral digestion phase composition -->
 			<table class="border">
 				<tr><td colspan="5"><h3>Oral phase composition</h3></td></tr>
-				<tr><td></td><td colspan="2"><h4>Individual addition</h4></td><td id="multi1" colspan="2"><h4>Using Oral mastermix</h4></td></tr>
+				<tr><td></td><td colspan="2"><h4>Individual addition</h4></td><td id="multi1" colspan="2"><h4 id="UOmLabel">Using Oral mastermix</h4></td></tr>
 				<tr><td><span id="foodLabel">Quantity of food</span></td><td><input type="number" id="food1" class="essential" value="5" onchange="check(this.id); if(mode==='algae') updateAlgaeWater(); calculateoral();"></td><td>g</td><td id="multi2"><input disabled type="number" id="Mfood1" class="right" value="5"></td><td id="multi3">g</td></tr>
 				<tr id="algaeWaterRow" style="display:none"><td>Quantity of water to add</td><td><input type="number" id="algaeWater" class="essential" value="0" readonly></td><td>mL</td><td></td><td></td></tr>
-				<tr><td >Simulated salivary fluid (SSF)</td><td><input disabled type="number" id="ssf1" class="right" value="4"></td><td>ml</td></tr>
-				<tr class="color1"><td id="labelAmylase">Salivary amylase solution</td><td><input disabled type="number" id="amylase1" class="right" value="0.5"></td><td>ml</td></tr>
+				<tr><td>Simulated salivary fluid (SSF)</td><td><input disabled type="number" id="ssf1" class="right" value="4"></td><td>ml</td></tr>
+				<tr id="SAsRow" class="color1"><td id="labelAmylase">Salivary amylase solution</td><td><input disabled type="number" id="amylase1" class="right" value="0.5"></td><td>ml</td></tr>
 				<tr><td>0.3 M CaCl<sub>2</sub></td><td><input disabled type="number" id="cacl1" class="right" value="25"></td><td>&micro;l</td></tr>
 				<tr><td>Water</td><td><input disabled type="number" id="h2o1" class="right" value="0.475"></td><td>ml</td></tr>
 				<tr id="multis1" class="color9"><td>Oral mastermix</td><td colspan="2">&nbsp;</td><td><input disabled type="number" id="omm" class="right" value="5"></td><td>ml</td></tr>
@@ -1070,38 +1102,41 @@ function calculateindividual() {
 			</td><td>
 
 <!--  start oral mastermix recipe -->
-			<table id="multit1" class="border">
-				<tr><td colspan="5"><h3>Oral mastermix</h3></td></tr>
-				<tr><td colspan="3"><h4>Stock solution for <text id="Mamount1">9</text>+1 samples</h4></td></tr>
-				<tr><td>Simulated salivary fluid (SSF)</td><td><input disabled type="number" id="Mssf1" class="right" value="40"></td><td>ml</td></tr>
-				<tr class="color1"><td>Salivary amylase stock solution</td><td><input disabled type="number" id="Mamylase1" class="right" value="5"></td><td>ml</td></tr>
-				<tr><td>0.3 M CaCl</td><td><input disabled type="number" id="Mcacl1" class="right" value="250"></td><td>&micro;l</td></tr>
-				<tr><td>Water</td><td><input disabled type="number" id="Mh2o1" class="right" value="4.75"></td><td>ml</td></tr>
-				<tr><td colspan="3"><hr></td></tr>
-				<tr class="color9"><td>Total volume</td><td><input disabled type="number" id="Mvolume1" class="right" value="50"></td><td>ml</td></tr>
-				</td></tr>
-			</table>
+			<div id="omrTable">
+				<table id="multit1" class="border">
+					<tr><td colspan="5"><h3>Oral mastermix</h3></td></tr>
+					<tr><td colspan="3"><h4>Stock solution for <text id="Mamount1">9</text>+1 samples</h4></td></tr>
+					<tr><td>Simulated salivary fluid (SSF)</td><td><input disabled type="number" id="Mssf1" class="right" value="40"></td><td>ml</td></tr>
+					<tr class="color1"><td>Salivary amylase stock solution</td><td><input disabled type="number" id="Mamylase1" class="right" value="5"></td><td>ml</td></tr>
+					<tr><td>0.3 M CaCl</td><td><input disabled type="number" id="Mcacl1" class="right" value="250"></td><td>&micro;l</td></tr>
+					<tr><td>Water</td><td><input disabled type="number" id="Mh2o1" class="right" value="4.75"></td><td>ml</td></tr>
+					<tr><td colspan="3"><hr></td></tr>
+					<tr class="color9"><td>Total volume</td><td><input disabled type="number" id="Mvolume1" class="right" value="50"></td><td>ml</td></tr>
+					</td></tr>
+				</table>
+			</div>
 
 <!--  end oral mastermix receipe -->
 
 			<br>
 
 <!--  start oral digestion enzyme solution recipes -->
-			<table class="border">
-				<tr><td colspan="5"><h3>Salivary amylase solution</h3></td></tr>
-				<tr><td>Product</td><td><input type="text" id="product1" class="essential" value="Sigma Amylase A1031" onchange="setstore()"></td><td></td><td colspan="2"><span style="font-size: small; font-style: italic">*Salivary amylase can be replaced by milliQ water</span></td></tr>
-				<tr><td>Lot number</td><td><input type="text" id="lot1" class="essential" value="408939" onchange="setstore()"></td><td></td><td colspan="3"><label for="toggleAmylaseWater" class="switch"><input type="checkbox" id="toggleAmylaseWater" onchange="toggleAmylaseLabel(); setstore();"><span class="slider round"></span></label><span style="font-size: small; font-style: italic; padding-left: 10px">Replace with water</span></td></tr>
-				<tr><td>&nbsp;</td></tr>
-				<tbody id="amylaseExtraRows"><tr><td>Final units</td><td><input disabled type="number" id="finalu1" class="right" value="75"></td><td>U/ml</td></tr>
-				<tr><td>Measured activity</td><td><input type="number" id="measured1" class="essential" value="1000" onchange="check(this.id);calculateoral()"></td><td>U/mg</td></tr>
-				<tr><td>&nbsp;</td></tr>
-				<tr><td></td><td colspan="2"><h4>Per sample</h4></td><td id="multi12" colspan="2"><h4>Stock solution for <text id="Mamount2">9</text>+1 samples</h4></td></tr>
-				<tr><td>Minimal weight out</td><td><input disabled type="number" id="minimal1" class="right" value="0.75"></td><td>mg</td><td id="multi13"><input disabled type="number" id="Mminimal1" class="right" value="7.5"></td><td id="multi14">mg</td></tr>
-				<tr class="color1"><td>Effective weighed</td><td><input type="number" id="effective1" class="essential" value="0" onchange="check(this.id);calculateoral()"></td><td>mg</td><td id="multi15"><input type="number" id="Meffective1" class="essential" value="10" onchange="check(this.id);calculateoral()"></td><td id="multi16">mg</td></tr>
-				<tr class="color1"><td>Dissolve in water</td><td><input disabled type="number" id="dissolve1" class="right" value="0.667"></td><td>ml</td><td id="multi17"><input disabled type="number" id="Mdissolve1" class="right" value="6.667"></td><td id="multi18">ml</td></tr>
-				<tr><td colspan="5"><font id="warning1" class="warningon"></font></td></tr></tbody>
-			</table>
-
+			<div id="ssfTable">
+				<table class="border">
+					<tr><td colspan="5"><h3>Salivary amylase solution</h3></td></tr>
+					<tr><td>Product</td><td><input type="text" id="product1" class="essential" value="Sigma Amylase A1031" onchange="setstore()"></td><td></td><td colspan="2"><span style="font-size: small; font-style: italic">*Salivary amylase can be replaced by milliQ water</span></td></tr>
+					<tr><td>Lot number</td><td><input type="text" id="lot1" class="essential" value="408939" onchange="setstore()"></td><td></td><td colspan="3"><label for="toggleAmylaseWater" class="switch"><input type="checkbox" id="toggleAmylaseWater" onchange="toggleAmylaseLabel(); setstore();"><span class="slider round"></span></label><span style="font-size: small; font-style: italic; padding-left: 10px">Replace with water</span></td></tr>
+					<tr><td>&nbsp;</td></tr>
+					<tbody id="amylaseExtraRows"><tr><td>Final units</td><td><input disabled type="number" id="finalu1" class="right" value="75"></td><td>U/ml</td></tr>
+					<tr><td>Measured activity</td><td><input type="number" id="measured1" class="essential" value="1000" onchange="check(this.id);calculateoral()"></td><td>U/mg</td></tr>
+					<tr><td>&nbsp;</td></tr>
+					<tr><td></td><td colspan="2"><h4>Per sample</h4></td><td id="multi12" colspan="2"><h4>Stock solution for <text id="Mamount2">9</text>+1 samples</h4></td></tr>
+					<tr><td>Minimal weight out</td><td><input disabled type="number" id="minimal1" class="right" value="0.75"></td><td>mg</td><td id="multi13"><input disabled type="number" id="Mminimal1" class="right" value="7.5"></td><td id="multi14">mg</td></tr>
+					<tr class="color1"><td>Effective weighed</td><td><input type="number" id="effective1" class="essential" value="0" onchange="check(this.id);calculateoral()"></td><td>mg</td><td id="multi15"><input type="number" id="Meffective1" class="essential" value="10" onchange="check(this.id);calculateoral()"></td><td id="multi16">mg</td></tr>
+					<tr class="color1"><td>Dissolve in water</td><td><input disabled type="number" id="dissolve1" class="right" value="0.667"></td><td>ml</td><td id="multi17"><input disabled type="number" id="Mdissolve1" class="right" value="6.667"></td><td id="multi18">ml</td></tr>
+					<tr><td colspan="5"><font id="warning1" class="warningon"></font></td></tr></tbody>
+				</table>
+			</div>
 <!--  end oral digestion enzyme solution recipes -->
 
 		</td></tr>
@@ -1493,6 +1528,6 @@ function calculateindividual() {
 	<br>
 
 </div>
-<div class="copyright">COST Infogest 2017. <span style="font-style: italic">2025.03.19 TA edit (ETHZ, SFP). v.2.0</span> </div>
+<div class="copyright">COST Infogest 2017. <span style="font-style: italic">2025.03.19 TA edit (ETHZ, SFP). v.2.1</span> </div>
 
 </body></html>

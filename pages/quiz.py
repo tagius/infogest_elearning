@@ -93,7 +93,6 @@ if st.button("Submit Quiz"):
         # Evaluate answers and update the corresponding feedback placeholders
         for idx, item in enumerate(quiz_data):
             user_answer = st.session_state.user_answers[idx]
-            # For numeric questions, check within a tolerance value
             if item.get("type") == "numeric":
                 correct_value = item["answer"]
                 tolerance = item.get("tolerance", 0.0)
@@ -102,9 +101,23 @@ if st.button("Submit Quiz"):
                     feedback_placeholders[idx].success("Correct answer")
                 else:
                     feedback_placeholders[idx].info(f"**Explanation:** {item['explanation']}")
+            elif item.get("type") == "multiple-select":
+                # For the last multiple-select question (question 20), ignore order
+                if idx == len(quiz_data) - 1:
+                    if set(user_answer) == set(item["answer"]):
+                        score += 1
+                        feedback_placeholders[idx].success("Correct answer")
+                    else:
+                        feedback_placeholders[idx].info(f"**Explanation:** {item['explanation']}")
+                else:
+                    # For other multiple-select questions, order matters
+                    if user_answer == item["answer"]:
+                        score += 1
+                        feedback_placeholders[idx].success("Correct answer")
+                    else:
+                        feedback_placeholders[idx].info(f"**Explanation:** {item['explanation']}")
             else:
-                correct_answer = item["answer"]
-                if user_answer == correct_answer:
+                if user_answer == item["answer"]:
                     score += 1
                     feedback_placeholders[idx].success("Correct answer")
                 else:
