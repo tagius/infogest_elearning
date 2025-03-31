@@ -286,7 +286,7 @@ with tabs[1]:
     with cols[1]:
         st.number_input("Initial Quantity of food", key="food", step=0.1, on_change=update_on_change)
     # Create an editable dataframe with a row for each sample
-    num_samples = st.session_state.sample_number
+    # num_samples = st.session_state.sample_number
 
     columns = [
         "Sample Number",
@@ -300,34 +300,30 @@ with tabs[1]:
         "V(water) to add (ml)"
     ]
 
-    # Initialize the dataframe with default empty values (values can be ignored)
-    data = {
-        "Sample Number": list(range(1, num_samples + 1)),
-        "pH at start": [None] * num_samples,
-        "6M HCl (µL)": [None] * num_samples,
-        "1M HCl (µL)": [None] * num_samples,
-        "6M NaOH (µL)": [None] * num_samples,
-        "1M NaOH (µL)": [None] * num_samples,
-        "pH at end": [None] * num_samples,
-        "Added V(total) (µL)": [None] * num_samples,
-        "V(water) to add (ml)": [st.session_state.finalVolGastricPhase] * num_samples
-    }
-
-    elements = ["pH adjustment to 3: between oral and gastric phase", "pH adjustment to 3: during gastric phase (after 10 minutes)", "pH adjustment to 3: during gastric phase (after 60 minutes)", "pH adjustment to 7: between gastric and intestinal phase", "pH adjustment to 7: during intestinal phase (after 10 minutes)", "pH adjustment to 7: during intestinal phase (after 60 minutes)"]
-
     if 'phdf' not in st.session_state:
         st.session_state.phdf = {}
+
+    elements = ["pH adjustment to 3: between oral and gastric phase", "pH adjustment to 3: during gastric phase (after 10 minutes)", "pH adjustment to 3: during gastric phase (after 60 minutes)", "pH adjustment to 7: between gastric and intestinal phase", "pH adjustment to 7: during intestinal phase (after 10 minutes)", "pH adjustment to 7: during intestinal phase (after 60 minutes)"]
 
     for idx, tables in enumerate(elements):
         st.header(tables)
 
-        dfpH = pd.DataFrame(data, columns=columns)
+        # Initialize the dataframe with current sample number
+        st.session_state.phdf[idx] = pd.DataFrame({
+            "Sample Number": list(range(1, st.session_state.sample_number + 1)),
+            "pH at start": [None] * st.session_state.sample_number,
+            "6M HCl (µL)": [None] * st.session_state.sample_number,
+            "1M HCl (µL)": [None] * st.session_state.sample_number,
+            "6M NaOH (µL)": [None] * st.session_state.sample_number,
+            "1M NaOH (µL)": [None] * st.session_state.sample_number,
+            "pH at end": [None] * st.session_state.sample_number,
+            "Added V(total) (µL)": [None] * st.session_state.sample_number,
+            "V(water) to add (ml)": [st.session_state.finalVolGastricPhase] * st.session_state.sample_number
+        })
 
         # Display an editable dataframe
         # Editable DataFrame as main editor
         def editor():
-            if idx not in st.session_state.phdf:
-                st.session_state.phdf[idx] = dfpH
             st.data_editor(
                 st.session_state.phdf[idx],
                 hide_index=True,
