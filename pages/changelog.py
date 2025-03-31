@@ -7,7 +7,7 @@ st.title("🧑🏽‍💻 Changelog")
 st.markdown("### Changelog for March 2025")
 st.markdown(""" 
 *Update March 31th*
--Fix pH Adjustment row generation when sample number is changed.
+- Fix pH Adjustment row generation when sample number is changed.
 
 *Update March 27th*
 - **v.2.1** Update of the dashboard:
