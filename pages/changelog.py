@@ -6,6 +6,9 @@ st.set_page_config(layout="centered", page_title="Changelog")
 st.title("🧑🏽‍💻 Changelog")
 st.markdown("### Changelog for March 2025")
 st.markdown(""" 
+*Update March 31th*
+-Fix pH Adjustment row generation when sample number is changed.
+
 *Update March 27th*
 - **v.2.1** Update of the dashboard:
     - Hiding Amylase related panels and does the sum of the water volumes in algae mode.
