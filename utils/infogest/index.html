@@ -2,10 +2,54 @@
 <html lang="en"><head>
 <title>Infogest harmonized IVD</title>
 <link rel="stylesheet" type="text/css" href="design.css">
-<meta http-equiv="Content-Type" content="text/html; charset=windows-1252">
-<meta name="author" content="Reto Portmann, Agroscope, Bern, Switzerland">
-
-<script src="https://cdn.jsdelivr.net/npm/lucide@latest"></script>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<meta name="author" content="Based on Reto Portmann, Agroscope, Bern, Switzerland; Modification by Thomas Agius, Zurich, Switzerland">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/intro.js/7.2.0/introjs.min.css">
+<!--<link rel="stylesheet" href="https://unpkg.com/intro.js@7.2.0/themes/introjs-flattener.css">-->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/intro.js/7.2.0/intro.min.js"></script>
+<script>
+  (function loadLucide() {
+    const script = document.createElement('script');
+    script.src = 'https://unpkg.com/lucide@latest';
+    script.onload = () => console.log('Lucide loaded from unpkg');
+    script.onerror = () => {
+      console.warn('unpkg failed, loading lucide from jsDelivr...');
+      const fallbackScript = document.createElement('script');
+      fallbackScript.src = 'https://cdn.jsdelivr.net/npm/lucide@latest';
+      fallbackScript.onload = () => console.log('Lucide loaded from jsDelivr');
+      document.head.appendChild(fallbackScript);
+    };
+    document.head.appendChild(script);
+  })();
+</script>
+<!-- Add this in your head or a CSS file -->
+<style>
+  .tour-highlight {
+    border: 2px dashed red;
+    box-shadow: 0 0 5px red;
+  }
+  /* Custom override: Increase the width of the tooltip */
+  .introjs-tooltip {
+    width: 400px;      /* adjust as needed */
+    max-width: none;
+  }
+  /* Optionally, override additional styles */
+  .introjs-tooltiptext {
+    font-size: 16px;   /* adjust the font size if needed */
+  }
+.introjs-tooltipReferenceLayer {
+    visibility: visible;
+}
+@media (prefers-color-scheme: dark) {
+	.introjs-tooltip {
+		background-color: #404853;
+		box-shadow: 0 0 4px #9fb0d1;
+	}
+	.introjs-helperLayer {
+  		border: 2px solid #ffffff !important;
+	}
+}
+</style>
 <script type="text/javascript">
 
 //all input fields
@@ -215,6 +259,7 @@ function setini() {
                 // document.getElementById("food1").value = 5;
             }
         }
+		document.getElementById("toggleNoAdditionalEnzyme").checked = 1;
         if (document.getElementById("toggleNoAdditionalEnzyme").checked) {
             toggleNoAdditionalEnzymeLabel();
         }
@@ -1054,7 +1099,7 @@ function calculateindividual() {
 	<!--<h1>Template for the harmonized <i>in vitro</i> digestion method from COST Infogest</h1><br>-->
 	<table width="100%">
 
-		<tr><td colspan="2"><button type="button" class="squishy squishy-tech" id="toggleMode" onclick="toggleMode()"><i data-lucide="egg-fried"></i>Switch to Algae mode</button> &nbsp; <button type="button" class="squishy squishy-classic" id="bindividual" onclick="individual()">Intestinal step with individual enzymes</button> &nbsp; <button type="button" class="squishy squishy-red" onclick="reset()">Reset all</button> &nbsp; <button type="button" class="squishy squishy-classic" onclick="help()">Help</button> &nbsp; <button type="button" class="squishy squishy-classic" onclick="window.print()">Print</button></td></tr>
+		<tr><td colspan="2"><button type="button" class="squishy squishy-tech" id="toggleMode" onclick="toggleMode()"><i data-lucide="egg-fried"></i>Switch to Algae mode</button> &nbsp; <button type="button" class="squishy squishy-classic" id="bindividual" onclick="individual()">Intestinal step with individual enzymes</button> &nbsp; <button type="button" id="resetBtn" class="squishy squishy-red" onclick="reset()">Reset all</button> &nbsp; <button type="button" id="helpBtn" class="squishy squishy-classic" onclick="help()">Help</button> &nbsp; <button type="button" id="printBtn" class="squishy squishy-classic" onclick="window.print()">Print</button></td></tr>&nbsp;
 		<tr id="help" class="off"><td colspan="2">This is a support for the setup of an <i>in vitro</i> digestion (IVD) of food according to the harmonized Infogest method.<br>
 		The light yellow input fields need to be changed according to your needs and measured enzyme activities. "Food" can be liquid, solid or dissolved food. The enzyme activities should be measured as described in the harmonized IVD method.<br>
 		Press the "Intestinal step..." button to switch between intestinal phase with pancreatin or individual enzymes.<br>
@@ -1067,10 +1112,10 @@ function calculateindividual() {
 <!-- start oral digestion phase -->
 
 		<tr><td width="50%">
-		<h2>Digestion phase receipes</h2>
+		<h2 class="colA">Digestion phase receipes</h2>
 		</td>
 		<td width="50%">
-		<h2>Solutions recipes</h2>
+		<h2 class="colB">Solutions recipes</h2>
 		</td></tr>
 		<tr><td colspan="2"><hr></td></tr>
 
@@ -1528,6 +1573,85 @@ function calculateindividual() {
 	<br>
 
 </div>
-<div class="copyright">COST Infogest 2017. <span style="font-style: italic">2025.03.19 TA edit (ETHZ, SFP). v.2.1</span> </div>
+<div class="copyright">COST Infogest 2017. <span style="font-style: italic">2025.03.19 TA edit (ETHZ, SFP). v.2.2</span> </div>
 
+<!-- GUIDED TOUR OF THE DASSHBOARD -->
+<script>
+  document.addEventListener("DOMContentLoaded", function() {
+    if (!localStorage.getItem("tourShown")) {
+      localStorage.setItem("tourShown", "true");
+
+      var tour = introJs();
+      tour.setOptions({
+        steps: [
+		  { intro: "Welcome to the INFOGEST Harmonized IVD Dashboard! 👋🏻<br>Let's take a quick tour to understand how it works and how you can interact with it." },
+		  { element: document.querySelector("#toggleMode"), intro: "Click here to switch between Food and Algae modes." },
+		  { element: document.querySelector("#bindividual"), intro: "Toggle between using individual enzymes or pancreatin for the intestinal digestion step." },
+		  { element: document.querySelector("#resetBtn"), intro: "Reset all fields to default values." },
+		  { element: document.querySelector("#helpBtn"), intro: "Click here if you need assistance with the dashboard." },
+		  { element: document.querySelector("#printBtn"), intro: "Click here if you want to print the dashboard after you complete your experiment. Useful if you want to keep a trace of what you did in your Lab Notebook. 🧑‍🎓<br><br> We recommend to print with a custom scale of 46. Expand More settings > Scale = Custom > 46 > ☑ Background graphics." },
+		  { element: document.querySelector("#amount"), intro: "Set the number of digestion samples here." },
+		  { element: document.querySelector(".colA"), intro: "This column shows the mix composition for the Oral, Gastric, and Intestinal phases. It includes added volumes and final volume per tube." },
+		  { element: document.querySelector(".colB"), intro: "This column includes enzyme solution recipes. You can either add components directly or prepare a Mastermix." },
+		  { element: document.querySelector("#food1"), intro: "Enter the amount of food or algae (in grams) here." },
+		  { element: document.querySelector("#ssfTable"), intro: "This panel contains information about enzyme preparation including product and lot number.<br><br>Adjust the measured activity based on your lot or supplier data (e.g., Certificate of Analysis)." },
+		  { element: document.body, intro: "The same approach applies to all enzymes. Look for red-highlighted fields where values must be adjusted." },
+		  { element: document.querySelector("#minimal1"), intro: "Shows the minimum powder amount per sample based on the measured enzyme activity." },
+		  { element: document.querySelector("#effective1"), intro: "Enter how much enzyme you actually weighed. Water volume will auto adjust accordingly." },
+		  { element: document.querySelector("#Mminimal1"), intro: "Shows total powder needed for all samples (+1). Useful for preparing a Mastermix." },
+		  { element: document.querySelector("#omrTable"), intro: "This section lets you prepare a Mastermix for the Oral phase instead of adding each enzyme separately." },
+		  { element: document.querySelector("#UOmLabel"), intro: "Use this volume to replace individual enzyme additions with the Mastermix." },
+		  { element: document.querySelector("#multit2"), intro: "You’ll find similar panels for each phase. This one is for the Gastric phase." },
+		  { element: document.querySelector("#multit3"), intro: "This one is for the Intestinal phase." },
+		  { element: document.querySelector("#toggleAmylaseWater"), intro: "Toggle ON/OFF to replace salivary amylase with water. Algae mode disables it by default." },
+		  { element: document.querySelector("#calcMethodRGE"), intro: "Choose if the RGE concentration should be calculated using pepsin or lipase activity. Default is pepsin." },
+		  { element: document.querySelector("#toggleNoAdditionalEnzyme"), intro: "Toggle this if you only want to use RGE without adding extra enzymes. It’s enabled by default." },
+		  { element: document.querySelector("#pepsinToggle"), intro: "Click to expand the pepsin panel and add extra pepsin when using lipase-based RGE calculation." },
+		  { element: document.querySelector("#lipaseToggle"), intro: "Click to expand the lipase panel if you’re adjusting based on pepsin activity and need to add lipase." },
+		  { element: document.querySelector("#acid2"), intro: "Enter the total volume (in ml) of acids/bases you added to adjust the pH in the reaction tube. the amount of water to add will auto-adjusted.<br><br>Alternatively, you can use the pH adjustment tab (see on top). here you can adjust the pH for each individual sample for each phase in a table (excel) format." },
+		  { element: document.querySelector("#warning1"), intro: "Any input issues will be flagged here in red within each panel." },
+		  { intro: "🎉 That’s the end of the tour! You should now have a good understanding of the dashboard.<br>For questions or bug reports, contact <a href=\"mailto:thomas.agius@hest.ethz.ch\">thomas.agius@hest.ethz.ch</a>.<br><br>Happy experimenting! 🧪" }
+		],
+		  dontShowAgain: true,
+		  showProgress: true,
+		  overlayOpacity: 0.35,
+		  showBullets: false
+      });
+
+      // Define the IDs for the enzyme fields you want to highlight.
+      var enzymeFieldIDs = ["measured1", "measuredl2", "measuredlp2", "measuredp2", "measuredla2", "measured3a", "measured3b"];
+
+      // When the tour is about to change steps, check if we are on the enzyme fields step.
+      tour.onbeforechange(function() {
+        // For example, if the enzyme fields step is the 6th step (index 5)
+        if (tour._currentStep === 10 | tour._currentStep === 11) {
+          enzymeFieldIDs.forEach(function(id) {
+            var el = document.getElementById(id);
+            if (el) {
+              el.classList.add("tour-highlight");
+            }
+          });
+        } else {
+          // Remove the highlight from all enzyme fields if not on this step
+          removeEnzymeHighlights();
+        }
+      });
+
+      // Also remove highlights on tour exit or completion.
+      tour.onexit(removeEnzymeHighlights);
+      tour.oncomplete(removeEnzymeHighlights);
+
+      function removeEnzymeHighlights() {
+        enzymeFieldIDs.forEach(function(id) {
+          var el = document.getElementById(id);
+          if (el) {
+            el.classList.remove("tour-highlight");
+          }
+        });
+      }
+
+      tour.start();
+    }
+  });
+</script>
 </body></html>

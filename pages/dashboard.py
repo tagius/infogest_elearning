@@ -23,34 +23,6 @@ st.markdown("""
 </style>
 """, unsafe_allow_html=True)
 
-
-# ------------------------------
-# Utility: Load an MP3 file and encode it as base64.
-# ------------------------------
-def get_audio_file_as_base64(filepath):
-    if os.path.exists(filepath):
-        with open(filepath, "rb") as f:
-            data = f.read()
-        return base64.b64encode(data).decode("utf-8")
-    else:
-        return None
-
-
-# Path to the MP3 file
-mp3_path = "utils/assets/Sencha.mp3"
-mp3_b64 = get_audio_file_as_base64(mp3_path)
-
-# Prepare the alarm audio HTML element using the MP3 file
-if mp3_b64:
-    alarm_audio_html = f"""
-    <audio autoplay loop>
-      <source src="data:audio/mp3;base64,{mp3_b64}" type="audio/mp3">
-      Your browser does not support the audio element.
-    </audio>
-    """
-else:
-    alarm_audio_html = "<p><em>MP3 file not found.</em></p>"
-
 # ------------------------------
 # Session state initialization
 # ------------------------------
@@ -64,7 +36,6 @@ if "last_update" not in st.session_state:
     st.session_state.last_update = None
 if "paused" not in st.session_state:
     st.session_state.paused = False
-
 
 # ------------------------------
 # Callback functions
@@ -127,7 +98,7 @@ with st.sidebar:
                 f'<div style="font-size: 3em; font-weight: bold; color: red; animation: blink 1s linear infinite;">{time_str}</div>',
                 unsafe_allow_html=True
             )
-            st.markdown(alarm_audio_html, unsafe_allow_html=True)
+            st.audio("utils/assets/Sencha.mp3", format="audio/mpeg", loop=True, autoplay=True)
         else:
             st.markdown(
                 f'<div style="font-size: 3em; font-weight: bold;">{time_str}</div>',

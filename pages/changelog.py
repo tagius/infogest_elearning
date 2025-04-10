@@ -4,6 +4,16 @@ import streamlit as st
 st.set_page_config(layout="centered", page_title="Changelog")
 
 st.title("🧑🏽‍💻 Changelog")
+st.markdown("### Changelog for April 2025")
+st.markdown(""" 
+*Update April 10th*
+- Fix alarm on Safari. Please be sure to have your autoplay allowed in the safari settings (Safari > Settings > Websites > allow autoplay = always.).
+- **v.2.2** Update of the dashboard:
+    - Added a guided tour to the dashboard. support light and dark theme preferences.
+    - Use only RGE is checked by default.
+    - Icon CDN updated after unpck error.
+""")
+
 st.markdown("### Changelog for March 2025")
 st.markdown(""" 
 *Update March 31th*
