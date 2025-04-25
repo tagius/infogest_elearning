@@ -4,3 +4,4 @@ streamlit-extras==0.5.5
 streamlit-pdf-viewer==0.0.21
 lucide
 streamlit_autorefresh
+pandas~=2.2.3

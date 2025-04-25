@@ -1,16 +1,13 @@
 import streamlit as st
 import streamlit.components.v1 as components
 import time
-import base64
 
 from streamlit_autorefresh import st_autorefresh
-import os
 import pandas as pd
 
 st.set_page_config(
     layout="wide"
 )
-
 
 # Inject CSS for blinking effect
 st.markdown("""
@@ -26,6 +23,7 @@ st.markdown("""
 # ------------------------------
 # Session state initialization
 # ------------------------------
+
 if "timer_running" not in st.session_state:
     st.session_state.timer_running = False
 if "remaining" not in st.session_state:
@@ -177,33 +175,43 @@ with tabs[0]:
 
 # Function triggered on change
 def df_on_change():
-    for idx, df in st.session_state.phdf.items():
-        state = st.session_state[f'q{idx}']
-        for index, updates in state["edited_rows"].items():
-            #st.session_state["phdf"].loc[st.session_state["phdf"].index == index, "edited"] = True
-            for key, value in updates.items():
-                st.session_state.phdf[idx].loc[st.session_state.phdf[idx].index == index, key] = value
+    if 'phdf' in st.session_state:
+        for idx in st.session_state.phdf.keys():
+            if f'q{idx}' in st.session_state and "edited_rows" in st.session_state[f'q{idx}']:
+                state = st.session_state[f'q{idx}']
 
-            # Update the result column based on the input columns by summing numeric values
-            def to_float(val):
-                try:
-                    return float(val) if val not in [None, ""] else 0.0
-                except ValueError:
-                    return 0.0
+                for index, updates in state["edited_rows"].items():
+                    # Convert index to integer if it's a string
+                    try:
+                        index = int(index)
+                    except:
+                        pass
 
-            v1_val = st.session_state.phdf[idx].loc[st.session_state.phdf[idx].index == index, "6M HCl (µL)"].iloc[0]
-            v2_val = st.session_state.phdf[idx].loc[st.session_state.phdf[idx].index == index, "1M HCl (µL)"].iloc[0]
-            v3_val = st.session_state.phdf[idx].loc[st.session_state.phdf[idx].index == index, "6M NaOH (µL)"].iloc[0]
-            v4_val = st.session_state.phdf[idx].loc[st.session_state.phdf[idx].index == index, "1M NaOH (µL)"].iloc[0]
+                    # Apply the current edits to the dataframe
+                    for key, value in updates.items():
+                        st.session_state.phdf[idx].at[index, key] = value
 
-            v1_num = to_float(v1_val)
-            v2_num = to_float(v2_val)
-            v3_num = to_float(v3_val)
-            v4_num = to_float(v4_val)
+                    # After applying edits, recalculate totals for this row
+                    row = st.session_state.phdf[idx].loc[index]
 
-            Vtot_sum = v1_num + v2_num + v3_num + v4_num
-            st.session_state.phdf[idx].loc[st.session_state.phdf[idx].index == index, "Added V(total) (µL)"] = Vtot_sum
-            st.session_state.phdf[idx].loc[st.session_state.phdf[idx].index == index, "V(water) to add (ml)"] = st.session_state.finalVolGastricPhase - (Vtot_sum/1000)
+                    # Helper function to safely convert values to float
+                    def to_float(val):
+                        try:
+                            return float(val) if val not in [None, ""] else 0.0
+                        except ValueError:
+                            return 0.0
+
+                    # Get values and convert to float
+                    v1_num = to_float(row["6M HCl (µL)"])
+                    v2_num = to_float(row["1M HCl (µL)"])
+                    v3_num = to_float(row["6M NaOH (µL)"])
+                    v4_num = to_float(row["1M NaOH (µL)"])
+
+                    # Calculate totals and update the row
+                    vtot_sum = v1_num + v2_num + v3_num + v4_num
+                    st.session_state.phdf[idx].at[index, "Added V(total) (µL)"] = vtot_sum
+                    st.session_state.phdf[idx].at[index, "V(water) to add (ml)"] = st.session_state.finalVolGastricPhase - (vtot_sum/1000)
+
 
 def update_on_change():
     # Recalculate the final volume of the gastric phase based on the new food value
@@ -236,11 +244,15 @@ def update_on_change():
                 # Calculate the updated water volume (assumes acid/base volumes are in µL, hence division by 1000)
                 st.session_state.phdf[idx].loc[i, "V(water) to add (ml)"] = st.session_state.finalVolGastricPhase - (acid_base_total / 1000)
 
+
 with tabs[1]:
     if 'sample_number' not in st.session_state:
         st.session_state.sample_number = 7
     if 'food' not in st.session_state:
         st.session_state.food = 0.5
+    # Initialize phdf if it doesn't exist
+    if 'phdf' not in st.session_state:
+        st.session_state.phdf = {}
 
     totalVolumeGastricPhase = 4 * st.session_state.food
     VolSGF = 1.6 * st.session_state.food
@@ -250,64 +262,52 @@ with tabs[1]:
     sumVol = VolSGF + VolRGE + VolOralPhase + VolCaCl2
     st.session_state.finalVolGastricPhase = totalVolumeGastricPhase - sumVol
 
-
     cols = st.columns(6)
     with cols[0]:
         st.number_input("Sample Number", key="sample_number", step=1)
     with cols[1]:
         st.number_input("Initial Quantity of food", key="food", step=0.1, on_change=update_on_change)
-    # Create an editable dataframe with a row for each sample
-    # num_samples = st.session_state.sample_number
 
-    columns = [
-        "Sample Number",
-        "pH at start",
-        "6M HCl (µL)",
-        "1M HCl (µL)",
-        "6M NaOH (µL)",
-        "1M NaOH (µL)",
-        "pH at end",
-        "Added V(total) (µL)",
-        "V(water) to add (ml)"
-    ]
+    elements = ["pH adjustment to 3: between oral and gastric phase",
+                "pH adjustment to 3: during gastric phase (after 10 minutes)",
+                "pH adjustment to 3: during gastric phase (after 60 minutes)",
+                "pH adjustment to 7: between gastric and intestinal phase",
+                "pH adjustment to 7: during intestinal phase (after 10 minutes)",
+                "pH adjustment to 7: during intestinal phase (after 60 minutes)"]
 
-    if 'phdf' not in st.session_state:
-        st.session_state.phdf = {}
-
-    elements = ["pH adjustment to 3: between oral and gastric phase", "pH adjustment to 3: during gastric phase (after 10 minutes)", "pH adjustment to 3: during gastric phase (after 60 minutes)", "pH adjustment to 7: between gastric and intestinal phase", "pH adjustment to 7: during intestinal phase (after 10 minutes)", "pH adjustment to 7: during intestinal phase (after 60 minutes)"]
-
+    # Create a container for each table
     for idx, tables in enumerate(elements):
         st.header(tables)
 
-        # Initialize the dataframe with current sample number
-        st.session_state.phdf[idx] = pd.DataFrame({
-            "Sample Number": list(range(1, st.session_state.sample_number + 1)),
-            "pH at start": [None] * st.session_state.sample_number,
-            "6M HCl (µL)": [None] * st.session_state.sample_number,
-            "1M HCl (µL)": [None] * st.session_state.sample_number,
-            "6M NaOH (µL)": [None] * st.session_state.sample_number,
-            "1M NaOH (µL)": [None] * st.session_state.sample_number,
-            "pH at end": [None] * st.session_state.sample_number,
-            "Added V(total) (µL)": [None] * st.session_state.sample_number,
-            "V(water) to add (ml)": [st.session_state.finalVolGastricPhase] * st.session_state.sample_number
-        })
+        # Important: Use a key for each table that changes when values should be updated
+        table_key = f"table_{idx}_{st.session_state.sample_number}"
 
-        # Display an editable dataframe
-        # Editable DataFrame as main editor
-        def editor():
-            st.data_editor(
-                st.session_state.phdf[idx],
-                hide_index=True,
-                column_config={
-                    "V(water) to add (ml)": st.column_config.NumberColumn(format="%.10g")
-                },
-                disabled=["", "Added V(total) (µL)", "V(water) to add (ml)", "Sample Number"],  # lock some columns
-                key=f"q{idx}",  # Store in session state
-                on_change=df_on_change
-            )
+        # Initialize or reset the dataframe with current sample number if needed
+        if idx not in st.session_state.phdf or len(st.session_state.phdf[idx]) != st.session_state.sample_number:
+            st.session_state.phdf[idx] = pd.DataFrame({
+                "Sample Number": list(range(1, st.session_state.sample_number + 1)),
+                "pH at start": [None] * st.session_state.sample_number,
+                "6M HCl (µL)": [None] * st.session_state.sample_number,
+                "1M HCl (µL)": [None] * st.session_state.sample_number,
+                "6M NaOH (µL)": [None] * st.session_state.sample_number,
+                "1M NaOH (µL)": [None] * st.session_state.sample_number,
+                "pH at end": [None] * st.session_state.sample_number,
+                "Added V(total) (µL)": [0.0] * st.session_state.sample_number,  # Initialize with zeros instead of None
+                "V(water) to add (ml)": [st.session_state.finalVolGastricPhase] * st.session_state.sample_number
+            })
 
+        # Display the editable dataframe
+        st.data_editor(
+            st.session_state.phdf[idx],
+            hide_index=True,
+            column_config={
+                "V(water) to add (ml)": st.column_config.NumberColumn(format="%.10g"),
+                "Added V(total) (µL)": st.column_config.NumberColumn(format="%.2f")
+            },
+            disabled=["Sample Number", "Added V(total) (µL)", "V(water) to add (ml)"],
+            key=f"q{idx}",
+            on_change=df_on_change
+        )
 
-        # Run editor
-        editor()
         if idx == 2:
             st.divider()

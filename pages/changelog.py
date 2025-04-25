@@ -6,6 +6,11 @@ st.set_page_config(layout="centered", page_title="Changelog")
 st.title("🧑🏽‍💻 Changelog")
 st.markdown("### Changelog for April 2025")
 st.markdown(""" 
+*Update April 25th*
+- Fix pH adjustment when sample number is changed. Now Update correctly the Total volume and the water volume to add
+- ⚠️ pH value will be reset if tab is reloaded. I am working on a solution to fix this.
+""")
+st.markdown(""" 
 *Update April 10th*
 - Fix alarm on Safari. Please be sure to have your autoplay allowed in the safari settings (Safari > Settings > Websites > allow autoplay = always.).
 - **v.2.2** Update of the dashboard:
