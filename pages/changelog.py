@@ -4,6 +4,19 @@ import streamlit as st
 st.set_page_config(layout="centered", page_title="Changelog")
 
 st.title("🧑🏽‍💻 Changelog")
+
+st.markdown("### Changelog for September 2025")
+st.markdown(""" 
+*Update September 12th*
+- **v.2.3** Enhanced enzyme panels with purity and solution options:
+    - Added **powder purity** input fields (0.1-100%) for all enzyme types to account for non-100% pure enzyme powders
+    - Added **powder/solution toggle switches** for flexible enzyme preparation methods
+    - Added **stock concentration** inputs for enzyme solutions with automatic volume-based calculations  
+    - Enhanced calculation logic to support both powder purity adjustments and direct solution concentration calculations
+    - Implemented for salivary amylase, RGE, pepsin, lipase, pancreatin, bile, and individual intestinal enzymes
+    - Users can now accurately calculate enzyme amounts whether using impure powders or pre-made solutions
+""")
+
 st.markdown("### Changelog for April 2025")
 st.markdown(""" 
 *Update April 25th*

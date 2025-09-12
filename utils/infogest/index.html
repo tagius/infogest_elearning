@@ -193,6 +193,147 @@ function toggleLipase() {
     }
 }
 
+// Toggle functions for enzyme powder/solution switches
+function toggleAmylaseTypeLabel() {
+	var checkbox = document.getElementById("toggleAmylaseType");
+	var powderRows = document.getElementById("amylasePowderRows");
+	var solutionRows = document.getElementById("amylaseSolutionRows");
+	
+	if (checkbox.checked) {
+		powderRows.style.display = "none";
+		solutionRows.style.display = "";
+	} else {
+		powderRows.style.display = "";
+		solutionRows.style.display = "none";
+	}
+}
+
+function togglePepsinTypeLabel() {
+	var checkbox = document.getElementById("togglePepsinType");
+	var powderRows = document.getElementById("pepsinPowderRows");
+	var solutionRows = document.getElementById("pepsinSolutionRowsExtra");
+	
+	if (checkbox.checked) {
+		powderRows.style.display = "none";
+		solutionRows.style.display = "";
+	} else {
+		powderRows.style.display = "";
+		solutionRows.style.display = "none";
+	}
+}
+
+function toggleLipaseTypeLabel() {
+	var checkbox = document.getElementById("toggleLipaseType");
+	var powderRows = document.getElementById("lipasePowderRows");
+	var solutionRows = document.getElementById("lipaseSolutionRowsExtra");
+	
+	if (checkbox.checked) {
+		powderRows.style.display = "none";
+		solutionRows.style.display = "";
+	} else {
+		powderRows.style.display = "";
+		solutionRows.style.display = "none";
+	}
+}
+
+function togglePancreatinTypeLabel() {
+	var checkbox = document.getElementById("togglePancreatinType");
+	var powderRows = document.getElementById("pancreatinPowderRows");
+	var solutionRows = document.getElementById("pancreatinSolutionRowsExtra");
+	
+	if (checkbox.checked) {
+		powderRows.style.display = "none";
+		solutionRows.style.display = "";
+	} else {
+		powderRows.style.display = "";
+		solutionRows.style.display = "none";
+	}
+}
+
+function toggleBileTypeLabel() {
+	var checkbox = document.getElementById("toggleBileType");
+	var powderRows = document.getElementById("bilePowderRows");
+	var solutionRows = document.getElementById("bileSolutionRowsExtra");
+	
+	if (checkbox.checked) {
+		powderRows.style.display = "none";
+		solutionRows.style.display = "";
+	} else {
+		powderRows.style.display = "";
+		solutionRows.style.display = "none";
+	}
+}
+
+function toggleTrypsinTypeLabel() {
+	var checkbox = document.getElementById("toggleTrypsinType");
+	var powderRows = document.getElementById("trypsinPowderRows");
+	var solutionRows = document.getElementById("trypsinSolutionRowsExtra");
+	
+	if (checkbox.checked) {
+		powderRows.style.display = "none";
+		solutionRows.style.display = "";
+	} else {
+		powderRows.style.display = "";
+		solutionRows.style.display = "none";
+	}
+}
+
+function toggleChymotrypsinTypeLabel() {
+	var checkbox = document.getElementById("toggleChymotrypsinType");
+	var powderRows = document.getElementById("chymotrypsinPowderRows");
+	var solutionRows = document.getElementById("chymotrypsinSolutionRowsExtra");
+	
+	if (checkbox.checked) {
+		powderRows.style.display = "none";
+		solutionRows.style.display = "";
+	} else {
+		powderRows.style.display = "";
+		solutionRows.style.display = "none";
+	}
+}
+
+function toggleLipase4cTypeLabel() {
+	var checkbox = document.getElementById("toggleLipase4cType");
+	var powderRows = document.getElementById("lipase4cPowderRows");
+	var solutionRows = document.getElementById("lipase4cSolutionRowsExtra");
+	
+	if (checkbox.checked) {
+		powderRows.style.display = "none";
+		solutionRows.style.display = "";
+	} else {
+		powderRows.style.display = "";
+		solutionRows.style.display = "none";
+	}
+}
+
+function toggleAmylase4eTypeLabel() {
+	var checkbox = document.getElementById("toggleAmylase4eType");
+	var powderRows = document.getElementById("amylase4ePowderRows");
+	var solutionRows = document.getElementById("amylase4eSolutionRowsExtra");
+	
+	if (checkbox.checked) {
+		powderRows.style.display = "none";
+		solutionRows.style.display = "";
+	} else {
+		powderRows.style.display = "";
+		solutionRows.style.display = "none";
+	}
+}
+
+function toggleBile4fTypeLabel() {
+	var checkbox = document.getElementById("toggleBile4fType");
+	var powderRows = document.getElementById("bile4fPowderRows");
+	var solutionRows = document.getElementById("bile4fSolutionRowsExtra");
+	
+	if (checkbox.checked) {
+		powderRows.style.display = "none";
+		solutionRows.style.display = "";
+	} else {
+		powderRows.style.display = "";
+		solutionRows.style.display = "none";
+	}
+}
+
 //set all fields to either original or values from local storage
 function setini() {
     if (localStorage.getItem("food1") === null) {
@@ -417,16 +558,35 @@ function calculateoral() {
 	convertAndDisplay("Mvolume1", food1 * sampleamount);
 
 	//salivary amylase solution
-	var minimal1 = parseFloat((document.getElementById("total1").value * document.getElementById("finalu1").value) / document.getElementById("measured1").value);
-	document.getElementById("minimal1").value = Math.round(100 * minimal1) / 100 ;
-	var Mminimal1 = sampleamount * minimal1;
-	document.getElementById("Mminimal1").value = Math.round(100 * Mminimal1) / 100 ;
-	var dissolve1 = parseFloat((document.getElementById("effective1").value * amylase1) / document.getElementById("minimal1").value);
-	//document.getElementById("dissolve1").value = Math.round(1000 * dissolve1) / 1000;
-	convertAndDisplay("dissolve1", dissolve1);
-	var Mdissolve1 = sampleamount * parseFloat((document.getElementById("Meffective1").value * amylase1) / document.getElementById("Mminimal1").value);
-	//document.getElementById("Mdissolve1").value = Math.round(1000 * Mdissolve1) / 1000;
-	convertAndDisplay("Mdissolve1", Mdissolve1);
+	var isAmylaseSolution = document.getElementById("toggleAmylaseType").checked;
+	var measured1 = parseFloat(document.getElementById("measured1").value);
+	var purity1 = parseFloat(document.getElementById("purity1").value) / 100;
+	var concentration1 = parseFloat(document.getElementById("concentration1").value);
+	
+	if (isAmylaseSolution) {
+		// Solution-based calculation
+		var requiredUnits = document.getElementById("total1").value * document.getElementById("finalu1").value;
+		var dissolve1 = requiredUnits / concentration1;
+		convertAndDisplay("dissolve1", dissolve1);
+		var Mdissolve1 = sampleamount * dissolve1;
+		convertAndDisplay("Mdissolve1", Mdissolve1);
+		// Set minimal and effective to 0 for solution mode
+		document.getElementById("minimal1").value = 0;
+		document.getElementById("Mminimal1").value = 0;
+		document.getElementById("effective1").value = 0;
+		document.getElementById("Meffective1").value = 0;
+	} else {
+		// Powder-based calculation with purity adjustment
+		var adjustedActivity = measured1 * purity1;
+		var minimal1 = parseFloat((document.getElementById("total1").value * document.getElementById("finalu1").value) / adjustedActivity);
+		document.getElementById("minimal1").value = Math.round(100 * minimal1) / 100 ;
+		var Mminimal1 = sampleamount * minimal1;
+		document.getElementById("Mminimal1").value = Math.round(100 * Mminimal1) / 100 ;
+		var dissolve1 = parseFloat((document.getElementById("effective1").value * amylase1) / document.getElementById("minimal1").value);
+		convertAndDisplay("dissolve1", dissolve1);
+		var Mdissolve1 = sampleamount * parseFloat((document.getElementById("Meffective1").value * amylase1) / document.getElementById("Mminimal1").value);
+		convertAndDisplay("Mdissolve1", Mdissolve1);
+	}
 	var effective1 = document.getElementById("effective1").value;
 	var Meffective1 = document.getElementById("Meffective1").value;
 
@@ -522,10 +682,12 @@ function calculategastric() {
 	// TA edit - We ignore lipase, as it is already inside RGE and we cannot change the amount. For calculation, we focus on pepsin to decide how much RGE we use.
 	var calcMethodElement = document.getElementById("calcMethodRGE");
 	var calcMethod = calcMethodElement ? calcMethodElement.value : "lipase";
+	var purityRGE = parseFloat(document.getElementById("purityRGE").value) / 100;
 	var minimall2;
 	//var enzyme;
 	if (calcMethod === "pepsin") {
-		minimall2 = parseFloat((total2 * document.getElementById("finalpu2").value) / document.getElementById("measuredlp2").value);
+		var adjustedPepsinActivity = document.getElementById("measuredlp2").value * purityRGE;
+		minimall2 = parseFloat((total2 * document.getElementById("finalpu2").value) / adjustedPepsinActivity);
 		document.getElementById("finalpu").value = document.getElementById("finalpu2").value;
 		//enzyme = 0;
 		document.getElementById("pepsin2").value = 0;
@@ -533,7 +695,8 @@ function calculategastric() {
 		convertAndDisplay("lipase2", enzyme);
 		convertAndDisplay("Mlipase2", enzyme);
 	} else {
-		minimall2 = parseFloat((total2 * document.getElementById("finallu2").value) / document.getElementById("measuredl2").value);
+		var adjustedLipaseActivity = document.getElementById("measuredl2").value * purityRGE;
+		minimall2 = parseFloat((total2 * document.getElementById("finallu2").value) / adjustedLipaseActivity);
 		//enzyme = Math.round((oral2 / 20) * 1000) / 1000;
 		document.getElementById("lipase2").value = 0;
 		document.getElementById("Mlipase2").value = 0;
@@ -580,26 +743,47 @@ function calculategastric() {
 	}
 
 	//pepsin solution composition
-	if(effectivel2 == 0){
-		var minimalp2 = (total2 * document.getElementById("finalpu2").value) / document.getElementById("measuredp2").value;
-		document.getElementById("minimalp2").value = Math.round(100 * minimalp2) / 100 ;
-	}else{
-		var minimalp2 = ((total2 * document.getElementById("finalpu2").value) - (document.getElementById("measuredlp2").value * minimall2)) / document.getElementById("measuredp2").value;
-		document.getElementById("minimalp2").value = Math.round(100 * minimalp2) / 100 ;
+	var isPepsinSolution = document.getElementById("togglePepsinType").checked;
+	var purityPepsin = parseFloat(document.getElementById("purityPepsin").value) / 100;
+	var concentrationPepsin = parseFloat(document.getElementById("concentrationPepsin").value);
+	
+	if (isPepsinSolution) {
+		// Solution-based calculation for pepsin
+		var pepsinRequiredUnits = total2 * document.getElementById("finalpu2").value;
+		if(effectivel2 != 0) {
+			pepsinRequiredUnits -= (document.getElementById("measuredlp2").value * purityRGE * minimall2);
+		}
+		var dissolvep2 = pepsinRequiredUnits / concentrationPepsin;
+		convertAndDisplay("dissolvep2", dissolvep2);
+		var Mdissolvep2 = sampleamount * dissolvep2;
+		convertAndDisplay("Mdissolvep2", Mdissolvep2);
+		// Set minimal and effective to 0 for solution mode
+		document.getElementById("minimalp2").value = 0;
+		document.getElementById("Mminimalp2").value = 0;
+		document.getElementById("effectivep2").value = 0;
+		document.getElementById("Meffectivep2").value = 0;
+	} else {
+		// Powder-based calculation with purity adjustment
+		var adjustedPepsinActivity = document.getElementById("measuredp2").value * purityPepsin;
+		if(effectivel2 == 0){
+			var minimalp2 = (total2 * document.getElementById("finalpu2").value) / adjustedPepsinActivity;
+			document.getElementById("minimalp2").value = Math.round(100 * minimalp2) / 100 ;
+		}else{
+			var minimalp2 = ((total2 * document.getElementById("finalpu2").value) - (document.getElementById("measuredlp2").value * purityRGE * minimall2)) / adjustedPepsinActivity;
+			document.getElementById("minimalp2").value = Math.round(100 * minimalp2) / 100 ;
+		}
+		if(Meffectivel2 == 0){
+			var Mminimalp2 = (sampleamount * total2 * document.getElementById("finalpu2").value) / adjustedPepsinActivity;
+			document.getElementById("Mminimalp2").value = Math.round(100 * Mminimalp2) / 100 ;
+		}else{
+			var Mminimalp2 = (sampleamount * (total2 * document.getElementById("finalpu2").value) - (document.getElementById("measuredlp2").value * purityRGE * Mminimall2)) / adjustedPepsinActivity;
+			document.getElementById("Mminimalp2").value = Math.round(100 * Mminimalp2) / 100 ;
+		}
+		var dissolvep2 = parseFloat((document.getElementById("effectivep2").value * parseFloat(document.getElementById("pepsin2").getAttribute("data-raw")))) / document.getElementById("minimalp2").value;
+		convertAndDisplay("dissolvep2", dissolvep2);
+		var Mdissolvep2 = parseFloat((sampleamount * document.getElementById("Meffectivep2").value * parseFloat(document.getElementById("Mpepsin2").getAttribute("data-raw"))) / document.getElementById("Mminimalp2").value);
+		convertAndDisplay("Mdissolvep2", Mdissolvep2);
 	}
-	if(Meffectivel2 == 0){
-		var Mminimalp2 = (sampleamount * total2 * document.getElementById("finalpu2").value) / document.getElementById("measuredp2").value;
-		document.getElementById("Mminimalp2").value = Math.round(100 * Mminimalp2) / 100 ;
-	}else{
-		var Mminimalp2 = (sampleamount * (total2 * document.getElementById("finalpu2").value) - (document.getElementById("measuredlp2").value * Mminimall2)) / document.getElementById("measuredp2").value;
-		document.getElementById("Mminimalp2").value = Math.round(100 * Mminimalp2) / 100 ;
-	}
-	var dissolvep2 = parseFloat((document.getElementById("effectivep2").value * parseFloat(document.getElementById("pepsin2").getAttribute("data-raw")))) / document.getElementById("minimalp2").value;
-	//document.getElementById("dissolvep2").value = Math.round(1000 * dissolvep2) / 1000;
-	convertAndDisplay("dissolvep2", dissolvep2);
-	var Mdissolvep2 = parseFloat((sampleamount * document.getElementById("Meffectivep2").value * parseFloat(document.getElementById("Mpepsin2").getAttribute("data-raw"))) / document.getElementById("Mminimalp2").value);
-	//document.getElementById("Mdissolvep2").value = Math.round(1000 * Mdissolvep2) / 1000;
-	convertAndDisplay("Mdissolvep2", Mdissolvep2);
 	var effectivep2 = document.getElementById("effectivep2").value;
 	var Meffectivep2 = document.getElementById("Meffectivep2").value;
 
@@ -1174,6 +1358,13 @@ function calculateindividual() {
 					<tr><td>&nbsp;</td></tr>
 					<tbody id="amylaseExtraRows"><tr><td>Final units</td><td><input disabled type="number" id="finalu1" class="right" value="75"></td><td>U/ml</td></tr>
 					<tr><td>Measured activity</td><td><input type="number" id="measured1" class="essential" value="1000" onchange="check(this.id);calculateoral()"></td><td>U/mg</td></tr>
+					<tbody id="amylasePowderRows">
+					<tr><td>Powder purity</td><td><input type="number" id="purity1" class="essential" value="100" min="0.1" max="100" onchange="check(this.id);calculateoral()"></td><td>%</td></tr>
+					</tbody>
+					<tbody id="amylaseSolutionRows" style="display:none;">
+					<tr><td>Stock concentration</td><td><input type="number" id="concentration1" class="essential" value="100" onchange="check(this.id);calculateoral()"></td><td>U/ml</td></tr>
+					</tbody>
+					<tr><td colspan="3"><label for="toggleAmylaseType" class="switch"><input type="checkbox" id="toggleAmylaseType" onchange="toggleAmylaseTypeLabel(); calculateoral();"><span class="slider round"></span></label><span style="font-size: small; font-style: italic; padding-left: 10px">Use enzyme solution instead of powder</span></td></tr>
 					<tr><td>&nbsp;</td></tr>
 					<tr><td></td><td colspan="2"><h4>Per sample</h4></td><td id="multi12" colspan="2"><h4>Stock solution for <text id="Mamount2">9</text>+1 samples</h4></td></tr>
 					<tr><td>Minimal weight out</td><td><input disabled type="number" id="minimal1" class="right" value="0.75"></td><td>mg</td><td id="multi13"><input disabled type="number" id="Mminimal1" class="right" value="7.5"></td><td id="multi14">mg</td></tr>
@@ -1247,6 +1438,9 @@ function calculateindividual() {
 				<tr><td colspan="3">&nbsp;</td></tr>
 				<tr><td>Final Pepsin units</td><td><input disabled type="number" id="finalpu" class="right" value="2000"></td><td>U/ml</td></tr>
 				<tr><td>Measured Pepsin activity</td><td><input type="number" id="measuredlp2" class="essential" value="850" onchange="check(this.id);calculategastric()"></td><td>U/mg</td></tr>
+				<tbody id="rgeExtraRows">
+				<tr><td>Powder purity</td><td><input type="number" id="purityRGE" class="essential" value="100" min="0.1" max="100" onchange="check(this.id);calculategastric()"></td><td>%</td></tr>
+				</tbody>
 				<tr><td colspan="3">&nbsp;</td></tr>
 				<tr><td></td><td colspan="2"><h4>Per sample</h4></td><td id="multi44" colspan="2"><h4>Stock solution for <text id="Mamount4">9</text>+1 samples</h4></td></tr>
 				<tr><td>Minimal weight out</td><td><input disabled type="number" id="minimall2" class="right" value="6"></td><td>mg</td><td id="multi45"><input disabled type="number" id="Mminimall2" class="right" value="60"></td><td id="multi46">mg</td></tr>
@@ -1271,6 +1465,13 @@ function calculateindividual() {
 				  <tr><td colspan="3">&nbsp;</td></tr>
 				  <tr><td>Final units</td><td><input disabled type="number" id="finalpu2" class="right" value="2000"></td><td>U/ml</td></tr>
 				  <tr><td>Measured activity</td><td><input type="number" id="measuredp2" class="essential" value="2500" onchange="check(this.id);calculategastric()"></td><td>U/mg</td></tr>
+				  <tbody id="pepsinPowderRows">
+				  <tr><td>Powder purity</td><td><input type="number" id="purityPepsin" class="essential" value="100" min="0.1" max="100" onchange="check(this.id);calculategastric()"></td><td>%</td></tr>
+				  </tbody>
+				  <tbody id="pepsinSolutionRowsExtra" style="display:none;">
+				  <tr><td>Stock concentration</td><td><input type="number" id="concentrationPepsin" class="essential" value="2500" onchange="check(this.id);calculategastric()"></td><td>U/ml</td></tr>
+				  </tbody>
+				  <tr><td colspan="3"><label for="togglePepsinType" class="switch"><input type="checkbox" id="togglePepsinType" onchange="togglePepsinTypeLabel(); calculategastric();"><span class="slider round"></span></label><span style="font-size: small; font-style: italic; padding-left: 10px">Use enzyme solution instead of powder</span></td></tr>
 				  <tr><td colspan="3">&nbsp;</td></tr>
 				  <tr><td></td><td colspan="2"><h4>Per sample</h4></td><td id="multi37" colspan="2"><h4>Stock solution for <text id="Mamount5">9</text>+1 samples</h4></td></tr>
 				  <tr><td>Minimal weight out</td><td><input disabled type="number" id="minimalp2" class="right" value="16"></td><td>mg</td><td id="multi38"><input disabled type="number" id="Mminimalp2" class="right" value="160"></td><td id="multi39">mg</td></tr>
@@ -1294,6 +1495,13 @@ function calculateindividual() {
 						  <tr><td colspan="3">&nbsp;</td></tr>
 						  <tr><td>Final units</td><td><input disabled type="number" id="finallau2" class="right" value="60"></td><td>U/ml</td></tr>
 						  <tr><td>Measured activity</td><td><input type="number" id="measuredla2" class="essential" value="125" onchange="check(this.id);calculategastric()"></td><td>U/mg</td></tr>
+						  <tbody id="lipasePowderRows">
+						  <tr><td>Powder purity</td><td><input type="number" id="purityLipase" class="essential" value="100" min="0.1" max="100" onchange="check(this.id);calculategastric()"></td><td>%</td></tr>
+						  </tbody>
+						  <tbody id="lipaseSolutionRowsExtra" style="display:none;">
+						  <tr><td>Stock concentration</td><td><input type="number" id="concentrationLipase" class="essential" value="125" onchange="check(this.id);calculategastric()"></td><td>U/ml</td></tr>
+						  </tbody>
+						  <tr><td colspan="3"><label for="toggleLipaseType" class="switch"><input type="checkbox" id="toggleLipaseType" onchange="toggleLipaseTypeLabel(); calculategastric();"><span class="slider round"></span></label><span style="font-size: small; font-style: italic; padding-left: 10px">Use enzyme solution instead of powder</span></td></tr>
 						  <tr><td colspan="3">&nbsp;</td></tr>
 						  <tr><td></td><td colspan="2"><h4>Per sample</h4></td><td colspan="2"><h4>Stock solution for <text id="Mamount16">9</text>+1 samples</h4></td></tr>
 						  <tr><td>Minimal weight out</td><td><input disabled type="number" id="minimalla2" class="right" value="6"></td><td>mg</td><td><input disabled type="number" id="Mminimalla2" class="right" value="60"></td><td>mg</td></tr>
@@ -1369,6 +1577,13 @@ function calculateindividual() {
 				<tr><td>Final units</td><td><input disabled type="number" id="finalu3a" class="right" value="100"></td><td>U/ml</td></tr>
 				<tr><td colspan="4">&nbsp;</td></tr>
 				<tr><td>Measured units</td><td><input type="number" id="measured3a" class="essential" value="8.462" onchange="check(this.id);calculateintestinal()"></td><td>U/mg</td><td><span style="font-style: italic; font-size: xx-small;">(=87% of activity of new enzyme - because the soluted & centrifuged enzyme is a bit less active)</span></td></tr>
+				<tbody id="pancreatinPowderRows">
+				<tr><td>Powder purity</td><td><input type="number" id="purityPancreatin" class="essential" value="100" min="0.1" max="100" onchange="check(this.id);calculateintestinal()"></td><td>%</td></tr>
+				</tbody>
+				<tbody id="pancreatinSolutionRowsExtra" style="display:none;">
+				<tr><td>Stock concentration</td><td><input type="number" id="concentrationPancreatin" class="essential" value="8.462" onchange="check(this.id);calculateintestinal()"></td><td>U/ml</td></tr>
+				</tbody>
+				<tr><td colspan="4"><label for="togglePancreatinType" class="switch"><input type="checkbox" id="togglePancreatinType" onchange="togglePancreatinTypeLabel(); calculateintestinal();"><span class="slider round"></span></label><span style="font-size: small; font-style: italic; padding-left: 10px">Use enzyme solution instead of powder</span></td></tr>
 				<tr><td colspan="3">&nbsp;</td></tr>
 				<tr><td></td><td colspan="2"><h4>Per sample</h4></td><td id="multi64" colspan="2"><h4>Stock solution for <text id="Mamount7">9</text>+1 samples</h4></td></tr>
 				<tr><td>Minimal weight out</td><td><input disabled type="number" id="minimal3a" class="right" value="20"></td><td>mg</td><td id="multi65"><input disabled type="number" id="Mminimal3a" class="right" value="200"></td><td id="multi66">mg</td></tr>
@@ -1387,6 +1602,13 @@ function calculateindividual() {
 				<tr><td colspan="3">&nbsp;</td></tr>
 				<tr><td>Final concentration</td><td><input disabled type="number" id="finalu3b" class="right" value="10"></td><td>mM</td></tr>
 				<tr><td>Measured concentration</td><td><input type="number" id="measured3b" class="essential" value="3.98" onchange="check(this.id);calculateintestinal()"></td><td>mmol/g</td></tr>
+				<tbody id="bilePowderRows">
+				<tr><td>Powder purity</td><td><input type="number" id="purityBile" class="essential" value="100" min="0.1" max="100" onchange="check(this.id);calculateintestinal()"></td><td>%</td></tr>
+				</tbody>
+				<tbody id="bileSolutionRowsExtra" style="display:none;">
+				<tr><td>Stock concentration</td><td><input type="number" id="concentrationBile" class="essential" value="3.98" onchange="check(this.id);calculateintestinal()"></td><td>mmol/ml</td></tr>
+				</tbody>
+				<tr><td colspan="4"><label for="toggleBileType" class="switch"><input type="checkbox" id="toggleBileType" onchange="toggleBileTypeLabel(); calculateintestinal();"><span class="slider round"></span></label><span style="font-size: small; font-style: italic; padding-left: 10px">Use bile solution instead of powder</span></td></tr>
 				<tr><td colspan="3">&nbsp;</td></tr>
 				<tr><td></td><td colspan="2"><h4>Per sample</h4></td><td id="multi71" colspan="2"><h4>Stock solution for <text id="Mamount8">9</text>+1 samples</h4></td></tr>
 				<tr><td>Minimal weight out</td><td><input disabled type="number" id="minimal3b" class="right" value="100"></td><td>mg</td><td id="multi72"><input disabled type="number" id="Mminimal3b" class="right" value="100"></td><td id="multi73">mg</td></tr>
@@ -1464,6 +1686,13 @@ function calculateindividual() {
 				<tr><td colspan="3">&nbsp;</td></tr>
 				<tr><td>Final units</td><td><input disabled type="number" id="finalu4a" class="right" value="100"></td><td>U/ml</td></tr>
 				<tr><td>Measured units</td><td><input type="number" id="measured4a" class="essential" value="200" onchange="check(this.id);calculateindividual()"></td><td>U/mg</td></tr>
+				<tbody id="trypsinPowderRows">
+				<tr><td>Powder purity</td><td><input type="number" id="purityTrypsin" class="essential" value="100" min="0.1" max="100" onchange="check(this.id);calculateindividual()"></td><td>%</td></tr>
+				</tbody>
+				<tbody id="trypsinSolutionRowsExtra" style="display:none;">
+				<tr><td>Stock concentration</td><td><input type="number" id="concentrationTrypsin" class="essential" value="200" onchange="check(this.id);calculateindividual()"></td><td>U/ml</td></tr>
+				</tbody>
+				<tr><td colspan="3"><label for="toggleTrypsinType" class="switch"><input type="checkbox" id="toggleTrypsinType" onchange="toggleTrypsinTypeLabel(); calculateindividual();"><span class="slider round"></span></label><span style="font-size: small; font-style: italic; padding-left: 10px">Use enzyme solution instead of powder</span></td></tr>
 				<tr><td colspan="3">&nbsp;</td></tr>
 				<tr><td></td><td colspan="2"><h4>Per sample</h4></td><td id="multi98" colspan="2"><h4>Stock solution for <text id="Mamount10">9</text>+1 samples</h4></td></tr>
 				<tr><td>Minimal weight out</td><td><input disabled disabled type="number" id="minimal4a" class="right" value="20"></td><td>mg</td><td id="multi92"><input disabled type="number" id="Mminimal4a" class="right" value="200"></td><td id="multi93">mg</td></tr>
@@ -1482,6 +1711,13 @@ function calculateindividual() {
 				<tr><td colspan="3">&nbsp;</td></tr>
 				<tr><td>Final units</td><td><input disabled type="number" id="finalu4b" class="right" value="25"</td><td>U/ml</td></tr>
 				<tr><td>Measured units</td><td><input type="number" id="measured4b" class="essential" value="50" onchange="check(this.id);calculateindividual()"></td><td>U/mg</td></tr>
+				<tbody id="chymotrypsinPowderRows">
+				<tr><td>Powder purity</td><td><input type="number" id="purityChymotrypsin" class="essential" value="100" min="0.1" max="100" onchange="check(this.id);calculateindividual()"></td><td>%</td></tr>
+				</tbody>
+				<tbody id="chymotrypsinSolutionRowsExtra" style="display:none;">
+				<tr><td>Stock concentration</td><td><input type="number" id="concentrationChymotrypsin" class="essential" value="50" onchange="check(this.id);calculateindividual()"></td><td>U/ml</td></tr>
+				</tbody>
+				<tr><td colspan="3"><label for="toggleChymotrypsinType" class="switch"><input type="checkbox" id="toggleChymotrypsinType" onchange="toggleChymotrypsinTypeLabel(); calculateindividual();"><span class="slider round"></span></label><span style="font-size: small; font-style: italic; padding-left: 10px">Use enzyme solution instead of powder</span></td></tr>
 				<tr><td colspan="3">&nbsp;</td></tr>
 				<tr><td></td><td colspan="2"><h4>Per sample</h4></td><td id="multi99" colspan="2"><h4>Stock solution for <text id="Mamount11">9</text>+1 samples</h4></td></tr>
 				<tr><td>Minimal weight out</td><td><input disabled type="number" id="minimal4b" class="right" value="20"></td><td>mg</td><td id="multi100"><input disabled type="number" id="Mminimal4b" class="right" value="200"></td><td id="multi101">mg</td></tr>
@@ -1500,6 +1736,13 @@ function calculateindividual() {
 				<tr><td colspan="3">&nbsp;</td></tr>
 				<tr><td>Final units</td><td><input disabled type="number" id="finalu4c" class="right" value="2000"></td><td>U/ml</td></tr>
 				<tr><td>Measured units</td><td><input type="number" id="measured4c" class="essential" value="1000" onchange="check(this.id);calculateindividual()"></td><td>U/mg</td></tr>
+				<tbody id="lipase4cPowderRows">
+				<tr><td>Powder purity</td><td><input type="number" id="purityLipase4c" class="essential" value="100" min="0.1" max="100" onchange="check(this.id);calculateindividual()"></td><td>%</td></tr>
+				</tbody>
+				<tbody id="lipase4cSolutionRowsExtra" style="display:none;">
+				<tr><td>Stock concentration</td><td><input type="number" id="concentrationLipase4c" class="essential" value="1000" onchange="check(this.id);calculateindividual()"></td><td>U/ml</td></tr>
+				</tbody>
+				<tr><td colspan="3"><label for="toggleLipase4cType" class="switch"><input type="checkbox" id="toggleLipase4cType" onchange="toggleLipase4cTypeLabel(); calculateindividual();"><span class="slider round"></span></label><span style="font-size: small; font-style: italic; padding-left: 10px">Use enzyme solution instead of powder</span></td></tr>
 				<tr><td colspan="3">&nbsp;</td></tr>
 				<tr><td></td><td colspan="2"><h4>Per sample</h4></td><td id="multi106" colspan="2"><h4>Stock solution for <text id="Mamount12">9</text>+1 samples</h4></td></tr>
 				<tr><td>Minimal weight out</td><td><input disabled type="number" id="minimal4c" class="right" value="80"></td><td>mg</td><td id="multi107"><input disabled type="number" id="Mminimal4c" class="right" value="800"></td><td id="multi108">mg</td></tr>
@@ -1535,6 +1778,13 @@ function calculateindividual() {
 				<tr><td colspan="3">&nbsp;</td></tr>
 				<tr><td>Final units</td><td><input disabled type="number" id="finalu4e" class="right" value="200"></td><td>U/ml</td></tr>
 				<tr><td>Measured units</td><td><input type="number" id="measured4e" class="essential" value="100" onchange="check(this.id);calculateindividual()"></td><td>U/mg</td></tr>
+				<tbody id="amylase4ePowderRows">
+				<tr><td>Powder purity</td><td><input type="number" id="purityAmylase4e" class="essential" value="100" min="0.1" max="100" onchange="check(this.id);calculateindividual()"></td><td>%</td></tr>
+				</tbody>
+				<tbody id="amylase4eSolutionRowsExtra" style="display:none;">
+				<tr><td>Stock concentration</td><td><input type="number" id="concentrationAmylase4e" class="essential" value="100" onchange="check(this.id);calculateindividual()"></td><td>U/ml</td></tr>
+				</tbody>
+				<tr><td colspan="3"><label for="toggleAmylase4eType" class="switch"><input type="checkbox" id="toggleAmylase4eType" onchange="toggleAmylase4eTypeLabel(); calculateindividual();"><span class="slider round"></span></label><span style="font-size: small; font-style: italic; padding-left: 10px">Use enzyme solution instead of powder</span></td></tr>
 				<tr><td colspan="3">&nbsp;</td></tr>
 				<tr><td></td><td colspan="2"><h4>Per sample</h4></td><td id="multi120" colspan="2"><h4>Stock solution for <text id="Mamount14">9</text>+1 samples</h4></td></tr>
 				<tr><td>Minimal weight out</td><td><input disabled type="number" id="minimal4e" class="right" value="80"></td><td>mg</td><td id="multi121"><input disabled type="number" id="Mminimal4e" class="right" value="800"></td><td id="multi122">mg</td></tr>
@@ -1553,6 +1803,13 @@ function calculateindividual() {
 				<tr><td colspan="3">&nbsp;</td></tr>
 				<tr><td>Final units</td><td><input disabled type="number" id="finalu4f" class="right" value="10"></td><td>mM</td></tr>
 				<tr><td>Measured units</td><td><input type="number" id="measured4f" class="essential" value="100" onchange="check(this.id);calculateindividual()"></td><td>mmol/g</td></tr>
+				<tbody id="bile4fPowderRows">
+				<tr><td>Powder purity</td><td><input type="number" id="purityBile4f" class="essential" value="100" min="0.1" max="100" onchange="check(this.id);calculateindividual()"></td><td>%</td></tr>
+				</tbody>
+				<tbody id="bile4fSolutionRowsExtra" style="display:none;">
+				<tr><td>Stock concentration</td><td><input type="number" id="concentrationBile4f" class="essential" value="100" onchange="check(this.id);calculateindividual()"></td><td>mmol/ml</td></tr>
+				</tbody>
+				<tr><td colspan="3"><label for="toggleBile4fType" class="switch"><input type="checkbox" id="toggleBile4fType" onchange="toggleBile4fTypeLabel(); calculateindividual();"><span class="slider round"></span></label><span style="font-size: small; font-style: italic; padding-left: 10px">Use bile solution instead of powder</span></td></tr>
 				<tr><td colspan="3">&nbsp;</td></tr>
 				<tr><td></td><td colspan="2"><h4>Per sample</h4></td><td id="multi127" colspan="2"><h4>Stock solution for <text id="Mamount15">m9</text>+1 samples</h4></td></tr>
 				<tr><td>Minimal weight out</td><td><input disabled type="number" id="minimal4f" class="right" value="4"></td><td>mg</td><td id="multi128"><input disabled type="number" id="Mminimal4f" class="right" value="40"></td><td id="multi129">mg</td></tr>
@@ -1573,7 +1830,7 @@ function calculateindividual() {
 	<br>
 
 </div>
-<div class="copyright">COST Infogest 2017. <span style="font-style: italic">2025.03.19 TA edit (ETHZ, SFP). v.2.2</span> </div>
+<div class="copyright">COST Infogest 2017. <span style="font-style: italic">2025.09.12 Enhanced enzyme panels with purity and solution options. v.2.3</span> </div>
 
 <!-- GUIDED TOUR OF THE DASSHBOARD -->
 <script>
