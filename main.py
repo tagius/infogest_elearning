@@ -9,6 +9,7 @@ def main():
     sdf_prep = st.Page("pages/sdf_prep.py", title="Preparation Simulated Digestive Fluids", icon=":material/experiment:")
     quick_start = st.Page("pages/quick_start.py", title="Quick Start Protocol", icon=":material/rocket_launch:")
     quiz = st.Page("pages/quiz.py", title="Quiz", icon=":material/quiz:")
+    logbook = st.Page("pages/logbook.py", title="LogBook", icon=":material/menu_book:")
     dashboard = st.Page("pages/dashboard.py", title="Dashboard", icon=":material/dashboard:")
     files = st.Page("pages/files.py", title="Files to download", icon=":material/draft:")
     changelog = st.Page("pages/changelog.py", title="Changelog", icon=":material/logo_dev:")
@@ -18,6 +19,7 @@ def main():
             "Get Started": [introduction, fundamentals],
             "INFOGEST Protocol": [first_steps, solution_prep, sdf_prep, quick_start],
             "Evaluation": [quiz],
+            "LogBook": [logbook],
             "Tools": [dashboard, files, changelog],
         }
     )

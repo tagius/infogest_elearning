@@ -5,6 +5,17 @@ st.set_page_config(layout="centered", page_title="Changelog")
 
 st.title("🧑🏽‍💻 Changelog")
 
+st.markdown("### Changelog for February 2026")
+st.markdown("""
+*Update February 23rd*
+- Addition of the **LogBook** page:
+    - Embedded Notion form for logging INFOGEST digestion experiments.
+    - Standalone section in the navigation menu for visibility.
+    - Browser warning when leaving the page with unsaved entries.
+    - Reminder banner added to the Dashboard with a direct link to the LogBook.
+    - LogBook button added to the Dashboard calculation top bar.
+""")
+
 st.markdown("### Changelog for September 2025")
 st.markdown(""" 
 *Update September 12th*

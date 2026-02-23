@@ -168,6 +168,14 @@ html_content = html_content.replace(
 
 st.title("📋 Template for the harmonized *in vitro* digestion method from Infogest 2.0")
 
+# LogBook reminder
+logbook_cols = st.columns([5, 1])
+with logbook_cols[0]:
+    st.info("📓 **Don't forget to log your experiment!** Record your setup and observations in the LogBook.")
+with logbook_cols[1]:
+    if st.button(":material/menu_book: Open LogBook", type="primary"):
+        st.switch_page("pages/logbook.py")
+
 # Embed the HTML content in your Streamlit app
 tabs = st.tabs(["Calculation", "pH Adjustment"])
 with tabs[0]:
