@@ -161,14 +161,15 @@ if base_path:
 calculator_version = int(os.path.getmtime("static/infogest_v2/index.html"))
 calculator_url = f"{calculator_path}?v={calculator_version}"
 
-st.title("📋 Template for the harmonized *in vitro* digestion method from Infogest 2.0")
+st.title("🟢 INFOGEST 2.0 Static in-vitro calculator")
 
 # LogBook reminder
-logbook_cols = st.columns([5, 1])
+logbook_cols = st.columns([5, 1], vertical_alignment="center")
+
 with logbook_cols[0]:
-    st.info("📓 **Don't forget to log your experiment!** Record your setup and observations in the LogBook.")
+    st.markdown("📓 **Reminder:** Don't forget to log your experiment setup and observations.")
 with logbook_cols[1]:
-    if st.button(":material/menu_book: Open LogBook", type="primary"):
+    if st.button(":material/menu_book: Open LogBook"): 
         st.switch_page("pages/logbook.py")
 
 # Embed the static calculator page in an iframe
