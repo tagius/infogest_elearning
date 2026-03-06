@@ -153,14 +153,14 @@ with st.sidebar:
 
 # ------------------------------
 
-base_path = (st.get_option("server.baseUrlPath") or "").strip("/")
+""" base_path = (st.get_option("server.baseUrlPath") or "").strip("/")
 calculator_path = "/static/infogest_v2/index.html"
 if base_path:
     calculator_path = f"/{base_path}{calculator_path}"
 
 calculator_version = int(os.path.getmtime("static/infogest_v2/index.html"))
 calculator_url = f"{calculator_path}?v={calculator_version}"
-
+ """
 st.title("🟢 INFOGEST 2.0 Static in-vitro calculator")
 
 # LogBook reminder
