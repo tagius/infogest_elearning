@@ -11,6 +11,7 @@ def main():
     quiz = st.Page("pages/quiz.py", title="Quiz", icon=":material/quiz:")
     logbook = st.Page("pages/logbook.py", title="LogBook", icon=":material/menu_book:")
     dashboard = st.Page("pages/dashboard.py", title="Dashboard", icon=":material/dashboard:")
+    dashboard_v2 = st.Page("pages/dashboard_v2.py", title="Dashboard v2", icon=":material/deployed_code:")
     files = st.Page("pages/files.py", title="Files to download", icon=":material/draft:")
     changelog = st.Page("pages/changelog.py", title="Changelog", icon=":material/logo_dev:")
 
@@ -20,7 +21,7 @@ def main():
             "INFOGEST Protocol": [first_steps, solution_prep, sdf_prep, quick_start],
             "Evaluation": [quiz],
             "LogBook": [logbook],
-            "Tools": [dashboard, files, changelog],
+            "Tools": [dashboard, dashboard_v2, files, changelog],
         }
     )
 

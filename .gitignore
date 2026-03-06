@@ -1,2 +1,14 @@
 .claude/
 CLAUDE.md
+.devcontainer/
+.idea/
+.vscode/
+*.log
+*.tmp
+*.bak
+*.swp
+.DS_Store
+node_modules/
+dist/
+build/
+static/

@@ -5,6 +5,14 @@ st.set_page_config(layout="centered", page_title="Changelog")
 
 st.title("🧑🏽‍💻 Changelog")
 
+st.markdown("### Changelog for March 2026")
+st.markdown("""
+*Update March 6th*
+- Added **Dashboard v2** in the Tools navigation section.
+- Dashboard v2 embeds the modular INFOGEST calculator from static assets.
+- The pH Adjustment tab and timer behavior remain available in Dashboard v2.
+""")
+
 st.markdown("### Changelog for February 2026")
 st.markdown("""
 *Update February 23rd*
