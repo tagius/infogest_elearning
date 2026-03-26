@@ -154,13 +154,19 @@ with st.sidebar:
 st.title("🟢 INFOGEST 2.0 Static in-vitro calculator")
 
 # LogBook reminder
-logbook_cols = st.columns([5, 1], vertical_alignment="center")
+logbook_cols = st.columns([4, 1, 1], vertical_alignment="center")
 
 with logbook_cols[0]:
     st.markdown("📓 **Reminder:** Don't forget to log your experiment setup and observations.")
 with logbook_cols[1]:
     if st.button(":material/menu_book: Open LogBook"):
         st.switch_page("pages/logbook.py")
+with logbook_cols[2]:
+    st.link_button(
+    ":material/expand_content: Expand",
+    "https://tagius.github.io/INFOGEST-2.0-Static-In-Vitro-Digestion-Calculator/"
+    )
+        
 
 # Embed the static calculator page in an iframe
 components.iframe(
