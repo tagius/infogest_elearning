@@ -1,96 +1,256 @@
 import streamlit as st
+import pandas as pd
 
-st.set_page_config(
-    layout="centered"
+st.set_page_config(layout="centered")
+
+# ── Title & intro ────────────────────────────────────────────────────────────
+st.title(":material/rocket_launch: Quick Start Protocol")
+
+st.markdown("""
+This is a condensed bench-side reference for running the full INFOGEST 2.0
+*in vitro* digestion protocol.
+
+↳ **Follow these steps sequentially during your experiment day.
+All volumes and enzyme amounts must be confirmed in the INFOGEST 2.0 Calculator.**
+""")
+
+st.page_link(
+    "pages/dashboard.py",
+    label=":red-background[**Open the INFOGEST 2.0 Calculator → Dashboard**]",
+    icon=":material/dashboard:",
 )
 
-# Title and introductory message
-st.title("🚀 Quick Start Protocol")
+st.write("---")
 
-st.write("""
-### PREPARATIONS
+# ── Section 1: Preparations ──────────────────────────────────────────────────
+st.header("1. :material/checklist: Preparations")
 
-1. Fill the Styrofoam box with ice  
-2. Get all the simulated digestive solutions, CaCl₂, refill the MilliQ water  
-3. Turn on dry bath and set the temperature to 37.9°C -> press start  
-4. Warm up the pH buffers  
-5. Warm simulated fluids in dry bath (37°C)  
-6. Install the temperature sensor from the pH meter in a tube with water and wrap it with parafilm  
-7. Weigh RGE and put it on ice  
-
-   - **RGE (42.35 mg)**: (if you don’t weigh precisely, just calculate how much MilliQ you will have to use for dissolving)  
-
-8. While the pH buffers are warming up, prepare the Excel sheet (option to weigh the enzymes here)  
-9. Calibrate the pH meter  
-10. Set dry bath to 550 SV  
-
----
-
-## ORAL DIGESTION  
-
-1. Add 400 µL SSF to S1-S7  
-2. Add 3 µL CaCl₂ to S1-S7  
-3. Add the MilliQ water according to the Excel to S1-S7  
-4. Vortex (avoid turning tube upside down)  
-5. Incubate for 2 mins  
-
----
-
-## GASTRIC DIGESTION  
-
-1. Add 800 µL SGF to S1-S7  
-2. Adjust the pH to 3 ± 0.2  
-3. Add the remaining amount of MilliQ water to S1-S7 according to the Excel  
-4. Dissolve RGE in 900 µL MilliQ and add 100 µL of it to the tubes  
-5. Start the timer for 2 hours  
-6. Re-adjust the pH after 10 and 60-75 minutes  
-7. During this time: lunch break, cleanup  
-8. After the second pH adjustment, pre-weigh the enzymes **pancreatin** and **bile**  
-
-   - **Pancreatin (425.43 mg)**  
-   - **Bile (90.45 mg)**: (if you don’t weigh precisely, just calculate how much SIF you will have to use for dissolving)  
-
-9. Dissolve Bile in 2.250 mL SIF and put it in the water bath but keep pancreatin on ice  
-
----
-
-## INTESTINAL DIGESTION  
-
-1. Add 850 µL SIF to S1-S7  
-2. Add 4 µL CaCl₂ to S1-S7  
-3. Adjust the pH to 7 ± 0.2  
-4. Dissolve Pancreatin in 4.5 mL SIF, sonicate it for 5 min at frequency = 80, power = 100, T = 20°C, centrifuge 5 min at 2000 g  
-5. Add the remaining amount of MilliQ water to S1-S7 according to the Excel  
-6. Add 250 µL bile to S1-S7  
-7. Add 500 µL pancreatin to S1-S7  
-8. Start the timer for 2 hours  
-9. Re-adjust the pH after 10 and 60-75 minutes  
-10. During this time: pre-label acid-washed tubes for supernatant and full digesta and pre-cool the centrifuge in D31 (4°C)  
-
----
-
-## CENTRIFUGE  
-
-1. Transfer 1.5 mL of S1-S7 to the pre-labeled 2 mL acid-washed Eppendorf tubes for the full digesta  
-2. Centrifuge the remaining tubes at 10,000 g, 4°C, for 30 minutes  
-3. During this time: cleanup and preparation to store the tubes  
-4. After centrifuge: transfer the supernatant to the 15 mL pre-labeled conical tubes, tape and label everything, and store it in a plastic bag in the -20°C  
-
----
-
-## Notes  
-
-- **For RGE**: MilliQ water according to Excel → enter measured RGE weight → template, specific volume of water  
-- **For pancreatin**: anywhere between 430-450 mg  
-- **For Bile in SIF**: MilliQ water according to Excel → enter measured Bile weight → template, specific volume of water  
-- **For Pancreatin in SIF**: MilliQ water according to Excel → enter measured Pancreatin weight → template, specific volume of water  
-
----
-
-## Storage Information  
-
-- **SSIF, SGF, SFF** → 37°C  
-- **CaCl₂** → fridge  
-- **Other chemicals** → freezer (-5°C)  
-- **Pre-cool centrifuge** → 1 hour before use  
+with st.container(border=True):
+    st.markdown("##### 🧊 Equipment & Environment")
+    st.markdown("""
+1. Fill a Styrofoam box with crushed ice for enzyme and sample preservation.
+2. Turn on the water bath, set the temperature to **37 °C**, and press **Start**.
+3. Connect the magnetic stirrer and insert a stir bar into each sample tube.
+   > During pH measurements and adjustments, position the stirrer directly beneath
+   > the tube being titrated to maintain consistent mixing.
 """)
+
+with st.container(border=True):
+    st.markdown("##### 🧪 Solutions & Reagents")
+    st.markdown("""
+4. Retrieve all simulated digestive solutions (**SSF, SGF, SIF**) and **CaCl₂**
+   from the refrigerator in the algae corner.
+5. Refill the MilliQ water supply from the Chem lab.
+6. Warm up the **pH buffers** and the **simulated digestive fluids** in the water bath.
+7. Insert the temperature sensor of the pH meter into a water-filled tube and seal
+   the opening with Parafilm.
+""")
+
+with st.container(border=True):
+    st.markdown("##### ⚙️ Calibration & Titrator Setup")
+    st.markdown("""
+8. To perform automatic titration with the **Ti-Touch Automatic Titrator**, follow
+   the printed instructions in the plastic lab. Use **1 M HCl** and **1 M NaOH**
+   and complete the initialization procedure as described.
+9. Calibrate the pH meter using calibration solutions from the Chem lab.
+   Check the brand (**Hamilton** or **Metrohm**) and select the corresponding
+   profile on the device before calibrating.
+10. Create a new titration method or load an existing one, following the
+    instrument's printed instructions.
+""")
+
+with st.container(border=True):
+    st.markdown("##### 🔬 Calculator & Enzyme Preparation")
+    st.markdown("""
+11. In the **INFOGEST 2.0 Calculator**, specify the number of samples to process.
+    Verify that the enzyme lot number, activity, and purity match those in the
+    calculator.
+12. Weigh **RGE** and **Pepsin** according to the calculator and place them on
+    ice immediately.
+""")
+    st.info(
+        "If the weighed amounts differ from target, enter the actual weight in the "
+        "INFOGEST 2.0 Calculator to obtain the corrected MilliQ dissolution volume."
+    )
+
+st.write("---")
+
+# ── Section 2: Oral Digestion ────────────────────────────────────────────────
+st.header("2. :material/water_drop: Oral Digestion")
+st.caption("⏱ Duration: 2 minutes")
+
+st.markdown("""
+1. Dispense to each sample the volumes of **SSF**, **CaCl₂**, and **MilliQ water**
+   as indicated by the INFOGEST 2.0 Calculator.
+2. Weigh the required amount of porcine **Amylase** and dissolve it in the volume
+   of MilliQ water indicated in the enzyme preparation section of the calculator.
+3. Dispense to each sample the volume of porcine **Amylase** as indicated by the
+   calculator.
+4. Mix thoroughly by vortexing to obtain a homogeneous mass. Turn the tube upside
+   down to avoid bolus formation. Keep tubes closed to prevent evaporation.
+5. Incubate the samples for **2 minutes**.
+""")
+
+st.warning(
+    "**Microalgae samples:** Skip step 3 — do not add Amylase.",
+    icon=":material/eco:"
+)
+
+st.write("---")
+
+# ── Section 3: Gastric Digestion ─────────────────────────────────────────────
+st.header("3. :material/science: Gastric Digestion")
+st.caption("⏱ Duration: 2 hours")
+
+st.markdown("""
+1. Dispense to each sample the volumes of **SGF**, **CaCl₂**, and **MilliQ water**
+   as indicated by the INFOGEST 2.0 Calculator.
+2. Measure the initial pH of the samples. Adjust to **pH 3.0 ± 0.2** with the
+   automatic titrator. Record the initial pH, volume of titrant added, and final
+   pH reached.
+3. Dissolve the pre-weighed **RGE** and **Lipase** separately in the volume of
+   MilliQ water specified in the enzyme preparation section of the calculator.
+4. Dispense to each sample the volumes of **RGE** and **Lipase** solution as
+   indicated by the calculator.
+5. **Start the timer for a 2-hour gastric incubation.**
+""")
+
+st.warning(
+    "**Microalgae samples:** Do not add Lipase. Select **\"RGE only\"** in the "
+    "enzyme preparation section of the calculator.",
+    icon=":material/eco:"
+)
+
+with st.container(border=True):
+    st.markdown("##### ⏰ Timed Tasks During Gastric Incubation")
+    st.markdown("""
+**At 25-30 minutes:**
+- Re-adjust the pH to **3.0 ± 0.2**. Record the initial pH, volume of titrant
+  added, and final pH reached.
+- Accounting for the titrant volume added during *both* pH adjustments to pH 3,
+  add MilliQ water according to the INFOGEST 2.0 Calculator.
+
+**At 90 minutes:**
+- Pre-weigh **Pancreatin** and **Bile** according to the enzyme preparation
+  section of the calculator.
+- Dissolve the Bile in the volume of **SIF** specified in the calculator,
+  homogenise well, and pre-warm in the water bath.
+- Keep Pancreatin on ice until the intestinal phase.
+""")
+
+st.success(
+    "**After 2 hours of gastric incubation** → proceed immediately to "
+    "Intestinal Digestion below.",
+    icon=":material/check_circle:"
+)
+
+st.write("---")
+
+# ── Section 4: Intestinal Digestion ──────────────────────────────────────────
+st.header("4. :material/biotech: Intestinal Digestion")
+st.caption("⏱ Duration: 2 hours")
+
+st.markdown("""
+1. Dispense to each sample the volumes of **SIF**, **CaCl₂**, and **MilliQ water**
+   as indicated by the INFOGEST 2.0 Calculator.
+2. Measure the initial pH of the samples. Adjust to **pH 7.0 ± 0.2** with the
+   automatic titrator. Record the initial pH, volume of titrant added, and final
+   pH reached.
+3. Dissolve the pre-weighed **Pancreatin** in the volume of **SIF** specified in
+   the enzyme preparation section of the calculator.
+""")
+
+with st.container(border=True):
+    st.markdown("##### 🔊 Pancreatin Processing (Chem Lab)")
+    st.markdown("""
+- **Sonicate** for 5 minutes: frequency = **80**, power = **100**, temperature = **20 °C**
+- **Centrifuge** at **2,000 × g** for **5 minutes**
+- Use the **supernatant** in the next step.
+""")
+
+st.markdown("""
+4. Dispense to each sample the volumes of pre-warmed **Bile solution** and
+   **Pancreatin supernatant** as indicated by the INFOGEST 2.0 Calculator.
+5. **Start the timer for a 2-hour intestinal incubation.**
+""")
+
+with st.container(border=True):
+    st.markdown("##### ⏰ Timed Tasks During Intestinal Incubation")
+    st.markdown("""
+**At 25 minutes:**
+- Re-adjust the pH to **7.0 ± 0.2**. Record the initial pH, volume of titrant
+  added, and final pH reached.
+- Accounting for the titrant volume added during *both* pH adjustments to pH 7,
+  add MilliQ water according to the INFOGEST 2.0 Calculator.
+
+**During incubation:**
+- Pre-label containers for full digest, supernatant, and pellet fractions.
+- Follow the **Shutdown Procedure** of the Metrohm 916 Ti-Touch Automatic Titrator.
+""")
+
+st.write("---")
+
+# ── Section 5: Enzyme Inactivation ───────────────────────────────────────────
+st.header("5. :material/whatshot: Enzyme Inactivation")
+
+st.warning(
+    "**Microalgae samples:** Skip this entire section. Proceed directly to "
+    "Centrifugation.",
+    icon=":material/eco:"
+)
+
+st.markdown("""
+1. Set the water bath in Room **D11.1-3** (Patrick's lab) to **85 °C**.
+   Allow approximately 30 minutes to stabilise.
+2. Verify the temperature using the pH meter probe from the Chem lab.
+3. Place food samples in the water bath for **15 minutes**, then transfer
+   immediately onto ice.
+""")
+
+st.info(
+    "**Unsure about your sample type?** Discuss heating conditions with "
+    "Fengzheng or Thomas before proceeding.",
+    icon=":material/help:"
+)
+
+st.write("---")
+
+# ── Section 6: Centrifugation ─────────────────────────────────────────────────
+st.header("6. :material/speed: Centrifugation")
+
+st.markdown("""
+1. Prepare labelled containers in advance.
+2. Pre-cool the large centrifuge in the microbiology lab to **4 °C**
+   (~15 minutes).
+3. After intestinal incubation, stop shaking and aliquot approximately **3/8**
+   of each sample into labelled **full-digest tubes**.
+4. Centrifuge the remaining fraction at **10,000 × g, 4 °C, for 30 minutes**.
+   Balance the centrifuge rotor properly before starting.
+5. Transfer the supernatant to labelled containers; keep the pellet in the
+   original digestion tube.
+6. Tape together the corresponding full-digest, supernatant, and pellet tubes.
+   Label with name, date, and content. Freeze immediately.
+""")
+
+fraction_df = pd.DataFrame({
+    "Fraction": ["Full digest", "Supernatant", "Pellet"],
+    "Approx. volume": ["≈ 3/8 of total", "≈ 5/8 of total", "Remainder"],
+    "Container": ["Full-digest tube", "Labelled conical tube", "Original digestion tube"],
+    "Short-term storage": ["−20 °C", "−20 °C", "−20 °C"],
+    "Long-term storage": ["−80 °C", "−80 °C", "−80 °C"],
+})
+st.table(fraction_df)
+
+st.write("---")
+
+# ── Footer ────────────────────────────────────────────────────────────────────
+st.page_link(
+    "pages/dashboard.py",
+    label=":red-background[**Open the INFOGEST 2.0 Calculator → Dashboard**]",
+    icon=":material/dashboard:",
+)
+
+st.write("")
+
+if st.button(":material/quiz: Continue here → Take the Quiz", type="primary"):
+    st.switch_page("pages/quiz.py")

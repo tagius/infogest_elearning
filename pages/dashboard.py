@@ -3,7 +3,6 @@ import streamlit.components.v1 as components
 import time
 
 from streamlit_autorefresh import st_autorefresh
-import pandas as pd
 
 st.set_page_config(
     layout="wide"
@@ -152,170 +151,20 @@ with st.sidebar:
 
 # ------------------------------
 
-# Read the content of your local index.html file
-with open('utils/infogest/index.html', 'r', encoding='utf-8') as file:
-    html_content = file.read()
-
-# Read the CSS content
-with open('utils/infogest/design.css', 'r', encoding='utf-8') as css_file:
-    css_content = css_file.read()
-
-# Inject the CSS into the HTML head section
-html_content = html_content.replace(
-    "<head>",
-    f"<head><style>{css_content}</style>"
-)
-
-st.title("📋 Template for the harmonized *in vitro* digestion method from Infogest 2.0")
+st.title("🟢 INFOGEST 2.0 Static in-vitro calculator")
 
 # LogBook reminder
-logbook_cols = st.columns([5, 1])
+logbook_cols = st.columns([5, 1], vertical_alignment="center")
+
 with logbook_cols[0]:
-    st.info("📓 **Don't forget to log your experiment!** Record your setup and observations in the LogBook.")
+    st.markdown("📓 **Reminder:** Don't forget to log your experiment setup and observations.")
 with logbook_cols[1]:
-    if st.button(":material/menu_book: Open LogBook", type="primary"):
+    if st.button(":material/menu_book: Open LogBook"):
         st.switch_page("pages/logbook.py")
 
-# Embed the HTML content in your Streamlit app
-tabs = st.tabs(["Calculation", "pH Adjustment"])
-with tabs[0]:
-    components.html(html_content, height=3300, scrolling=True)
-
-# Function triggered on change
-def df_on_change():
-    if 'phdf' in st.session_state:
-        for idx in st.session_state.phdf.keys():
-            if f'q{idx}' in st.session_state and "edited_rows" in st.session_state[f'q{idx}']:
-                state = st.session_state[f'q{idx}']
-
-                for index, updates in state["edited_rows"].items():
-                    # Convert index to integer if it's a string
-                    try:
-                        index = int(index)
-                    except:
-                        pass
-
-                    # Apply the current edits to the dataframe
-                    for key, value in updates.items():
-                        st.session_state.phdf[idx].at[index, key] = value
-
-                    # After applying edits, recalculate totals for this row
-                    row = st.session_state.phdf[idx].loc[index]
-
-                    # Helper function to safely convert values to float
-                    def to_float(val):
-                        try:
-                            return float(val) if val not in [None, ""] else 0.0
-                        except ValueError:
-                            return 0.0
-
-                    # Get values and convert to float
-                    v1_num = to_float(row["6M HCl (µL)"])
-                    v2_num = to_float(row["1M HCl (µL)"])
-                    v3_num = to_float(row["6M NaOH (µL)"])
-                    v4_num = to_float(row["1M NaOH (µL)"])
-
-                    # Calculate totals and update the row
-                    vtot_sum = v1_num + v2_num + v3_num + v4_num
-                    st.session_state.phdf[idx].at[index, "Added V(total) (µL)"] = vtot_sum
-                    st.session_state.phdf[idx].at[index, "V(water) to add (ml)"] = st.session_state.finalVolGastricPhase - (vtot_sum/1000)
-
-
-def update_on_change():
-    # Recalculate the final volume of the gastric phase based on the new food value
-    totalVolumeGastricPhase = 4 * st.session_state.food
-    VolSGF = 1.6 * st.session_state.food
-    VolRGE = (200 / 1000) * st.session_state.food
-    VolOralPhase = 2 * st.session_state.food
-    VolCaCl2 = (1 / 1000) * st.session_state.food
-    sumVol = VolSGF + VolRGE + VolOralPhase + VolCaCl2
-    st.session_state.finalVolGastricPhase = totalVolumeGastricPhase - sumVol
-
-    # Helper function to safely convert values to float
-    def to_float(val):
-        try:
-            return float(val) if val not in [None, ""] else 0.0
-        except ValueError:
-            return 0.0
-
-    # Check if the dictionary of dataframes exists
-    if 'phdf' in st.session_state:
-        # Loop through each dataframe stored in st.session_state.phdf
-        for idx, df in st.session_state.phdf.items():
-            # Update every row in the "V(water) to add (ml)" column based on the new final volume
-            for i in df.index:
-                v1 = to_float(df.loc[i, "6M HCl (µL)"])
-                v2 = to_float(df.loc[i, "1M HCl (µL)"])
-                v3 = to_float(df.loc[i, "6M NaOH (µL)"])
-                v4 = to_float(df.loc[i, "1M NaOH (µL)"])
-                acid_base_total = v1 + v2 + v3 + v4
-                # Calculate the updated water volume (assumes acid/base volumes are in µL, hence division by 1000)
-                st.session_state.phdf[idx].loc[i, "V(water) to add (ml)"] = st.session_state.finalVolGastricPhase - (acid_base_total / 1000)
-
-
-with tabs[1]:
-    if 'sample_number' not in st.session_state:
-        st.session_state.sample_number = 7
-    if 'food' not in st.session_state:
-        st.session_state.food = 0.5
-    # Initialize phdf if it doesn't exist
-    if 'phdf' not in st.session_state:
-        st.session_state.phdf = {}
-
-    totalVolumeGastricPhase = 4 * st.session_state.food
-    VolSGF = 1.6 * st.session_state.food
-    VolRGE = 200 / 1000 * st.session_state.food
-    VolOralPhase = 2 * st.session_state.food
-    VolCaCl2 = 1 / 1000 * st.session_state.food
-    sumVol = VolSGF + VolRGE + VolOralPhase + VolCaCl2
-    st.session_state.finalVolGastricPhase = totalVolumeGastricPhase - sumVol
-
-    cols = st.columns(6)
-    with cols[0]:
-        st.number_input("Sample Number", key="sample_number", step=1)
-    with cols[1]:
-        st.number_input("Initial Quantity of food", key="food", step=0.1, on_change=update_on_change)
-
-    elements = ["pH adjustment to 3: between oral and gastric phase",
-                "pH adjustment to 3: during gastric phase (after 10 minutes)",
-                "pH adjustment to 3: during gastric phase (after 60 minutes)",
-                "pH adjustment to 7: between gastric and intestinal phase",
-                "pH adjustment to 7: during intestinal phase (after 10 minutes)",
-                "pH adjustment to 7: during intestinal phase (after 60 minutes)"]
-
-    # Create a container for each table
-    for idx, tables in enumerate(elements):
-        st.header(tables)
-
-        # Important: Use a key for each table that changes when values should be updated
-        table_key = f"table_{idx}_{st.session_state.sample_number}"
-
-        # Initialize or reset the dataframe with current sample number if needed
-        if idx not in st.session_state.phdf or len(st.session_state.phdf[idx]) != st.session_state.sample_number:
-            st.session_state.phdf[idx] = pd.DataFrame({
-                "Sample Number": list(range(1, st.session_state.sample_number + 1)),
-                "pH at start": [None] * st.session_state.sample_number,
-                "6M HCl (µL)": [None] * st.session_state.sample_number,
-                "1M HCl (µL)": [None] * st.session_state.sample_number,
-                "6M NaOH (µL)": [None] * st.session_state.sample_number,
-                "1M NaOH (µL)": [None] * st.session_state.sample_number,
-                "pH at end": [None] * st.session_state.sample_number,
-                "Added V(total) (µL)": [0.0] * st.session_state.sample_number,  # Initialize with zeros instead of None
-                "V(water) to add (ml)": [st.session_state.finalVolGastricPhase] * st.session_state.sample_number
-            })
-
-        # Display the editable dataframe
-        st.data_editor(
-            st.session_state.phdf[idx],
-            hide_index=True,
-            column_config={
-                "V(water) to add (ml)": st.column_config.NumberColumn(format="%.10g"),
-                "Added V(total) (µL)": st.column_config.NumberColumn(format="%.2f")
-            },
-            disabled=["Sample Number", "Added V(total) (µL)", "V(water) to add (ml)"],
-            key=f"q{idx}",
-            on_change=df_on_change
-        )
-
-        if idx == 2:
-            st.divider()
+# Embed the static calculator page in an iframe
+components.iframe(
+    "https://tagius.github.io/INFOGEST-2.0-Static-In-Vitro-Digestion-Calculator/",
+    height=800,
+    scrolling=True,
+)

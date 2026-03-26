@@ -1,6 +1,5 @@
 import streamlit as st
 import streamlit.components.v1 as components
-import os
 import time
 
 from streamlit_autorefresh import st_autorefresh
@@ -153,35 +152,34 @@ with st.sidebar:
 
 # ------------------------------
 
-# base_path = (st.get_option("server.baseUrlPath") or "").strip("/")
-# calculator_path = "/static/infogest_v2/index.html"
-# if base_path:
-#     calculator_path = f"/{base_path}{calculator_path}"
+# Read the content of your local index.html file
+with open('utils/infogest/index.html', 'r', encoding='utf-8') as file:
+    html_content = file.read()
 
-# calculator_version = int(os.path.getmtime("static/infogest_v2/index.html"))
-# calculator_url = f"{calculator_path}?v={calculator_version}"
+# Read the CSS content
+with open('utils/infogest/design.css', 'r', encoding='utf-8') as css_file:
+    css_content = css_file.read()
 
-st.title("🟢 INFOGEST 2.0 Static in-vitro calculator")
+# Inject the CSS into the HTML head section
+html_content = html_content.replace(
+    "<head>",
+    f"<head><style>{css_content}</style>"
+)
+
+st.title("📋 Template for the harmonized *in vitro* digestion method from Infogest 2.0")
 
 # LogBook reminder
-logbook_cols = st.columns([5, 1], vertical_alignment="center")
-
+logbook_cols = st.columns([5, 1])
 with logbook_cols[0]:
-    st.markdown("📓 **Reminder:** Don't forget to log your experiment setup and observations.")
+    st.info("📓 **Don't forget to log your experiment!** Record your setup and observations in the LogBook.")
 with logbook_cols[1]:
-    if st.button(":material/menu_book: Open LogBook"): 
+    if st.button(":material/menu_book: Open LogBook", type="primary"):
         st.switch_page("pages/logbook.py")
 
-# Embed the static calculator page in an iframe
+# Embed the HTML content in your Streamlit app
 tabs = st.tabs(["Calculation", "pH Adjustment"])
 with tabs[0]:
-    # Local static deployment (keep for later deployment switch):
-    # components.iframe(calculator_url, height=3300, scrolling=True)
-    components.iframe(
-        "https://tagius.github.io/INFOGEST-2.0-Static-In-Vitro-Digestion-Calculator/",
-        height=800,
-        scrolling=True,
-    )
+    components.html(html_content, height=3300, scrolling=True)
 
 # Function triggered on change
 def df_on_change():

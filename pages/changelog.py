@@ -7,6 +7,19 @@ st.title("🧑🏽‍💻 Changelog")
 
 st.markdown("### Changelog for March 2026")
 st.markdown("""
+*Update March 26th*
+- **Quick Start Protocol** page fully redesigned:
+    - Updated protocol content aligned with the current INFOGEST 2.0 workflow.
+    - All volume and enzyme references now point to the INFOGEST 2.0 Calculator.
+    - Added **Automatic Titrator** setup and pH recording steps (initial pH, titrant volume, final pH).
+    - Added **Enzyme Inactivation** section (85 °C water bath, 15 min) with a microalgae skip warning.
+    - Added **Centrifugation** section with fraction ratios (≈3/8 full digest, ≈5/8 supernatant) and a fraction summary table.
+    - Improved visual hierarchy: bordered containers for sub-steps, timed-task blocks, microalgae warnings, and phase transition banners.
+    - Added **Booking Calendar** page in the Planning navigation section, embedding the shared Teamup calendar.
+- **Dashboard** simplified: removed tabs and pH Adjustment section — the INFOGEST 2.0 calculator now takes the full screen.
+- Archived the old local-HTML Dashboard and its static assets.
+- Dashboard v2 promoted as the main **Dashboard**.
+
 *Update March 6th*
 - Added **Dashboard v2** in the Tools navigation section.
 - Dashboard v2 embeds the modular INFOGEST calculator from static assets.

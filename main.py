@@ -10,8 +10,8 @@ def main():
     quick_start = st.Page("pages/quick_start.py", title="Quick Start Protocol", icon=":material/rocket_launch:")
     quiz = st.Page("pages/quiz.py", title="Quiz", icon=":material/quiz:")
     logbook = st.Page("pages/logbook.py", title="LogBook", icon=":material/menu_book:")
+    booking = st.Page("pages/booking.py", title="Booking Calendar", icon=":material/calendar_month:")
     dashboard = st.Page("pages/dashboard.py", title="Dashboard", icon=":material/dashboard:")
-    dashboard_v2 = st.Page("pages/dashboard_v2.py", title="Dashboard v2", icon=":material/deployed_code:")
     files = st.Page("pages/files.py", title="Files to download", icon=":material/draft:")
     changelog = st.Page("pages/changelog.py", title="Changelog", icon=":material/logo_dev:")
 
@@ -20,8 +20,8 @@ def main():
             "Get Started": [introduction, fundamentals],
             "INFOGEST Protocol": [first_steps, solution_prep, sdf_prep, quick_start],
             "Evaluation": [quiz],
-            "LogBook": [logbook],
-            "Tools": [dashboard, dashboard_v2, files, changelog],
+            "Planning": [logbook, booking],
+            "Tools": [dashboard, files, changelog],
         }
     )
 
