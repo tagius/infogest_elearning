@@ -7,6 +7,11 @@ st.title("🧑🏽‍💻 Changelog")
 
 st.markdown("### Changelog for March 2026")
 st.markdown("""
+*Update March 31th*
+- Added a row for Blank in pH adjustment log in the **Dashboard** in the Tools navigation section.
+- Fix **Dashboard** RGE enzyme preparation text. _Disolve in SGF_ -> **Disolve in water**.
+- Update the quick protocol with highlighted steps for preparation of the gastric phase enzymes.
+            
 *Update March 26th*
 - **Quick Start Protocol** page fully redesigned:
     - Updated protocol content aligned with the current INFOGEST 2.0 workflow.

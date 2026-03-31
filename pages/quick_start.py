@@ -65,7 +65,9 @@ with st.container(border=True):
 11. In the **INFOGEST 2.0 Calculator**, specify the number of samples to process.
     Verify that the enzyme lot number, activity, and purity match those in the
     calculator.
-12. Weigh **RGE** and **Pepsin** according to the calculator and place them on
+12. Weigh **RGE** or **Pepsin** and extra lipase according to the calculator
+13. Dissolve the pre-weighed **RGE** and **Lipase** separately in the volume of
+    MilliQ water specified in the enzyme preparation section of the calculator and place them on
     ice immediately.
 """)
     st.info(
@@ -108,11 +110,9 @@ st.markdown("""
 2. Measure the initial pH of the samples. Adjust to **pH 3.0 ± 0.2** with the
    automatic titrator. Record the initial pH, volume of titrant added, and final
    pH reached.
-3. Dissolve the pre-weighed **RGE** and **Lipase** separately in the volume of
-   MilliQ water specified in the enzyme preparation section of the calculator.
-4. Dispense to each sample the volumes of **RGE** and **Lipase** solution as
+3. Dispense to each sample the volumes of prepared **RGE** or **Pepsin** and ** extra Lipase** solution as
    indicated by the calculator.
-5. **Start the timer for a 2-hour gastric incubation.**
+4. **Start the timer for a 2-hour gastric incubation.**
 """)
 
 st.warning(
