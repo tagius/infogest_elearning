@@ -5,6 +5,13 @@ st.set_page_config(layout="centered", page_title="Changelog")
 
 st.title("🧑🏽‍💻 Changelog")
 
+st.markdown("### Changelog for April 2026")
+st.markdown("""
+*Update April 28th*
+- Updated the **Quick Start Protocol** page with a new section on **Pancreatin Processing**.
+- Updated the dashboard with pancreatin stock solution preparation instructions and stock solution concentration calculation for pancreatin.
+""")
+
 st.markdown("### Changelog for March 2026")
 st.markdown("""
 *Update March 31th*

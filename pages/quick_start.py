@@ -161,12 +161,22 @@ st.markdown("""
 """)
 
 with st.container(border=True):
-    st.markdown("##### 🔊 Pancreatin Processing (Chem Lab)")
+    st.markdown("##### 🧂 Pancreatin Processing (Chem Lab)")
     st.markdown("""
+1. Weigh pancreatin powder in a round-bottom 15 mL Falcon tube, add the required SIF volume to dissolve. Vortex well to break up clumps, then place in an ice beaker immediately.
+2. Add a small magnet and stir for 10 min on a magnetic stirrer. 
+   *Tape the Falcon tube down if the magnet spins it.*
+3. Vortex again at 5 min, then mix again at 10 min.
+4. With a P1000, do a few up-and-downs to check for remaining clumps and break them up.
+5. Pipette the needed volume from the homogeneous suspension into the reaction tube - not all pancreatin will fully dissolve, so a homogeneous suspension is what matters. 
+   *Keep the tube on ice until ready to add to the samples.*
+""")
+    st.info("""
+Old pancreatin stock solution preparation:
 - **Sonicate** for 5 minutes: frequency = **80**, power = **100**, temperature = **20 °C**
 - **Centrifuge** at **2,000 × g** for **5 minutes**
 - Use the **supernatant** in the next step.
-""")
+        """)
 
 st.markdown("""
 4. Dispense to each sample the volumes of pre-warmed **Bile solution** and
