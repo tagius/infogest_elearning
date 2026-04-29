@@ -162,6 +162,10 @@ st.markdown("""
 
 with st.container(border=True):
     st.markdown("##### 🧂 Pancreatin Processing (Chem Lab)")
+    st.warning(
+    "**Use cold SIF** solution (4°C) to dissolve pancreatin powder. Do not use room temperature SIF, as this will cause clumping.",
+    icon=":material/warning:"
+   )
     st.markdown("""
 1. Weigh pancreatin powder in a round-bottom 15 mL Falcon tube, add the required SIF volume to dissolve. Vortex well to break up clumps, then place in an ice beaker immediately.
 2. Add a small magnet and stir for 10 min on a magnetic stirrer. 
